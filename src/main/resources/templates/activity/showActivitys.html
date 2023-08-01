@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>活動</title>
+</head>
+
+<body class="sb-nav-fixed">
+	<!--匯入navbar-->
+	<div th:replace="~{layout/navbar}"></div>
+
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_content">
+			<div class="container-fluid px-4">
+				<h1 class="mt-4" style="text-align: center;">全部活動</h1>
+				<div class="card mb-4">
+					<div class="card-body table-responsive">
+						<table class="table table-bordered">
+							<thead class="text-center">
+								<tr class="table-primary">
+									<th>名稱</th>
+									<th>內容</th>
+									<th>活動日期</th>
+									<th>網址</th>
+									<th>顯示</th>
+									<th>負責員工</th>
+									<th>上架日期</th>
+									<th>下架日期</th>
+									<th>排序</th>
+									<th>圖片</th>
+									<th>修改</th>
+									<th>刪除</th>
+								</tr>
+							</thead>
+							<tbody class="text-center align-middle">
+								<tr th:each="activity : ${page.content}">
+									<td th:text="${activity} ? ${activity.activityname}"></td>
+									<td th:text="${activity} ? ${activity.activitydescription}"></td>
+									<td th:text="${activity} ? ${activity.activitydate}"></td>
+									<td th:text="${activity} ? ${activity.activityurl}"></td>
+									<td th:text="${activity} ? ${activity.activitydisplay}"></td>
+									<td th:text="${activity} ? ${activity.employee.employeename}"></td>
+									<td th:text="${activity} ? ${activity.activityon}"></td>
+									<td th:text="${activity} ? ${activity.activityoff}"></td>
+									<td th:text="${activity} ? ${activity.activitysort}"></td>
+									<td><button type="button" class="btn btn-outline-success">圖片</button></td>
+									<td><button type="button" class="btn btn-outline-info">修改</button></td>
+									<td><button type="button" class="btn btn-outline-danger">刪除</button></td>
+								</tr>
+							</tbody>
+						</table>
+
+						<ul class="pagination">
+							<!--上一頁按鈕-->
+							<th:block th:switch="${page.number != 0}">
+								<li th:case="${true}" class="page-item">
+									<a class="page-link" th:href="@{/activity/page?(p=${page.number})}">上一頁</a>
+								</li>
+								<li th:case="${false}" class="page-item disable">
+									<span class="page-link">上一頁</span>
+								</li>
+							</th:block>
+
+							<!--頁數-->
+							<th:block th:each=" pageNumber : ${#numbers.sequence(1,page.totalPages)}">
+								<th block th:switch="${page.Number == pageNumber -1}">
+									<li>
+										<a th:case="${true}" class="page-link active"
+											th:href="@{/activity/page?(p=${pageNumber})}">[[${pageNumber}]]</a>
+									</li>
+									<li>
+										<a th:case="${false}" class="page-link"
+											th:href="@{/activity/page?(p=${pageNumber})}">[[${pageNumber}]]</a>
+									</li>
+							</th:block>
+							</th:block>
+
+							<!--下一頁按鈕-->
+							<th:block th:switch="${page.number != page.totalPages -1}">
+								<li th:case="${true}" class="page-item">
+									<a class="page-link" th:href="@{/activity/page?(p=${page.number + 2})}">下一頁</a>
+								</li>
+								<li th:case="${false}" class="page-item disable">
+									<span class="page-link">下一頁</span>
+								</li>
+							</th:block>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
