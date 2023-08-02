@@ -1,7 +1,6 @@
 package com.fithub.model.activity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fithub.model.employee.Employee;
 
 import jakarta.persistence.Column;
@@ -16,8 +15,8 @@ import jakarta.persistence.Table;
 
 
 //資料庫對應的table
-@Entity @Table(name="activity")
-@JsonIgnoreProperties("employee")
+@Entity 
+@Table(name="activity")
 public class Activity {
 	
 	//設定主鍵
@@ -53,19 +52,19 @@ public class Activity {
 	}
 
 	//提供參數建構子,減少代碼
-	public Activity(String activityname, String activitydescription, String activitydate, String activityurl,
-			String activitydisplay,int employeeid, String activityon, String activityoff, int activitysort) {	
-		super();
-		this.activityname = activityname;
-		this.activitydescription = activitydescription;
-		this.activitydate = activitydate;
-		this.activityurl = activityurl;
-		this.activitydisplay = activitydisplay;
-		this.employeeid = employeeid;
-		this.activityon = activityon;
-		this.activityoff = activityoff;
-		this.activitysort = activitysort;
-	}
+//	public Activity(String activityname, String activitydescription, String activitydate, String activityurl,
+//			String activitydisplay,int employeeid, String activityon, String activityoff, int activitysort) {	
+//		super();
+//		this.activityname = activityname;
+//		this.activitydescription = activitydescription;
+//		this.activitydate = activitydate;
+//		this.activityurl = activityurl;
+//		this.activitydisplay = activitydisplay;
+//		this.employeeid = employeeid;
+//		this.activityon = activityon;
+//		this.activityoff = activityoff;
+//		this.activitysort = activitysort;
+//	}
 
 	public int getActivityid() {
 		return activityid;

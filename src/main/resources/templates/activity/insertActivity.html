@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+
+<head>
+	<meta charset="UTF-8">
+	<title>新增活動</title>
+</head>
+
+<body class="sb-nav-fixed">
+	<!--匯入navbar-->
+	<div th:replace="~{layout/navbar}"></div>
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_content">
+			<div class="container-fluid px-4">
+				<h1 class="mt-4" style="text-align: center;">新增活動</h1>
+				<div class="card mb-4">
+					<div class="card-body">
+						<form th:action="@{/activity/insert}" method="post">
+							<div class="mb-3">
+								<label class="form-label">活動名稱</label>
+								<input type="text" class="form-control" name="activityname" required="required">
+							</div>
+							<div class="mb-3">
+								<label class="form-label">活動網址</label>
+								<input type="text" class="form-control" name="activityurl" required="required">
+							</div>
+							<div class="mb-3">
+								<label for="activitydisplay">是否顯示</label>
+								<select id="activitydisplay" name="activitydisplay">
+									<option value="是">是</option>
+									<option value="否">否</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="name">負責員工</label>
+								<select class="form-control" name="employeeid">
+									<th:block th:each=" employee : ${employees}">
+										<option th:value="${employee.employeeid}">
+											[[${employee.employeename}]]
+										</option>
+									</th:block>
+								</select>
+							</div>
+							<div class="mb-3">
+								<label class="form-label">活動日期</label>
+								<input type="date" class="form-control" name="activitydate" required="required"
+									id="activitydate">
+							</div>
+							<div class="mb-3">
+								<label class="form-label">上架日期</label>
+								<input type="date" class="form-control" name="activityon" required="required"
+									id="startdate">
+							</div>
+							<div class="mb-3">
+								<label class="form-label">下架日期</label>
+								<input type="date" class="form-control" name="activityoff" required="required"
+									id="enddate">
+							</div>
+							<div class="mb-3">
+								<label class="form-label">排序</label>
+								<input type="text" class="form-control" name="activitysort" required="required"
+									pattern="[0-9]+">
+							</div>
+							<div class="mb-3">
+								<label class="form-label">活動內容</label>
+								<textarea class="form-control" rows="5" name="activitydescription" required="required"></textarea>
+							</div>
+							<button type="submit" class="btn btn-primary" onclick="checkDate(event)">Submit</button>
+							<button type="reset" class="btn btn-primary">Reset</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script th:src="@{/js/activity.js}"></script>
+</body>
+
+</html>
