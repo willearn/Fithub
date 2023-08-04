@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import com.fithub.model.activity.Activity;
@@ -17,37 +18,45 @@ public class ActivityService {
 	@Autowired
 	private ActivityRepository activityRepo;
 
-	//新增單筆活動
+	// 新增單筆活動
 	public Activity insert(Activity activity) {
 		Activity result = activityRepo.save(activity);
 		return result;
 	}
 
-	//新增多筆活動
+	// 新增多筆活動
 	public List<Activity> insertAll(List<Activity> activityList) {
 		List<Activity> results = activityRepo.saveAll(activityList);
 		return results;
 	}
-	
-	//刪除單筆
-	public void delete(Integer id) {
-		Boolean result =  activityRepo.existsById(id);
-		
-		if(result) {
+
+	// 刪除單筆
+	public void deleteById(Integer id) {
+		Boolean result = activityRepo.existsById(id);
+
+		if (result) {
 			activityRepo.deleteById(id);
 		}
 	}
+
+	// 刪除多筆
+
 	
-	//刪除多筆
-	
-	
-	//修改單筆
-	public void update(Activity activity) {
-		
+	// 修改單筆
+	public void updateById(Activity activity) {
+		Boolean result = findById(activity.getActivityid());
+		if(result) {
+			activityRepo.saveAndFlush(activity);
+		}
 	}
 
 	
-	//查詢分頁
+	public Boolean findById(Integer id) {
+		Boolean result = activityRepo.existsById(id);
+		return result;
+	}
+
+	// 查詢分頁
 	public Page<Activity> findByPage(Integer pageNumber) {
 		PageRequest pgrequest = PageRequest.of(pageNumber - 1, 10, Sort.Direction.DESC, "activityid");
 

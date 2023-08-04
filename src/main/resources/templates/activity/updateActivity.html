@@ -15,7 +15,7 @@
 				<h1 class="mt-4" style="text-align: center;">新增活動</h1>
 				<div class="card mb-4">
 					<div class="card-body">
-						<form th:object="${activity}" th:action="@{/activity/update}" method="post">
+						<form th:object="${activity}" th:action="@{/activity/update}" th:method="put">
 							<div class="mb-3">
 								<label class="form-label">活動名稱</label>
 								<input type="text" class="form-control" name="activityname" th:value="*{activityname}"
@@ -47,7 +47,7 @@
 							<div class="form-group">
 								<label for="name">負責員工</label>
 								<select class="form-control" name="employeeid">
-									<option th:value="*{employeeid}" disabled selected>[[${empname}]]</option>
+									<option th:value="*{employeeid}" selected>[[${empname}]]</option>
 									<th:block th:each=" employee : ${employees}">
 										<!--只顯示和預設不同的-->
 										<option th:if="${empname != employee.employeename}"
@@ -82,7 +82,7 @@
 								<textarea class="form-control" rows="5" name="activitydescription"
 									th:text="*{activitydescription}" required="required"></textarea>
 							</div>
-							
+
 							<input type="hidden" name="activityid" th:value="*{activityid}" />
 							<button type="submit" class="btn btn-primary" onclick="checkDate(event)">Submit</button>
 							<button type="reset" class="btn btn-primary">Reset</button>
