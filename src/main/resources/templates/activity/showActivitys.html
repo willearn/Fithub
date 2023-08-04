@@ -19,6 +19,7 @@
 						<table class="table table-bordered">
 							<thead class="text-center">
 								<tr class="table-primary">
+									<th><button class="btn btn-outline-danger">刪除</button></th>                
 									<th>名稱</th>
 									<th>內容</th>
 									<th>活動日期</th>
@@ -35,6 +36,7 @@
 							</thead>
 							<tbody class="align-middle">
 								<tr th:each="activity : ${page.content}">
+									<td><input type="checkbox" class="form-check-input" name="selectId" value="${activity.activityid}"></td>
 									<td th:text="${activity} ? ${activity.activityname}"></td>
 									<td th:text="${activity} ? ${activity.activitydescription}"></td>
 									<td th:text="${activity} ? ${activity.activitydate}"></td>
