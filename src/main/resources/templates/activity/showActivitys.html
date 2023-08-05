@@ -19,7 +19,7 @@
 						<table class="table table-bordered">
 							<thead class="text-center">
 								<tr class="table-primary">
-									<th><button class="btn btn-outline-danger">刪除</button></th>                
+									<th><button class="btn btn-outline-danger" id="deleteActivitys">刪除</button></th>
 									<th>名稱</th>
 									<th>內容</th>
 									<th>活動日期</th>
@@ -31,12 +31,15 @@
 									<th>排序</th>
 									<th>圖片</th>
 									<th>修改</th>
-									<th>刪除</th>
 								</tr>
 							</thead>
+							
 							<tbody class="align-middle">
 								<tr th:each="activity : ${page.content}">
-									<td><input type="checkbox" class="form-check-input" name="selectId" value="${activity.activityid}"></td>
+									<form th:action="@{/activity/delete}" th:method="delete" id="deleteForm">
+										<td><input type="checkbox" class="form-check-input" name="selectId"
+												th:value="${activity.activityid}"></td>
+									</form>
 									<td th:text="${activity} ? ${activity.activityname}"></td>
 									<td th:text="${activity} ? ${activity.activitydescription}"></td>
 									<td th:text="${activity} ? ${activity.activitydate}"></td>
@@ -49,7 +52,7 @@
 									<td><button class="btn btn-outline-success">預覽</button></td>
 
 									<!--修改-->
-									<form  th:action="@{/activity/update}" method="post">
+									<form th:action="@{/activity/update}" method="post">
 										<input type="hidden" name="activityid" th:value="${activity.activityid}" />
 										<input type="hidden" name="activityname" th:value="${activity.activityname}" />
 										<input type="hidden" name="activitydescription" th:value="${activity.activitydescription}" />
@@ -59,20 +62,14 @@
 										<input type="hidden" name="employeeid" th:value="${activity.employeeid}" />
 										<input type="hidden" name="activityon" th:value="${activity.activityon}" />
 										<input type="hidden" name="activityoff" th:value="${activity.activityoff}" />
-										<input type="hidden" name="activitysort" th:value="${activity.activitysort}"/>
-										<input type="hidden" name="empName" th:value="${activity.employee.employeename}"/>
+										<input type="hidden" name="activitysort" th:value="${activity.activitysort}" />
+										<input type="hidden" name="empName" th:value="${activity.employee.employeename}" />
 										<td><button type="submit" class="btn btn-outline-info">修改</button></td>
-									</form>
-									
-									<!--刪除-->
-									<form th:action="@{/activity/delete}" th:method="delete">
-										<input type="hidden" name="id" th:value="${activity.activityid}" />
-										<td><button type="submit" onclick="return deleteMessage()" class="btn btn-outline-danger">刪除</button></td>
 									</form>
 								</tr>
 							</tbody>
 						</table>
-
+						
 						<ul class="pagination">
 							<!--上一頁按鈕-->
 							<th:block th:switch="${page.number != 0}">
@@ -114,6 +111,31 @@
 		</div>
 	</div>
 	<script th:src="@{/js/activity.js}"></script>
+	
+	<script>
+		const deleteButton = document.querySelector('#deleteActivitys');
+		
+		deleteButton.addEventListener('click', (event) => {
+			let checkboxes = document.querySelectorAll('input[name="selectId"]:checked');
+			// 勾選的checkbox值放入陣列
+			let selectId = [];
+			checkboxes.forEach((checkbox) => {
+				selectId.push(checkbox.value);
+			});
+			let selectIdInput = document.createElement('input');
+			selectIdInput.type = 'hidden';
+			selectIdInput.name = 'selectId';
+			// selectId值放入隱藏的input元素中  .join 將陣列合成一個字串 
+			selectIdInput.value = selectId.join(',');
+			document.getElementById('deleteForm').appendChild(selectIdInput);
+
+			// 提交表單
+			 if (deleteMessage()) {
+            document.getElementById('deleteForm').submit();
+        	}
+		});
+		
+	</script>
 </body>
 
 </html>

@@ -1,26 +1,24 @@
 package com.fithub.controller;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.fithub.model.activity.Activity;
+import com.fithub.model.activity.ActivityService;
 import com.fithub.model.employee.Employee;
 import com.fithub.model.employee.EmployeeRepository;
-import com.fithub.service.ActivityService;
 
 @Controller
 public class ActivityController {
@@ -46,17 +44,26 @@ public class ActivityController {
 		return "redirect:/activity/page";
 	}
 
-	// 新增多筆
-	@PostMapping("/activity/insertMultipleActivity")
-	public String insertMultipleActivity(@RequestBody List<Activity> customerList) {
-		aService.insertAll(customerList);
-		return "redirect:/activity/page";
-	}
+	//	// 新增多筆
+	//	@PostMapping("/activity/insertMultipleActivity")
+	//	public String insertMultipleActivity(@RequestBody List<Activity> customerList) {
+	//		aService.insertAll(customerList);
+	//		return "redirect:/activity/page";
+	//	}
+	
+	//	// 刪除單筆
+	//	@DeleteMapping("/activity/delete")
+	//	public String deleteActivity(@RequestParam("id") Integer id) {
+	//		aService.deleteById(id);
+	//		return "redirect:/activity/page";
+	//	}
 
-	// 刪除單筆
+	// 刪除多筆
 	@DeleteMapping("/activity/delete")
-	public String deleteActivity(@RequestParam("id") Integer id) {
-		aService.deleteById(id);
+	public String deletesActivity(@RequestParam("selectId") String selectId) {
+									// 字串切割為字串陣列 Java 16後可以直接使用.toList(),不用collect;
+		List<Integer> selectedIds = Arrays.stream(selectId.split(",")).map(Integer::valueOf).collect(Collectors.toList());
+		aService.deletesActivity(selectedIds);
 		return "redirect:/activity/page";
 	}
 
@@ -78,7 +85,7 @@ public class ActivityController {
 		return "redirect:/activity/page";
 	}
 
-	// 分頁
+	// 搜尋並分頁
 	@GetMapping("/activity/page")
 	public String showActivitys(@RequestParam(name = "p", defaultValue = "1") Integer pageNumber, Model model) {
 		Page<Activity> page = aService.findByPage(pageNumber);

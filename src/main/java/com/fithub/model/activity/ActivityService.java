@@ -1,4 +1,4 @@
-package com.fithub.service;
+package com.fithub.model.activity;
 
 import java.util.List;
 
@@ -9,8 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
-import com.fithub.model.activity.Activity;
-import com.fithub.model.activity.ActivityRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class ActivityService {
@@ -40,6 +39,9 @@ public class ActivityService {
 	}
 
 	// 刪除多筆
+	public void deletesActivity(Iterable<Integer> selectIds) {
+		activityRepo.deleteAllByIdInBatch(selectIds);
+	}
 
 	
 	// 修改單筆
