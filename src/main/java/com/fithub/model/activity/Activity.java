@@ -1,8 +1,13 @@
 package com.fithub.model.activity;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fithub.model.activitypic.ActivityPic;
 import com.fithub.model.employee.Employee;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -11,12 +16,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
 //資料庫對應的table
 @Entity 
-@Table(name="activity")
+@Table(name="Activity")
 public class Activity {
 	
 	//設定主鍵
@@ -40,37 +46,19 @@ public class Activity {
 	@JoinColumn(name="employeeid",insertable = false,updatable = false)
 	private Employee employee;
 	
-	public Employee getEmployee() {
-		return employee;
-	}
-
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
-	}
+	//設定關聯實體執行那些操作
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "activity")
+	private List<ActivityPic> activitypic = new ArrayList<>();
+	
 
 	public Activity() {
 	}
-
-	//提供參數建構子,減少代碼
-//	public Activity(String activityname, String activitydescription, String activitydate, String activityurl,
-//			String activitydisplay,int employeeid, String activityon, String activityoff, int activitysort) {	
-//		super();
-//		this.activityname = activityname;
-//		this.activitydescription = activitydescription;
-//		this.activitydate = activitydate;
-//		this.activityurl = activityurl;
-//		this.activitydisplay = activitydisplay;
-//		this.employeeid = employeeid;
-//		this.activityon = activityon;
-//		this.activityoff = activityoff;
-//		this.activitysort = activitysort;
-//	}
 
 	public int getActivityid() {
 		return activityid;
 	}
 
-	public void setActivityid(int activityid) {
+	public void setActivityid(Integer activityid) {
 		this.activityid = activityid;
 	}
 
@@ -78,7 +66,7 @@ public class Activity {
 		return employeeid;
 	}
 
-	public void setEmployeeid(int employeeid) {
+	public void setEmployeeid(Integer employeeid) {
 		this.employeeid = employeeid;
 	}
 
@@ -146,5 +134,21 @@ public class Activity {
 		this.activitysort = activitysort;
 	}
 
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+	
+	public List<ActivityPic> getActivitypic() {
+		return activitypic;
+	}
+
+
+	public void setActivitypic(List<ActivityPic> activitypic) {
+		this.activitypic = activitypic;
+	}
 	
 }

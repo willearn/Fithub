@@ -41,9 +41,7 @@ public class Employee {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="DEPTID",insertable = false,updatable = false)
 	private Department department;
-	
-//	@OneToOne(fetch = FetchType.LAZY)
-//	private BackStageAccount backstageaccount;
+
 	
 
 	public Employee() {
