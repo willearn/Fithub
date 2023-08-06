@@ -33,7 +33,7 @@
 									</form>
 									
 									<td th:text="${activitypics} ? ${activitypics.activity.activityname}"></td>
-									<td><img th:src="@{/activity/downloadPic?(id=${activitypics.id})}"></td>
+									<td><img width="300px" height="300px" th:src="@{/activity/downloadPic?(id=${activitypics.id})}"></td>
 									<!--修改-->
 									<form th:action="@{/activity/update}" method="post">
 										<td><button type="submit" class="btn btn-outline-info">修改</button></td>

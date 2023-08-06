@@ -50,16 +50,20 @@ public class ActivityService {
 		}
 	}
 
-	
+	// 確認id存在
 	public Boolean findById(Integer id) {
 		Boolean result = activityRepo.existsById(id);
 		return result;
 	}
+	
+	public Long countData() {
+		Long result =  activityRepo.count();
+		return result;
+	}
 
 	// 查詢分頁
-	public Page<Activity> findByPage(Integer pageNumber) {
-		PageRequest pgrequest = PageRequest.of(pageNumber - 1, 10, Sort.Direction.DESC, "activityid");
-
+	public Page<Activity> findByPage(Integer pageNumber,Integer choiceShowValue) {
+		PageRequest pgrequest = PageRequest.of(pageNumber - 1, choiceShowValue, Sort.Direction.DESC, "activityid");
 		Page<Activity> page = activityRepo.findAll(pgrequest);
 		return page;
 	}

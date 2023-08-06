@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -135,9 +136,12 @@ public class ActivityController {
 
 	// 搜尋活動並分頁
 	@GetMapping("/activity/page")
-	public String showActivitys(@RequestParam(name = "p", defaultValue = "1") Integer pageNumber, Model model) {
-		Page<Activity> page = aService.findByPage(pageNumber);
+	public String showActivitys(@RequestParam(name = "p", defaultValue = "1") Integer pageNumber
+			,@RequestParam(name = "selectedValue",defaultValue="5") String selected, Model model) {
+		Page<Activity> page = aService.findByPage(pageNumber,Integer.parseInt(selected));
+		Long countData = aService.countData();
 		model.addAttribute("page", page);
+		model.addAttribute("countData", countData);
 		return "activity/showActivitys";
 	}
 
