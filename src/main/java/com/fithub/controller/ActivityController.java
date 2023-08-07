@@ -8,7 +8,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -55,40 +54,43 @@ public class ActivityController {
 	@PostMapping("/activity/insert")
 	public String addActivity(@ModelAttribute Activity activity, @RequestParam("pic") MultipartFile[] files)
 			throws IOException {
-		Activity newActivity = new Activity();
-		newActivity.setActivityname(activity.getActivityname());
-		newActivity.setActivitydescription(activity.getActivitydescription());
-		newActivity.setActivitydate(activity.getActivitydate());
-		newActivity.setActivityurl(activity.getActivityurl());
-		newActivity.setEmployeeid(activity.getEmployeeid());
-		newActivity.setActivitydisplay(activity.getActivitydisplay());
-		newActivity.setActivityon(activity.getActivityon());
-		newActivity.setActivityoff(activity.getActivityoff());
-		newActivity.setActivitysort(activity.getActivitysort());
-
-		List<ActivityPic> activityPicList = new ArrayList<>();
-		for (MultipartFile file : files) {
-			ActivityPic activityPic = new ActivityPic();
-			byte[] photoByte = file.getBytes();
-			activityPic.setPhotofile(photoByte);
-			activityPic.setActivity(newActivity);
-
-			activityPicList.add(activityPic);
+		
+		//如果有上傳檔案
+		if(!files[0].isEmpty()) {
+			Activity newActivity = new Activity();
+			newActivity.setActivityname(activity.getActivityname());
+			newActivity.setActivitydescription(activity.getActivitydescription());
+			newActivity.setActivitydate(activity.getActivitydate());
+			newActivity.setActivityurl(activity.getActivityurl());
+			newActivity.setEmployeeid(activity.getEmployeeid());
+			newActivity.setActivitydisplay(activity.getActivitydisplay());
+			newActivity.setActivityon(activity.getActivityon());
+			newActivity.setActivityoff(activity.getActivityoff());
+			newActivity.setActivitysort(activity.getActivitysort());
+	
+			List<ActivityPic> activityPicList = new ArrayList<>();
+			for (MultipartFile file : files) {
+				ActivityPic activityPic = new ActivityPic();
+				byte[] photoByte = file.getBytes();
+				activityPic.setApicfile(photoByte);
+				activityPic.setActivity(newActivity);
+				activityPicList.add(activityPic);
+			}
+	
+			newActivity.setActivitypic(activityPicList);
+			aService.insert(newActivity);
 		}
-
-		newActivity.setActivitypic(activityPicList);
-
-		aService.insert(newActivity);
-
+		
+		aService.insert(activity);
 		return "redirect:/activity/page";
 	}
 
-//	// 新增單筆活動
-//	@PostMapping("/activity/insert")
-//	public String addActivity(Activity activity) {
-//		aService.insert(activity);
-//		return "redirect:/activity/page";
-//	}
+	//	// 新增單筆活動
+	//	@PostMapping("/activity/insert")
+	//	public String addActivity(Activity activity) {
+	//		aService.insert(activity);
+	//		return "redirect:/activity/page";
+	//	}
 	
 	// // 新增多筆
 	// @PostMapping("/activity/insertMultipleActivity")
@@ -109,12 +111,10 @@ public class ActivityController {
 	@DeleteMapping("/activity/delete")
 	public String deletesActivity(@RequestParam("selectId") String selectId) {
 		// 字串切割為字串陣列 Java 16後可以直接使用.toList(),不用collect;
-		System.out.println(selectId);
 		List<Integer> selectedIds = Arrays.stream(selectId.split(",")).map(Integer::valueOf)
 				.collect(Collectors.toList());
 		
-//		apicService.deleteByActivityId(selectedIds);
-//		aService.deletesActivity(selectedIds);
+		aService.deleteAllById(selectedIds);
 		return "redirect:/activity/page";
 	}
 
@@ -150,8 +150,8 @@ public class ActivityController {
 	// 搜尋全部活動圖片資料
 	@GetMapping("/activity/activitypic")
 	public String showActivityPic(Model model) {
-		List<ActivityPic> activitypic = apicService.selectAllPic();
-		model.addAttribute("activityPic", activitypic);
+		List<ActivityPic> activitypics = apicService.selectAllPic();
+		model.addAttribute("activityPics", activitypics);
 		return "/activity/showActivityPic";
 	}
 
@@ -164,7 +164,7 @@ public class ActivityController {
 			return null;
 		}
 		ActivityPic activityPic = optional.get();
-		byte[] activityImageFile = activityPic.getPhotofile();
+		byte[] activityImageFile = activityPic.getApicfile();
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.IMAGE_JPEG);

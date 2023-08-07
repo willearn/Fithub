@@ -32,7 +32,11 @@
 						<table class="table table-bordered">
 							<thead class="align-middle text-center">
 								<tr class="table-primary">
-									<th><button class="btn btn-outline-danger" id="deleteActivitys">刪除</button></th>
+
+									<th>
+										<input type="checkbox" id="selectAllCheckbox">
+										<button class="btn btn-outline-danger" id="deleteActivitys">刪除</button>
+									</th>
 									<th>名稱</th>
 									<th>內容</th>
 									<th>活動日期</th>
@@ -46,13 +50,14 @@
 									<th>修改</th>
 								</tr>
 							</thead>
-						
+
 							<tbody class="align-middle">
 								<tr th:each="activity : ${page.content}">
 									<form th:action="@{/activity/delete}" th:method="delete" id="deleteForm">
-										<td><input type="checkbox" class="form-check-input" name="selectId"
+										<td><input type="checkbox" class="form-check-input" name="select"
 												th:value="${activity.activityid}"></td>
-													<input type="hidden" id="selectIdInput" name="selectId" value="">
+										<!--傳被選取id值-->
+										<input type="hidden" id="selectIdInput" name="selectId">
 									</form>
 									<td th:text="${activity} ? ${activity.activityname}"></td>
 									<td th:text="${activity} ? ${activity.activitydescription}"></td>
@@ -137,27 +142,30 @@
 	<script>
 		const deleteButton = document.querySelector('#deleteActivitys');
 
-
+		//多筆刪除勾選的活動
 		deleteButton.addEventListener('click', (event) => {
-			let checkboxes = document.querySelectorAll('input[name="selectId"]:checked');
+			let checkboxes = document.querySelectorAll('input[name="select"]:checked');
 			// 勾選的checkbox值放入字串中，以逗號分隔
-			let selectId = '';
+			let select = '';
+
 			checkboxes.forEach((checkbox, index) => {
 				// 如果不是第一個值，則在前面加上逗號
 				if (index > 0) {
-					selectId += ',';
+					select += ',';
 				}
-				selectId += checkbox.value;
+				select += checkbox.value;
 			});
 
 			let selectIdInput = document.getElementById('selectIdInput');
 			// selectId值放入隱藏的input元素中
-			selectIdInput.value = selectId;
-			console.log(selectIdInput.value);
+			selectIdInput.value = select;
 
-			// 提交表單
-			if (deleteMessage()) {
-				document.getElementById('deleteForm').submit();
+			//判斷是否有勾選
+			if(select !== ''){
+				// 提交表單
+				if (deleteMessage()) {
+					document.getElementById('deleteForm').submit();
+				}
 			}
 		});
 
@@ -168,6 +176,19 @@
 			document.getElementById('select').value = selectValue;
 			document.getElementById('selectedValue').value = selectValue;
 			document.getElementById('selectedForm').submit();
+		});
+
+		//全選
+		const selectAllcheckbox = document.querySelector('#selectAllCheckbox')
+		const checkboxes = document.querySelectorAll('.form-check-input');
+		
+		selectAllcheckbox.addEventListener('change', function () {
+
+			const isChecked = selectAllCheckbox.checked;
+
+			for (const checkbox of checkboxes) {
+				checkbox.checked = isChecked;
+			}
 		});
 	</script>
 </body>

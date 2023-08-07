@@ -47,7 +47,7 @@ public class Activity {
 	private Employee employee;
 	
 	//設定關聯實體執行那些操作
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "activity",orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "activity")
 	private List<ActivityPic> activitypic = new ArrayList<>();
 	
 

@@ -37,8 +37,7 @@ public class ActivityService {
 	}
 
 	// 刪除多筆
-	public void deletesActivity(Iterable<Integer> selectIds) {
-		activityRepo.deleteAllByIdInBatch(selectIds);
+	public void deleteAllById(Iterable<Integer> selectIds) {
 		activityRepo.deleteAllById(selectIds);
 	}
 
