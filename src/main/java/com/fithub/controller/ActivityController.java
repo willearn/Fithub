@@ -109,10 +109,12 @@ public class ActivityController {
 	@DeleteMapping("/activity/delete")
 	public String deletesActivity(@RequestParam("selectId") String selectId) {
 		// 字串切割為字串陣列 Java 16後可以直接使用.toList(),不用collect;
+		System.out.println(selectId);
 		List<Integer> selectedIds = Arrays.stream(selectId.split(",")).map(Integer::valueOf)
 				.collect(Collectors.toList());
-		apicService.deleteByActivityId(selectedIds);
-		aService.deletesActivity(selectedIds);
+		
+//		apicService.deleteByActivityId(selectedIds);
+//		aService.deletesActivity(selectedIds);
 		return "redirect:/activity/page";
 	}
 

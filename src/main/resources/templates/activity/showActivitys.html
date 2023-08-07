@@ -18,7 +18,7 @@
 					<div class="card-body table-responsive">
 						<!--選擇顯示幾筆-->
 						<form id="selectedForm" th:action="@{/activity/page}" method="get">
-							<input type="hidden" id="selectedValue" name="selectedValue"/>
+							<input type="hidden" id="selectedValue" name="selectedValue" />
 							<select style="width: 60px;margin-bottom: 20px;" class="form-select-sm" id="select">
 								<option value="1">1</option>
 								<option value="5">5</option>
@@ -46,12 +46,13 @@
 									<th>修改</th>
 								</tr>
 							</thead>
-
+						
 							<tbody class="align-middle">
 								<tr th:each="activity : ${page.content}">
 									<form th:action="@{/activity/delete}" th:method="delete" id="deleteForm">
 										<td><input type="checkbox" class="form-check-input" name="selectId"
 												th:value="${activity.activityid}"></td>
+													<input type="hidden" id="selectIdInput" name="selectId" value="">
 									</form>
 									<td th:text="${activity} ? ${activity.activityname}"></td>
 									<td th:text="${activity} ? ${activity.activitydescription}"></td>
@@ -86,6 +87,7 @@
 								</tr>
 							</tbody>
 						</table>
+
 						<p th:text="${'全部	'+countData+'	筆資料'}"></p>
 
 						<ul class="pagination">
@@ -135,19 +137,23 @@
 	<script>
 		const deleteButton = document.querySelector('#deleteActivitys');
 
+
 		deleteButton.addEventListener('click', (event) => {
 			let checkboxes = document.querySelectorAll('input[name="selectId"]:checked');
-			// 勾選的checkbox值放入陣列
-			let selectId = [];
-			checkboxes.forEach((checkbox) => {
-				selectId.push(checkbox.value);
+			// 勾選的checkbox值放入字串中，以逗號分隔
+			let selectId = '';
+			checkboxes.forEach((checkbox, index) => {
+				// 如果不是第一個值，則在前面加上逗號
+				if (index > 0) {
+					selectId += ',';
+				}
+				selectId += checkbox.value;
 			});
-			let selectIdInput = document.createElement('input');
-			selectIdInput.type = 'hidden';
-			selectIdInput.name = 'selectId';
-			// selectId值放入隱藏的input元素中  .join 將陣列合成一個字串 
-			selectIdInput.value = selectId.join(',');
-			document.getElementById('deleteForm').appendChild(selectIdInput);
+
+			let selectIdInput = document.getElementById('selectIdInput');
+			// selectId值放入隱藏的input元素中
+			selectIdInput.value = selectId;
+			console.log(selectIdInput.value);
 
 			// 提交表單
 			if (deleteMessage()) {
