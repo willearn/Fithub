@@ -54,33 +54,18 @@ public class ActivityController {
 	@PostMapping("/activity/insert")
 	public String addActivity(@ModelAttribute Activity activity, @RequestParam("pic") MultipartFile[] files)
 			throws IOException {
-		
 		//如果有上傳檔案
 		if(!files[0].isEmpty()) {
-			Activity newActivity = new Activity();
-			newActivity.setActivityname(activity.getActivityname());
-			newActivity.setActivitydescription(activity.getActivitydescription());
-			newActivity.setActivitydate(activity.getActivitydate());
-			newActivity.setActivityurl(activity.getActivityurl());
-			newActivity.setEmployeeid(activity.getEmployeeid());
-			newActivity.setActivitydisplay(activity.getActivitydisplay());
-			newActivity.setActivityon(activity.getActivityon());
-			newActivity.setActivityoff(activity.getActivityoff());
-			newActivity.setActivitysort(activity.getActivitysort());
-	
 			List<ActivityPic> activityPicList = new ArrayList<>();
 			for (MultipartFile file : files) {
+				System.out.println("------------------------------------file");
 				ActivityPic activityPic = new ActivityPic();
 				byte[] photoByte = file.getBytes();
 				activityPic.setApicfile(photoByte);
-				activityPic.setActivity(newActivity);
 				activityPicList.add(activityPic);
 			}
-	
-			newActivity.setActivitypic(activityPicList);
-			aService.insert(newActivity);
+			activity.setActivitypic(activityPicList);
 		}
-		
 		aService.insert(activity);
 		return "redirect:/activity/page";
 	}
