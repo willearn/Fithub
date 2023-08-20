@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.fithub.model.classes.Classes;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -20,8 +21,13 @@ import lombok.Data;
 public class Classroom {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="classroomid")
 	private int classroomId;
+	
+	@Column(name="classroomlocation")
 	private String classroomLocation;
+	
+	@Column(name="classroomcapacity")
 	private int classroomCapacity;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "classroom")

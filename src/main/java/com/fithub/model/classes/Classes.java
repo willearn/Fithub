@@ -3,6 +3,7 @@ package com.fithub.model.classes;
 import com.fithub.model.classroom.Classroom;
 import com.fithub.model.course.Course;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -20,17 +21,34 @@ public class Classes {
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="classid")
 	private int classId;
 	
+	@Column(name="COURSEID")
 	private int courseId;
+	
+	@Column(name="classdate")
 	private String classDate;
+
+	@Column(name="classtimesince")
 	private String classTimeSince;
+
+	@Column(name="classtimeend")
 	private String classTimeEnd;
+
+	@Column(name="employeeid")
 	private int employeeId;
+
+	@Column(name="applicantceil")
 	private int applicantsCeil;
+	
+	@Column(name="applicantsfloor")
 	private int applicantsFloor;
+	
+	@Column(name="price")
 	private int price;
 	
+	@Column(name="CLASSROOMID")
 	private int classroomId;
 	
 	
