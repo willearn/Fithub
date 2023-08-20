@@ -24,9 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fithub.model.activity.Activity;
-import com.fithub.model.activity.ActivityService;
+import com.fithub.model.activity.IActivityService;
 import com.fithub.model.activitypic.ActivityPic;
-import com.fithub.model.activitypic.ActivityPicService;
+import com.fithub.model.activitypic.IActivityPicService;
 import com.fithub.model.employee.Employee;
 import com.fithub.model.employee.EmployeeRepository;
 
@@ -34,13 +34,13 @@ import com.fithub.model.employee.EmployeeRepository;
 public class ActivityController {
 
 	@Autowired
-	private ActivityService aService;
+	private IActivityService aService;
 
 	@Autowired
 	private EmployeeRepository eService;
 
 	@Autowired
-	private ActivityPicService apicService;
+	private IActivityPicService apicService;
 
 	// 搜員工給新增活動選擇
 	@GetMapping("/activity/insert")

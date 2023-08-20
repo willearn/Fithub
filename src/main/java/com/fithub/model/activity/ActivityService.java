@@ -10,24 +10,27 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class ActivityService {
+public class ActivityService implements IActivityService {
 
 	@Autowired
 	private ActivityRepository activityRepo;
 
 	// 新增單筆活動
+	@Override
 	public Activity insert(Activity activity) {
 		Activity result = activityRepo.save(activity);
 		return result;
 	}
 
 	// 新增多筆活動
+	@Override
 	public List<Activity> insertAll(List<Activity> activityList) {
 		List<Activity> results = activityRepo.saveAll(activityList);
 		return results;
 	}
 
 	// 刪除單筆
+	@Override
 	public void deleteById(Integer id) {
 		Boolean result = activityRepo.existsById(id);
 
@@ -37,12 +40,14 @@ public class ActivityService {
 	}
 
 	// 刪除多筆
+	@Override
 	public void deleteAllById(Iterable<Integer> selectIds) {
 		activityRepo.deleteAllById(selectIds);
 	}
 
 	
 	// 修改單筆
+	@Override
 	public void updateById(Activity activity) {
 		Boolean result = findById(activity.getActivityid());
 		if(result) {
@@ -51,17 +56,20 @@ public class ActivityService {
 	}
 
 	// 確認id存在
+	@Override
 	public Boolean findById(Integer id) {
 		Boolean result = activityRepo.existsById(id);
 		return result;
 	}
 	
+	@Override
 	public Long countData() {
 		Long result =  activityRepo.count();
 		return result;
 	}
 
 	// 查詢分頁
+	@Override
 	public Page<Activity> findByPage(Integer pageNumber,Integer choiceShowValue) {
 		PageRequest pgrequest = PageRequest.of(pageNumber - 1, choiceShowValue, Sort.Direction.DESC, "activityid");
 		Page<Activity> page = activityRepo.findAll(pgrequest);

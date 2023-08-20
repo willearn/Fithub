@@ -46,10 +46,16 @@ public class Activity {
 	@JoinColumn(name="employeeid",insertable = false,updatable = false)
 	private Employee employee;
 	
-	//設定關聯實體執行那些操作
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "activity")
 	private List<ActivityPic> activitypic = new ArrayList<>();
-	
+
+	public List<ActivityPic> getActivitypic() {
+		return activitypic;
+	}
+
+	public void setActivitypic(List<ActivityPic> activitypic) {
+		this.activitypic = activitypic;
+	}
 
 	public Activity() {
 	}
@@ -130,7 +136,7 @@ public class Activity {
 		return activitysort;
 	}
 
-	public void setActivitysort(int activitysort) {
+	public void setActivitysort(Integer activitysort) {
 		this.activitysort = activitysort;
 	}
 
@@ -141,14 +147,4 @@ public class Activity {
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
 	}
-	
-	public List<ActivityPic> getActivitypic() {
-		return activitypic;
-	}
-
-
-	public void setActivitypic(List<ActivityPic> activitypic) {
-		this.activitypic = activitypic;
-	}
-	
 }

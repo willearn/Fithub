@@ -23,7 +23,7 @@ public class ActivityPic {
 	private Integer apicid;
 
 	@Lob
-	@Column(name = "photofile")
+	@Column(name = "apicfile")
 	private byte[] apicfile;
 	
 
