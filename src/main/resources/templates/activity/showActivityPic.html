@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head>
+<meta charset="UTF-8">
+<title>活動圖片</title>
+</head>
+<body class="sb-nav-fixed">
+	<!--匯入navbar-->
+	<div th:replace="~{layout/navbar}"></div>
+	
+	
+	
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_content">
+			<div class="container-fluid px-4">
+				<h1 class="mt-4" style="text-align: center;">全部圖片</h1>
+				<div class="card mb-4">
+					<div class="card-body table-responsive">
+						<table class="table table-bordered">
+							<thead class="align-middle text-center">
+								<tr class="table-primary">
+									<th><button class="btn btn-outline-danger" id="deleteActivitys">刪除</button></th>
+									<th>活動名稱</th>
+									<th>圖片</th>
+									<th>修改</th>
+								</tr>
+							</thead>
+							
+							<tbody class="align-middle text-center">
+								<tr th:each="activitypic : ${activityPics}">
+									<form th:action="@{/activity/delete}" th:method="delete" id="deleteForm">
+										<td><input type="checkbox" class="form-check-input" name="selectId"></td>				
+									</form>
+									
+									<td th:text="${activitypic} ? ${activitypic.activity.activityname}"></td>
+									<td><img width="300px" height="300px" th:src="@{/activity/downloadPic?(id=${activitypic.apicid})}"></td>
+									<!--修改-->
+									<form th:action="@{/activity/update}" method="post">
+										<td><button type="submit" class="btn btn-outline-info">修改</button></td>
+									</form>
+								</tr>
+							</tbody>
+						</table>
+							
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+</body>
+</html>
