@@ -21,9 +21,9 @@ import jakarta.persistence.Transient;
 public class BackStageAccount {
 	
 	
-	@GenericGenerator(name="generator",strategy="foreign",parameters=@Parameter(name="property",value="employee"))
-	@GeneratedValue(generator="generator")
-	@Column(name="EMPLOYEEID", insertable = false, updatable = false)
+//	@GenericGenerator(name="generator",strategy="foreign",parameters=@Parameter(name="property",value="employee"))
+//	@GeneratedValue(generator="generator")
+	@Column(name="EMPLOYEEID")
 	private int employeeid;
 	
 	@Id @Column(name="EMPLOYEEACCOUNT")
@@ -36,7 +36,7 @@ public class BackStageAccount {
 //	private String employeename;
 	
 	@OneToOne
-	@JoinColumn(name = "EMPLOYEEID")
+	@JoinColumn(name = "EMPLOYEEID", insertable = false, updatable = false)
 	private Employee employee;
 
 	public BackStageAccount() {

@@ -1,6 +1,7 @@
 package com.fithub.model.employee;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,54 +9,41 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class EmployeeService implements IEmployeeService {
+public class EmployeeService implements IEmployeeService{
+	
 	@Autowired
-	private IEmployeeDAO eDao;
+	private EmployeeDAO eDao;
 
-	@Override
-	public Employee insert(Employee eBean) {
-		return eDao.insert(eBean);
+	public boolean insert(Employee eBean) {
+		Employee emp = eDao.save(eBean);
+		return true;
 	}
-
-	@Override
-	public Employee selectById(int employeeid) {
-//		Employee emp = eDao.selectById(employeeid);
-//		emp.setDeptname(emp.getDepartment().getDeptname());
-		return eDao.selectById(employeeid);
+	
+	public boolean update(Employee eBean) {
+		Employee result = eDao.save(eBean);
+		if(result != null) {
+			return true;
+		}
+		return false;
 	}
-
-	@Override
-	public List<Employee> selectAll() {
-		return eDao.selectAll();
+	
+	public void deleteById(Integer id) {
+		eDao.deleteById(id);
 	}
-
-	@Override
-	public Employee update(int employeeid, String employeename, String employeeemail, String employeephone,
-			String employeegender, String employeecity, String employeezone, String employeeaddress, int deptid,
-			String employeetitle, int manager, String hiredate, String resigndate, int salary, String employeebirthday,
-			String employeeintroduction) {
-		return eDao.update(employeeid, employeename, employeeemail, employeephone, employeegender, employeecity,
-				employeezone, employeeaddress, deptid, employeetitle, manager, hiredate, resigndate, salary,
-				employeebirthday, employeeintroduction);
+	
+	public Employee findById(Integer id) {
+		Optional<Employee> optinoal = eDao.findById(id);
+		
+		if(optinoal.isPresent()) {
+			return optinoal.get();
+		}
+		
+		return null;
 	}
-
-	@Override
-	public Employee update(Employee eBean) {
-		return eDao.update(eBean);
+	
+	public List<Employee> findAll(){
+		List<Employee> list = eDao.findAll();
+		return list;
 	}
-
-	@Override
-	public boolean deleteById(int employeeid) {
-		return eDao.deleteById(employeeid);
-	}
-
-//	@Override
-//    public List<Employee> selectAll() {
-//        List<Employee> emps = eDao.selectAll();
-//        for (Employee emp : emps) {
-//            emp.setDeptname(emp.getDepartment().getDeptname());
-//        }
-//        return emps;
-//    }
 
 }

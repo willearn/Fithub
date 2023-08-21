@@ -10,48 +10,70 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DepartmentService {
+public class DepartmentService implements IDepartmentService{
 
 	@Autowired
 	private DepartmentDAO dDao;
 	
-	public Department insert(Department dept) {
-		List<Department> result = dDao.findDepartmentByName(dept.getDeptname());
+	@Override
+	public boolean insert(Department dBean) {
+		Department result = dDao.findDepartmentByName(dBean.getDeptname());
 		
-		if(result.isEmpty()) {
-			dDao.save(dept);
-			return dept;
+		if(result == null) {
+			dDao.save(dBean);
+			return true;
 		}
-		
-		return null;
+		return false;
 
 	}
 	
-	public Department update(Department dept) {
-		List<Department> result = dDao.findDepartmentByName(dept.getDeptname());
-		
-		if(result.isEmpty()) {
-			dDao.save(dept);
-			return dept;
+	@Override
+	public boolean update(Department dBean) {
+		Department result = dDao.findDepartmentByName(dBean.getDeptname());
+		System.out.println("update-result:" + result);
+		if(result == null) {
+			Department resultBean = dDao.save(dBean);
+			System.out.println("update-result2:" + resultBean);
+			if(resultBean!=null) {
+				return true;
+			}
+			return false;
 		}
-		
-		return null;
+		return false;
 	}
 	
-	public Department findById(Integer id) {
-		Optional<Department> optional = dDao.findById(id);
-	    return optional.orElse(null); // 如果存在值，返回值，否则返回 null
-	}
-	
-	public List<Department> findAll() {
-		List<Department> list = dDao.findAll();
-		
-		return list;
-	}
-	
+	@Override
 	public void deleteById(Integer id) {
 		dDao.deleteById(id);
 	}
+	
+	@Override
+	public Department findById(Integer id) {
+		Optional<Department> optional = dDao.findById(id);
+		
+		if(optional.isPresent()) {
+			return optional.get();
+		}
+		
+	    return null;
+	}
+	
+	@Override
+	public List<Department> findAll() {
+		List<Department> list = dDao.findAll();
+		return list;
+	}
+	
+	public boolean findDepartmentByName(String name) {
+		Department result = dDao.findDepartmentByName(name);
+		
+		if(result != null) {
+			return true;
+		}
+		return false;
+	}
+	
+
 	
 	
 }

@@ -3,9 +3,10 @@ package com.fithub.model.department;
 import java.util.List;
 
 public interface IDepartmentService {
-	public Department insert(Department dBean);
-	public Department selectById(int deptid);
-	public List<Department> selectAll();
-	public boolean deleteById(int deptid);
-	public Department update(Department dept);
+	public boolean insert(Department dBean);
+	public boolean update(Department dBean);
+	public void deleteById(Integer id);
+	public Department findById(Integer id);
+	public List<Department> findAll();
+	public boolean findDepartmentByName(String name);
 }

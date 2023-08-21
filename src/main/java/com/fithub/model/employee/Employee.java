@@ -42,15 +42,10 @@ public class Employee {
 	private String employeebirthday;
 	private String employeeintroduction;
 	
-	//屬性不需要持久化（不需要存儲到數據庫）
-	@Transient
-	private String deptname;
-	
-	
 	//@ManyToOne(fetch = FetchType.LAZY)
 	@ManyToOne
 	@JoinColumn(name="DEPTID",insertable = false,updatable = false)
-	@JsonBackReference
+//	@JsonBackReference
 	private Department department;
 	
 //	@OneToOne(fetch = FetchType.LAZY)
@@ -241,16 +236,6 @@ public class Employee {
 		this.employeeintroduction = employeeintroduction;
 	}
 	
-	
-
-
-	public String getDeptname() {
-		return deptname;
-	}
-
-	public void setDeptname(String deptname) {
-		this.deptname = deptname;
-	}
 
 	public Department getDepartment() {
 		return department;
@@ -261,14 +246,6 @@ public class Employee {
 		this.department = department;
 	}
 	
-	
-//	public BackStageAccount getBackstageaccount() {
-//		return backstageaccount;
-//	}
-//
-//	public void setBackstageaccount(BackStageAccount backstageaccount) {
-//		this.backstageaccount = backstageaccount;
-//	}
 
 
 }

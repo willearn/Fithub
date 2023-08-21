@@ -2,16 +2,11 @@ package com.fithub.model.backstageaccount;
 
 import java.util.List;
 
+
 public interface IBackStageAccountService {
-	public BackStageAccount insert(BackStageAccount bBean);
-
-	public BackStageAccount selectByAccount(String employeeaccount);
-
-	public List<BackStageAccount> selectAll();
-
-	public BackStageAccount update(String employeeaccount, String employeepassword, int loa);
-
-	public boolean deleteByAccount(String employeeaccount);
-	
-	public boolean checkLogin(BackStageAccount backstageaccount);
+	public boolean insert(BackStageAccount dBean);
+	public boolean update(BackStageAccount dBean);
+	public void deleteBackStageAccountByAccount(String account);
+	public BackStageAccount findBackStageAccountByAccount(String account);
+	public List<BackStageAccount> findAll();
 }

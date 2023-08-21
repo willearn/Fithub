@@ -1,48 +1,61 @@
 package com.fithub.model.backstageaccount;
 
 import java.util.List;
+import java.util.Optional;
 
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
 @Transactional
 public class BackStageAccountService implements IBackStageAccountService{
 
 	@Autowired
-	private IBackStageAccountDAO bDao;
+	private BackStageAccountDAO bDao;
 	
-
 	@Override
-	public BackStageAccount insert(BackStageAccount bBean) {
-		return bDao.insert(bBean);
-	}
-
-	@Override
-	public BackStageAccount selectByAccount(String employeeaccount) {
-		return bDao.selectByAccount(employeeaccount);
-	}
-
-	@Override
-	public List<BackStageAccount> selectAll() {
-		return bDao.selectAll();
-	}
-
-	@Override
-	public BackStageAccount update(String employeeaccount, String employeepassword, int loa) {
-		return bDao.update(employeeaccount, employeepassword, loa);
-	}
-
-	@Override
-	public boolean deleteByAccount(String employeeaccount) {
-		return bDao.deleteByAccount(employeeaccount);
+	public boolean insert(BackStageAccount bBean) {
+		BackStageAccount result = bDao.findBackStageAccountByAccount(bBean.getEmployeeaccount());
+		
+		if(result == null) {
+			bDao.save(bBean);
+			return true;
+		}
+		
+		return false;
 	}
 	
 	@Override
-	public boolean checkLogin(BackStageAccount backstageaccount) {
-		return bDao.checkLogin(backstageaccount);
+	public boolean update(BackStageAccount bBean) {
+		BackStageAccount result = bDao.save(bBean);
+		if(result != null) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public void deleteBackStageAccountByAccount(String account) {
+		bDao.deleteBackStageAccountByAccount(account);
+	}
+	
+	@Override
+	public BackStageAccount findBackStageAccountByAccount(String account) {
+		BackStageAccount resultBean = bDao.findBackStageAccountByAccount(account);
+		
+		if(resultBean != null) {
+			return resultBean;
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public List<BackStageAccount> findAll(){
+		List<BackStageAccount> list = bDao.findAll();
+		return list;
 	}
 
 }
