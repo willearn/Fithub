@@ -1,9 +1,12 @@
 package com.fithub.model.classroom;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.fithub.model.classes.Classes;
+import com.fithub.model.rentorder.RentOrder;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,11 +14,12 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
+//import lombok.Data;
 
-@Data
+
 @Entity
 @Table(name="classroom")
 public class Classroom {
@@ -33,14 +37,26 @@ public class Classroom {
 	@Column(name="classroomdescription")
 	private String classroomdescription;
 	
-	@Column(name="classroompirce")
-	private int classroompirce;
+	@Column(name="classroomprice")
+	private int classroomprice;
 	
 	@Column(name="classroomstatus")
 	private String classroomstatus;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "classroom")
 	private Set<Classes> classes=new HashSet<Classes>();
+
+	@ManyToMany(mappedBy = "classrooms")
+	private List<RentOrder> rentOrders = new ArrayList<>();
+	
+	
+	public List<RentOrder> getRentOrders() {
+		return rentOrders;
+	}
+
+	public void setRentOrders(List<RentOrder> rentOrders) {
+		this.rentOrders = rentOrders;
+	}
 
 	public Classroom() {
 	}
@@ -77,12 +93,12 @@ public class Classroom {
 		this.classroomdescription = classroomdescription;
 	}
 
-	public int getClassroompirce() {
-		return classroompirce;
+	public int getClassroomprice() {
+		return getClassroomprice();
 	}
 
 	public void setClassroompirce(int classroompirce) {
-		this.classroompirce = classroompirce;
+		this.classroomprice = classroompirce;
 	}
 
 	public String getClassroomstatus() {

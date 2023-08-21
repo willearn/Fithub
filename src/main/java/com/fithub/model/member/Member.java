@@ -1,12 +1,17 @@
 package com.fithub.model.member;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fithub.model.rentorder.RentOrder;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity @Table(name = "member")
@@ -26,6 +31,17 @@ public class Member {
 	private Date memberbirthday;
 	private Date memberaccountsince;
 	
+	@OneToMany(mappedBy = "member")
+	private List<RentOrder> rentOrders = new ArrayList<>();
+	
+	public List<RentOrder> getRentOrders() {
+		return rentOrders;
+	}
+
+	public void setRentOrders(List<RentOrder> rentOrders) {
+		this.rentOrders = rentOrders;
+	}
+
 	public Member() {
 		
 	}
