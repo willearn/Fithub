@@ -6,6 +6,7 @@ import java.util.List;
 import com.fithub.model.classroom.Classroom;
 import com.fithub.model.member.Member;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -41,8 +42,9 @@ public class RentOrder {
 	@JoinColumn(name = "memberid", insertable = false, updatable = false)
 	private Member member;
 
-	@ManyToMany
-	@JoinTable(name = "RentOrderClassroom", joinColumns = @JoinColumn(name = "rentorderid"), inverseJoinColumns = @JoinColumn(name = "classroomid"))
-	private List<Classroom> classroom = new ArrayList<>();
+	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@JoinTable(name = "RentOrderClassroom", joinColumns = 
+		@JoinColumn(name = "rentorderid"), inverseJoinColumns = @JoinColumn(name = "classroomid"))
+	private List<Classroom> classroom = new ArrayList<Classroom>();
 	
 }

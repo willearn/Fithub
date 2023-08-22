@@ -17,8 +17,6 @@ public class RentOrderService implements IRentOrderService {
 		List<RentOrder> result = rentOrderRespo.findAll();
 		return result;
 	}
-
-
 	// 新增單筆
 	@Override
 	public RentOrder insert(RentOrder rentOrder) {
