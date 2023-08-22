@@ -49,7 +49,7 @@ public class Order {
 //	@JoinColumn(name="MEMBERID",insertable = false,updatable = false)
 //	private Member member;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "orderItem")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
 	@JsonIgnore
 	private Set<OrderItem> orderItem = new HashSet<OrderItem>();
 	
