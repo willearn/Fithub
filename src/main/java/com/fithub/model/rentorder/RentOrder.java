@@ -19,6 +19,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 
 //資料庫對應的table
@@ -33,8 +34,9 @@ public class RentOrder {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer rentorderid;
 	
-	@JsonProperty("classroomid")
-	private List<Integer> classroomids; // 使用自定義的變數名稱
+	@Transient							// 不映射資料庫欄位
+	@JsonProperty("classroomid")		// 使用自定義的變數名稱
+	private List<Integer> classroomids;
 	
 	private String rentdate;
 	private String renttime;
@@ -45,9 +47,8 @@ public class RentOrder {
 	@JoinColumn(name = "memberid", insertable = false, updatable = false)
 	private Member member;
 
-	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-	@JoinTable(name = "RentOrderClassroom", joinColumns = 
-		@JoinColumn(name = "rentorderid"), inverseJoinColumns = @JoinColumn(name = "classroomid"))
-	private List<Classroom> classroom = new ArrayList<Classroom>();
+	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
+	@JoinTable(name = "RentOrderClassroom", joinColumns = @JoinColumn(name = "rentorderid"), inverseJoinColumns = @JoinColumn(name = "classroomid"))
+	private List<Classroom> classrooms = new ArrayList<Classroom>();
 	
 }

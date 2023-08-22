@@ -16,7 +16,4 @@ public interface IRentOrderService {
 	// 刪除單筆
 	void deleteById(Integer id);
 
-	// 確認id存在
-	Boolean findById(Integer id);
-
 }

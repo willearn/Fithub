@@ -27,7 +27,7 @@ public class RentOrderService implements IRentOrderService {
 	// 修改單筆
 	@Override
 	public void updateById(RentOrder rentOrder) {
-		Boolean result = findById(rentOrder.getRentorderid());
+		Boolean result = rentOrderRespo.existsById(rentOrder.getRentorderid());
 		if (result) {
 			rentOrderRespo.saveAndFlush(rentOrder);
 		}
@@ -41,12 +41,5 @@ public class RentOrderService implements IRentOrderService {
 		if (result) {
 			rentOrderRespo.deleteById(id);
 		}
-	}
-
-	// 確認id存在
-	@Override
-	public Boolean findById(Integer id) {
-		Boolean result = rentOrderRespo.existsById(id);
-		return result;
 	}
 }

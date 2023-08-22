@@ -51,9 +51,8 @@ public class Classroom {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "classroom")
 	private Set<Classes> classes=new HashSet<Classes>();
 	
-//	@ManyToMany(mappedBy = "classroom")
-	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JsonIgnore
+	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinTable(name = "RentOrderClassroom", joinColumns = 
 	@JoinColumn(name = "classroomid"), inverseJoinColumns = @JoinColumn(name = "rentorderid"))
 	private List<RentOrder> rentOrders = new ArrayList<RentOrder>();
