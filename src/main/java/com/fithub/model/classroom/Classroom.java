@@ -24,14 +24,26 @@ public class Classroom {
 	@Column(name="classroomid")
 	private int classroomId;
 	
-	@Column(name="classroomlocation")
-	private String classroomLocation;
+	@Column(name="classroomname")
+	private String classroomName;
 	
 	@Column(name="classroomcapacity")
 	private int classroomCapacity;
 	
+	@Column(name="classroomdescription")
+	private String classroomDescription;
+	
+	@Column(name="classroomprice")
+	private int classroomPrice;
+	
+	@Column(name="classroomstatus")
+	private String classroomStatus;
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "classroom")
 	private Set<Classes> classes=new HashSet<Classes>();
+
+//	@ManyToMany(mappedBy = "classrooms")
+//	private List<RentOrder> rentOrders = new ArrayList<>();
 	
 	
 }
