@@ -39,7 +39,7 @@ public class Classes {
 	@Column(name="employeeid")
 	private int employeeId;
 
-	@Column(name="applicantceil")
+	@Column(name="applicantsceil")
 	private int applicantsCeil;
 	
 	@Column(name="applicantsfloor")

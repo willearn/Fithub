@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fithub.model.rentorder.RentOrder;
 
 import jakarta.persistence.Column;
@@ -13,8 +14,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
-@Entity @Table(name = "member")
+@Data
+@Entity 
+@Table(name = "member")
 public class Member {
 
 	@Id  @Column(name="memberid")
@@ -31,106 +35,8 @@ public class Member {
 	private Date memberbirthday;
 	private Date memberaccountsince;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "member")
 	private List<RentOrder> rentOrders = new ArrayList<>();
-	
-	public List<RentOrder> getRentOrders() {
-		return rentOrders;
-	}
 
-	public void setRentOrders(List<RentOrder> rentOrders) {
-		this.rentOrders = rentOrders;
-	}
-
-	public Member() {
-		
-	}
-	
-	public Integer getMemberid() {
-		return memberid;
-	}
-
-	public void setMemberid(Integer memberid) {
-		this.memberid = memberid;
-	}
-
-	public String getMemberphoneno() {
-		return memberphoneno;
-	}
-
-	public void setMemberphoneno(String memberphoneno) {
-		this.memberphoneno = memberphoneno;
-	}
-
-	public String getMemberpassword() {
-		return memberpassword;
-	}
-
-	public void setMemberpassword(String memberpassword) {
-		this.memberpassword = memberpassword;
-	}
-
-	public String getMembername() {
-		return membername;
-	}
-
-	public void setMembername(String membername) {
-		this.membername = membername;
-	}
-
-	public String getMembergender() {
-		return membergender;
-	}
-
-	public void setMembergender(String membergender) {
-		this.membergender = membergender;
-	}
-
-	public String getMemberemail() {
-		return memberemail;
-	}
-
-	public void setMemberemail(String memberemail) {
-		this.memberemail = memberemail;
-	}
-
-	public String getMembercity() {
-		return membercity;
-	}
-
-	public void setMembercity(String membercity) {
-		this.membercity = membercity;
-	}
-
-	public String getMemberzone() {
-		return memberzone;
-	}
-
-	public void setMemberzone(String memberzone) {
-		this.memberzone = memberzone;
-	}
-
-	public String getMemberaddress() {
-		return memberaddress;
-	}
-
-	public void setMemberaddress(String memberaddress) {
-		this.memberaddress = memberaddress;
-	}
-
-	public Date getMemberbirthday() {
-		return memberbirthday;
-	}
-
-	public void setMemberbirthday(Date memberbirthday) {
-		this.memberbirthday = memberbirthday;
-	}
-
-	public Date getMemberaccountsince() {
-		return memberaccountsince;
-	}
-
-	public void setMemberaccountsince(Date memberaccountsince) {
-		this.memberaccountsince = memberaccountsince;
-	}
 }

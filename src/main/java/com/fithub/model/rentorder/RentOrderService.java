@@ -18,7 +18,8 @@ public class RentOrderService implements IRentOrderService {
 		return result;
 	}
 
-	// 新增單筆活動
+
+	// 新增單筆
 	@Override
 	public RentOrder insert(RentOrder rentOrder) {
 		RentOrder result = rentOrderRespo.save(rentOrder);
