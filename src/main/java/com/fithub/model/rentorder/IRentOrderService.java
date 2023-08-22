@@ -19,4 +19,6 @@ public interface IRentOrderService {
 	// 確認id存在
 	Boolean findById(Integer id);
 
+	RentOrder createRentOrderWithClassroom(RentOrder rentOrder);
+
 }

@@ -24,7 +24,7 @@ public class RentOrderController {
     // 儲存租借訂單
     @PostMapping("/insert")
     public void insertRentOrder(@RequestBody RentOrder rentOrder) {
-    	iRentOrderService.insert(rentOrder);
+    	iRentOrderService.createRentOrderWithClassroom(rentOrder);
     }
 
     // 列出所有租借訂單
