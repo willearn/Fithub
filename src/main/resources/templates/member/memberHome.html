@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head>
+<meta charset="UTF-8">
+<title>會員資料</title>
+</head>
+<body class="sb-nav-fixed">
+	<!--匯入navbar-->
+	<div th:replace="~{layout/navbar}"></div>
+	
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_content">
+			<div class="container-fluid px-4">
+				<h1 class="mt-4" style="text-align: center;">會員資料</h1>
+				<div class="card mb-4">
+					<div class="card-body table-responsive">
+						<table class="table table-bordered">
+							<thead class="align-middle text-center">
+								<tr class="table-primary">
+									<th>會員編號</th>
+									<th>姓名</th>
+									<th>性別</th>
+									<th>生日</th>
+									<th>手機號碼</th>
+									<th>電子信箱</th>
+									<th>縣市</th>
+									<th>地區</th>
+									<th>地址</th>　
+									<th>修改/刪除</th>
+								</tr>
+							</thead>
+							
+							<tbody class="align-middle text-center">
+								<tr th:each="member : ${members}">
+									<td th:text="${member.memberid}"></td>
+									<td th:text="${member.membername}"></td>
+									<td th:text="${member.membergender}"></td>
+									<td th:text="${member.memberbirthday}"></td>
+									<td th:text="${member.memberphoneno}"></td>
+									<td th:text="${member.memberemail}"></td>
+									<td th:text="${member.membercity}"></td>
+									<td th:text="${member.memberzone}"></td>
+									<td th:text="${member.memberaddress}"></td>
+									<td>
+										<form th:action="@{/members/update}" method="post">
+                							<input type="hidden" th:value="${member.memberid}" name="id" />
+                							<button type="submit" class="btn btn-outline-info">修改</button>
+            							</form>
+										<!-- 增加刪除按鈕 -->
+										<form th:action="@{/members/delete}" method="post">
+               								<input type="hidden" th:value="${member.memberid}" name="id" />
+                							<button type="submit" class="btn btn-outline-danger">刪除</button>
+            							</form>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+							
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

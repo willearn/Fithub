@@ -17,6 +17,8 @@ public interface IMemberService {
 	void deleteById(Integer id);
 
 	// 確認id存在
-	Boolean findById(Integer id);
+//	Boolean findById(Integer id);
+	
+	public Member findById(Integer id);
 
 }
