@@ -30,11 +30,14 @@ public class RentOrderController {
     // 儲存租借訂單
     @PostMapping("/insert")
     public void insertRentOrder(@RequestBody RentOrder rentOrder) {
-    	List<Classroom> classroom= new ArrayList<Classroom>();
-    	System.out.println(rentOrder.getClassroomid());
-    	classroom.add(classroomService.findById(rentOrder.getClassroomid()));
-    	rentOrder.setClassroom(classroom);
-    	iRentOrderService.insert(rentOrder);
+    	List<Integer> classroomIds = rentOrder.getClassroomids();
+    	for(Integer classroomid :classroomIds)
+    	System.out.println(classroomid);
+//    	List<Classroom> classroom= new ArrayList<Classroom>();
+//    	System.out.println(rentOrder.getClassroomid());
+//    	classroom.add(classroomService.findById(rentOrder.getClassroomid()));
+//    	rentOrder.setClassroom(classroom);
+//    	iRentOrderService.insert(rentOrder);
     }
 
     // 列出所有租借訂單
