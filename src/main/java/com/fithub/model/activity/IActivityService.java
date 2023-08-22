@@ -21,9 +21,6 @@ public interface IActivityService {
 	// 修改單筆
 	void updateById(Activity activity);
 
-	// 確認id存在
-	Boolean findById(Integer id);
-
 	Long countData();
 
 	// 查詢分頁
