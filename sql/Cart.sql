@@ -8,3 +8,4 @@ create table Cart(
 
 ALTER TABLE Cart
 ADD CONSTRAINT FK__Cart__Classes FOREIGN KEY (classid) REFERENCES Classes(classid);
+

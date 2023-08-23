@@ -6,3 +6,7 @@ create table ClassesSet(
 	classesSetName nvarchar(50) not null,
 	classesDescription nvarchar(250)
 );
+
+
+ALTER TABLE ClassesSet
+ADD CONSTRAINT FK__ClassesSet__Coupon FOREIGN KEY (couponId) REFERENCES Coupon(couponId);

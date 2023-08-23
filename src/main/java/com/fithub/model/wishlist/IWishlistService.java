@@ -17,7 +17,7 @@ public interface IWishlistService {
 	public void deleteById(Integer id);
 
 	// 確認id存在
-	public Wishlist exitsById(Integer id);
+	public Boolean exitsById(Integer id);
 	
 	// 查詢單筆
 	public Wishlist findById(Integer id);
