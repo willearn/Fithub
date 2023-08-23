@@ -60,11 +60,8 @@ public class CourseController {
 	@ResponseBody
 	public Boolean processDeleteAction(@PathVariable("cid") int cid) {
 		boolean msg=cService.deleteById(cid);
-		if (msg) {
-			return true;
-		}
-			return false;
-				
+		return msg ?  true :  false ;
+						
 	}
 	
 	
