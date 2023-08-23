@@ -11,10 +11,10 @@ public interface IOrderService {
 	public Order insert(Order order);
 
 	// 修改單筆
-	public void updateById(Order order);
+	public Boolean updateById(Order order);
 
 	// 刪除單筆
-	public void deleteById(Integer id);
+	public Boolean deleteById(Integer id);
 
 	// 確認id存在
 	public Boolean exitsById(Integer id);

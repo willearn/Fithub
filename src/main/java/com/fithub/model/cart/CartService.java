@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CartService implements ICartService {
 
 	@Autowired
@@ -22,20 +24,24 @@ public class CartService implements ICartService {
 	}
 
 	@Override
-	public void updateById(Cart cart) {
+	public Boolean updateById(Cart cart) {
 		Boolean result = exitsById(cart.getCartId());
 		if (result) {
 			cartRepo.saveAndFlush(cart);
+			return true;
 		}
+		return false;
 	}
 
 	@Override
-	public void deleteById(Integer id) {
+	public Boolean deleteById(Integer id) {
 		Boolean result = cartRepo.existsById(id);
 
 		if (result) {
 			cartRepo.deleteById(id);
+			return true;
 		}
+		return false;
 	}
 
 	@Override

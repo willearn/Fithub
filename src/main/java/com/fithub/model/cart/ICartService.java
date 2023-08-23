@@ -11,10 +11,10 @@ public interface ICartService {
 	public Cart insert(Cart cart);
 
 	// 修改單筆
-	public void updateById(Cart cart);
+	public Boolean updateById(Cart cart);
 
 	// 刪除單筆
-	public void deleteById(Integer id);
+	public Boolean deleteById(Integer id);
 
 	// 確認id存在
 	public Boolean exitsById(Integer id);

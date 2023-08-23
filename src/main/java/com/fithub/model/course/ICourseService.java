@@ -11,10 +11,10 @@ public interface ICourseService {
 	public Course insert(Course course);
 
 	// 修改單筆
-	public void updateById(Course course);
+	public Boolean updateById(Course course);
 
 	// 刪除單筆
-	public void deleteById(Integer id);
+	public Boolean deleteById(Integer id);
 
 	// 確認id存在
 	public Boolean exitsById(Integer id);

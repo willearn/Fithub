@@ -11,10 +11,10 @@ public interface IClassesService {
 	public Classes insert(Classes classes);
 
 	// 修改單筆
-	public void updateById(Classes classes);
+	public Boolean updateById(Classes classes);
 
 	// 刪除單筆
-	public void deleteById(Integer id);
+	public Boolean deleteById(Integer id);
 
 	// 確認id存在
 	public Boolean exitsById(Integer id);

@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class OrderItemService implements IOrderItemService {
 
 	@Autowired
@@ -23,20 +25,24 @@ public class OrderItemService implements IOrderItemService {
 	}
 
 	@Override
-	public void updateById(OrderItem orderItem) {
+	public Boolean updateById(OrderItem orderItem) {
 		Boolean result = exitsById(orderItem.getOrderId());
 		if (result) {
 			orderItemRepo.saveAndFlush(orderItem);
+			return true;
 		}
+		return false;
 	}
 
 	@Override
-	public void deleteById(Integer id) {
+	public Boolean deleteById(Integer id) {
 		Boolean result = orderItemRepo.existsById(id);
 
 		if (result) {
 			orderItemRepo.deleteById(id);
+			return true;
 		}
+		return false;
 	}
 
 	@Override

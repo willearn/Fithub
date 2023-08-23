@@ -11,10 +11,10 @@ public interface ICourseCategoriesService {
 	public CourseCategories insert(CourseCategories courseCategories);
 
 	// 修改單筆
-	public void updateById(CourseCategories courseCategories);
+	public Boolean updateById(CourseCategories courseCategories);
 
 	// 刪除單筆
-	public void deleteById(Integer id);
+	public Boolean deleteById(Integer id);
 
 	// 確認id存在
 	public Boolean exitsById(Integer id);

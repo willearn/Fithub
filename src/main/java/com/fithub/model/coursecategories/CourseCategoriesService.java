@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CourseCategoriesService implements ICourseCategoriesService {
 
 	@Autowired
@@ -21,20 +23,25 @@ public class CourseCategoriesService implements ICourseCategoriesService {
 	}
 
 	@Override
-	public void updateById(CourseCategories courseCategories) {
+	public Boolean updateById(CourseCategories courseCategories) {
 		Boolean result = exitsById(courseCategories.getCategoryId());
 		if (result) {
 			courseCategoriesRepo.saveAndFlush(courseCategories);
+			return true;
 		}
+		return false;
 	}
 
 	@Override
-	public void deleteById(Integer id) {
+	public Boolean deleteById(Integer id) {
 		Boolean result = courseCategoriesRepo.existsById(id);
 
 		if (result) {
 			courseCategoriesRepo.deleteById(id);
+			return true;
 		}
+		return false;
+
 	}
 
 	@Override
