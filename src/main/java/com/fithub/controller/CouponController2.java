@@ -17,52 +17,52 @@ import com.fithub.model.coupon.Coupon;
 import com.fithub.model.coupon.CouponService;
 
 @RestController
-@RequestMapping("/coupons")
+@RequestMapping("/coupons2")
 public class CouponController2 {
 
-    @Autowired
-	private CouponService couponService;
-
-    @GetMapping
-    public ResponseEntity<List<Coupon>> getAllCoupons() {
-        List<Coupon> coupons = couponService.getAllCoupons();
-        return ResponseEntity.ok(coupons);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Coupon> getCouponById(@PathVariable Integer id) {
-        Coupon coupon = couponService.getCouponById(id);
-        if (coupon != null) {
-            return ResponseEntity.ok(coupon);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @PostMapping
-    public ResponseEntity<Void> createCoupon(@RequestBody Coupon coupon) {
-        couponService.saveCoupon(coupon);
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> updateCoupon(@PathVariable Integer id, @RequestBody Coupon coupon) {
-        if (couponService.getCouponById(id) != null) {
-            coupon.setCouponid(id);
-            couponService.saveCoupon(coupon);
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCoupon(@PathVariable Integer id) {
-        if (couponService.getCouponById(id) != null) {
-            couponService.deleteCouponById(id);
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+//    @Autowired
+//	private CouponService couponService;
+//
+//    @GetMapping
+//    public ResponseEntity<List<Coupon>> getAllCoupons() {
+//        List<Coupon> coupons = couponService.getAllCoupons();
+//        return ResponseEntity.ok(coupons);
+//    }
+//
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Coupon> getCouponById(@PathVariable Integer id) {
+//        Coupon coupon = couponService.getCouponById(id);
+//        if (coupon != null) {
+//            return ResponseEntity.ok(coupon);
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
+//
+//    @PostMapping
+//    public ResponseEntity<Void> createCoupon(@RequestBody Coupon coupon) {
+//        couponService.saveCoupon(coupon);
+//        return ResponseEntity.ok().build();
+//    }
+//
+//    @PutMapping("/{id}")
+//    public ResponseEntity<Void> updateCoupon(@PathVariable Integer id, @RequestBody Coupon coupon) {
+//        if (couponService.getCouponById(id) != null) {
+//            coupon.setCouponid(id);
+//            couponService.saveCoupon(coupon);
+//            return ResponseEntity.ok().build();
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Void> deleteCoupon(@PathVariable Integer id) {
+//        if (couponService.getCouponById(id) != null) {
+//            couponService.deleteCouponById(id);
+//            return ResponseEntity.ok().build();
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 }

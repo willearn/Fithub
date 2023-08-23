@@ -1,7 +1,8 @@
 package com.fithub.model.coupon;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fithub.model.couponcatagories.CouponCatagories;
+import com.fithub.model.couponcategories.CouponCategories;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,8 +24,8 @@ public class Coupon {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer couponid;
     
-    @Column(name = "couponcatagoriesid", insertable = false, updatable = false)
-    private Integer couponcatagoriesid;
+    @Column(name = "couponcategoriesid")
+    private Integer couponcategoriesid;
     
     private String couponname;
     private String couponstate;
@@ -36,11 +37,12 @@ public class Coupon {
     private String couponceil;
     private String couponused;
     private String couponthreshold;
-
+    
+    
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "couponcatagoriesid")
-    private CouponCatagories couponCatagories;
+    @JoinColumn(name = "couponcategoriesid", insertable = false, updatable = false)
+    private CouponCategories CouponCategories;
 
     public Coupon() {
     }

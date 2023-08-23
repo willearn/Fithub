@@ -1,8 +1,9 @@
-package com.fithub.model.couponcatagories;
+package com.fithub.model.couponcategories;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fithub.model.coupon.Coupon;
 
 import jakarta.persistence.CascadeType;
@@ -17,19 +18,20 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "couponcatagories")
-public class CouponCatagories {
+@Table(name = "couponcategories")
+public class CouponCategories {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "couponcatagoriesid")
-    private Integer couponcatagoriesid;
+    @Column(name = "couponcategoriesid")
+    private Integer couponcategoriesid;
 
-    private String couponcatagoriesname;
-
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "couponCatagories")
+    private String couponcategoriesname;
+    
+    
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "CouponCategories")
     private List<Coupon> coupons = new ArrayList<>(); 
 
-    public CouponCatagories() {
+    public CouponCategories() {
         
     }
 }
