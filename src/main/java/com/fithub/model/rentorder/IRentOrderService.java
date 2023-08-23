@@ -15,10 +15,9 @@ public interface IRentOrderService {
 
 	// 刪除單筆
 	void deleteById(Integer id);
+	
+	// 刪除多筆
+	void deleteAllById(Iterable<Integer> selectIds);
 
-	// 確認id存在
-	Boolean findById(Integer id);
-
-	RentOrder createRentOrderWithClassroom(RentOrder rentOrder);
 
 }

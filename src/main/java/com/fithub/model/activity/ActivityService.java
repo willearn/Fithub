@@ -49,18 +49,12 @@ public class ActivityService implements IActivityService {
 	// 修改單筆
 	@Override
 	public void updateById(Activity activity) {
-		Boolean result = findById(activity.getActivityid());
+		Boolean result = activityRepo.existsById(activity.getActivityid());
 		if(result) {
 			activityRepo.saveAndFlush(activity);
 		}
 	}
 
-	// 確認id存在
-	@Override
-	public Boolean findById(Integer id) {
-		Boolean result = activityRepo.existsById(id);
-		return result;
-	}
 	
 	@Override
 	public Long countData() {

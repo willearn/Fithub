@@ -3,6 +3,7 @@ package com.fithub.model.rentorder;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fithub.model.classroom.Classroom;
 import com.fithub.model.member.Member;
 
@@ -18,6 +19,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 
 //資料庫對應的table
@@ -31,19 +33,24 @@ public class RentOrder {
 	@Column(name = "rentorderid")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer rentorderid;
-
+	
+	@Transient							// 不映射資料庫欄位
+	@JsonProperty("classroomid")		// 使用自定義的變數名稱
+	private List<Integer> classroomids;
+	
 	private String rentdate;
 	private String renttime;
 	private String rentstatus;
 	private Integer memberid;
-	private Integer classroomid;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "memberid", insertable = false, updatable = false)
 	private Member member;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+
+	
+	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
 	@JoinTable(name = "RentOrderClassroom", joinColumns = @JoinColumn(name = "rentorderid"), inverseJoinColumns = @JoinColumn(name = "classroomid"))
-	private List<Classroom> classroom = new ArrayList<>();
+	private List<Classroom> classrooms = new ArrayList<Classroom>();
 	
 }

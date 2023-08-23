@@ -28,7 +28,7 @@ public class AnnouncementService implements IAnnouncementService {
 	// 修改單筆
 	@Override
 	public void updateById(Announcement announcement) {
-		Boolean result = findById(announcement.getAnnid());
+		Boolean result = annRepository.existsById(announcement.getAnnid());
 		if (result) {
 			annRepository.saveAndFlush(announcement);
 		}
@@ -43,10 +43,5 @@ public class AnnouncementService implements IAnnouncementService {
 		}
 	}
 
-	// 確認id存在
-	@Override
-	public Boolean findById(Integer id) {
-		Boolean result = annRepository.existsById(id);
-		return result;
-	}
+
 }

@@ -28,7 +28,7 @@ public class CoachPicService implements ICoachPicService {
 	// 修改單筆
 	@Override
 	public void updateById(CoachPic coachPic) {
-		Boolean result = findById(coachPic.getCpicid());
+		Boolean result = cPicRespository.existsById(coachPic.getCpicid());
 		if (result) {
 			cPicRespository.saveAndFlush(coachPic);
 		}
@@ -43,10 +43,4 @@ public class CoachPicService implements ICoachPicService {
 		}
 	}
 
-	// 確認id存在
-	@Override
-	public Boolean findById(Integer id) {
-		Boolean result = cPicRespository.existsById(id);
-		return result;
-	}
 }
