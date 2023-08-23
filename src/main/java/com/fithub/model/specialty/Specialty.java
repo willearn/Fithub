@@ -1,11 +1,9 @@
-package com.fithub.model.department;
+package com.fithub.model.specialty;
 
 import java.util.HashSet;
 import java.util.Set;
 
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fithub.model.employee.Employee;
+import com.fithub.model.coachspecialty.CoachSpecialty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,18 +16,15 @@ import lombok.Data;
 
 @Data
 @Entity 
-@Table(name="department")
-public class Department {
+@Table(name="specialty")
+public class Specialty {
 
-	@Id @Column(name="DEPTID")
+	@Id
+	@Column(name="SPECIALTYID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer deptid;
-	private String deptname;
+	private Integer specialtyid;
 	
-	
-	@OneToMany(mappedBy = "department")
-	@JsonBackReference
-	private Set<Employee> employee = new HashSet<Employee>();
+	private String specialtyname;
 	
 
 }

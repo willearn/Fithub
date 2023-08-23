@@ -15,8 +15,11 @@ public class EmployeeService implements IEmployeeService{
 	private EmployeeDAO eDao;
 
 	public boolean insert(Employee eBean) {
-		Employee emp = eDao.save(eBean);
-		return true;
+		Employee resultBean = eDao.save(eBean);
+		if(resultBean != null) {
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean update(Employee eBean) {

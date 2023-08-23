@@ -20,8 +20,10 @@ public class DepartmentService implements IDepartmentService{
 		Department result = dDao.findDepartmentByName(dBean.getDeptname());
 		
 		if(result == null) {
-			dDao.save(dBean);
-			return true;
+			Department resultBean = dDao.save(dBean);
+			if(resultBean != null) {
+				return true;
+			}
 		}
 		return false;
 
@@ -37,7 +39,6 @@ public class DepartmentService implements IDepartmentService{
 			if(resultBean!=null) {
 				return true;
 			}
-			return false;
 		}
 		return false;
 	}

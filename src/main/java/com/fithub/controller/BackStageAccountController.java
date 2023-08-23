@@ -60,7 +60,9 @@ public class BackStageAccountController {
 		
 		if(bService.findBackStageAccountByAccount(account) != null) {
 			boolean result = bService.update(bBean);
-			return new ResponseEntity<>(HttpStatus.OK);
+			if(result) {
+				return new ResponseEntity<>(HttpStatus.OK);
+			}
 		}
 		
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

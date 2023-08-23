@@ -20,8 +20,10 @@ public class BackStageAccountService implements IBackStageAccountService{
 		BackStageAccount result = bDao.findBackStageAccountByAccount(bBean.getEmployeeaccount());
 		
 		if(result == null) {
-			bDao.save(bBean);
-			return true;
+			BackStageAccount resultBean = bDao.save(bBean);
+			if(resultBean != null) {
+				return true;
+			}
 		}
 		
 		return false;
