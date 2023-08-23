@@ -26,24 +26,25 @@ public class ClassroomController {
 
 	// 列出所有教室
 	@GetMapping("/list")
-	public List<Classroom> findAllRentOrders() {
+	public List<Classroom> findAllClassrooms() {
 		return iclassroomService.findAll();
 	}
 
 	// 新增教室
 	@PostMapping("/insert")
-	public void insertRentOrder(@RequestBody Classroom classroom) {
-		
+	public void insertClassroom(@RequestBody Classroom classroom) {
+		iclassroomService.insert(classroom);
 	}
 
 	// 修改教室
 	@PutMapping("/update")
-	public void updateRentOrder(@RequestBody Classroom classroom) {
+	public void updateClassroom(@RequestBody Classroom classroom) {
+		iclassroomService.updateById(classroom);
 	}
 
 	// 刪除教室
 	@DeleteMapping("/delete/{id}")
-	public void deleteRentOrder(@PathVariable("id") int id) {
+	public void deleteClassroom(@PathVariable("id") int id) {
 		iclassroomService.deleteById(id);
 	}
 

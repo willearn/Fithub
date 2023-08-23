@@ -30,11 +30,8 @@ public class Classes {
 	@Column(name="classdate")
 	private String classDate;
 
-	@Column(name="classtimesince")
-	private String classTimeSince;
-
-	@Column(name="classtimeend")
-	private String classTimeEnd;
+	@Column(name="classtime")
+	private String classTime;
 
 	@Column(name="employeeid")
 	private int employeeId;

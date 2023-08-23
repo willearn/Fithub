@@ -11,17 +11,18 @@ public class ClassroomService implements IClassroomService {
 
 	@Autowired
 	private ClassroomRepository classroomRepo;
-	
+
 	@Override
 	public List<Classroom> findAll() {
 		List<Classroom> result = classroomRepo.findAll();
-		return result;	
+		return result;
 	}
 
 	@Override
 	public Classroom insert(Classroom classroom) {
 		Classroom result = classroomRepo.save(classroom);
-		return result;	}
+		return result;
+	}
 
 	@Override
 	public void updateById(Classroom classroom) {
@@ -45,7 +46,7 @@ public class ClassroomService implements IClassroomService {
 		Optional<Classroom> result = classroomRepo.findById(id);
 		return result.get();
 	}
-	
+
 	// 確認id存在
 	@Override
 	public Boolean exitsById(Integer id) {
