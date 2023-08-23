@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fithub.model.cart.Cart;
+import com.fithub.model.classesset.ClassesSet;
 import com.fithub.model.classroom.Classroom;
 import com.fithub.model.course.Course;
 import com.fithub.model.employee.Employee;
@@ -83,15 +84,18 @@ public class Classes {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "classes")
 	private Set<Cart> cart=new HashSet<Cart>();
-
-//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "classes")
-//	private Set<ClassesSet> classesSet=new HashSet<ClassesSet>();
 	
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinTable(name = "OrderItem", joinColumns = 
 	@JoinColumn(name = "classid"), inverseJoinColumns = @JoinColumn(name = "orderid"))
 	private List<Order> order = new ArrayList<Order>();
+
+	@JsonIgnore
+	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@JoinTable(name = "ClassesSetItem", joinColumns = 
+	@JoinColumn(name = "classid"), inverseJoinColumns = @JoinColumn(name = "classessetid"))
+	private List<ClassesSet> classesSet = new ArrayList<ClassesSet>();
 	
 	
 }
