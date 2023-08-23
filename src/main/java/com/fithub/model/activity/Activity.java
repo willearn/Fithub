@@ -1,6 +1,5 @@
 package com.fithub.model.activity;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,19 +18,19 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-
 //資料庫對應的table
-@Entity 
-@Table(name="Activity")
+@Entity
+@Table(name = "Activity")
 public class Activity {
-	
-	//設定主鍵
-	@Id @Column(name="activityid")
+
+	// 設定主鍵
+	@Id
+	@Column(name = "activityid")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer activityid;
-	
+
 	private Integer employeeid;
-	
+
 	private String activityname;
 	private String activitydescription;
 	private String activitydate;
@@ -40,16 +39,21 @@ public class Activity {
 	private String activityon;
 	private String activityoff;
 	private Integer activitysort;
-	 
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="employeeid",insertable = false,updatable = false)
+	@JoinColumn(name = "employeeid", insertable = false, updatable = false)
 	private Employee employee;
-	
-	//設定關聯實體執行那些操作
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "activity")
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "activity")
 	private List<ActivityPic> activitypic = new ArrayList<>();
-	
+
+	public List<ActivityPic> getActivitypic() {
+		return activitypic;
+	}
+
+	public void setActivitypic(List<ActivityPic> activitypic) {
+		this.activitypic = activitypic;
+	}
 
 	public Activity() {
 	}
@@ -130,7 +134,7 @@ public class Activity {
 		return activitysort;
 	}
 
-	public void setActivitysort(int activitysort) {
+	public void setActivitysort(Integer activitysort) {
 		this.activitysort = activitysort;
 	}
 
@@ -141,14 +145,4 @@ public class Activity {
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
 	}
-	
-	public List<ActivityPic> getActivitypic() {
-		return activitypic;
-	}
-
-
-	public void setActivitypic(List<ActivityPic> activitypic) {
-		this.activitypic = activitypic;
-	}
-	
 }

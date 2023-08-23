@@ -2,9 +2,9 @@ package com.fithub.model.activitypic;
 
 import com.fithub.model.activity.Activity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,40 +14,40 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="Activitypic")
+@Table(name = "Activitypic")
 public class ActivityPic {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
-	private Integer id;
-	
+	@Column(name = "apicid")
+	private Integer apicid;
+
 	@Lob
-	@Column(name="photofile")
-	private byte[] photofile;
-	
-	@ManyToOne
-	@JoinColumn(name="activityid")
-    private Activity activity;
-	
+	@Column(name = "apicfile")
+	private byte[] apicfile;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "activityid")
+	private Activity activity;
+
 	public ActivityPic() {
-		super();
+
 	}
 
-	public Integer getId() {
-		return id;
+	public Integer getApicid() {
+		return apicid;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setApicid(Integer apicid) {
+		this.apicid = apicid;
 	}
 
-	public byte[] getPhotofile() {
-		return photofile;
+	public byte[] getApicfile() {
+		return apicfile;
 	}
 
-	public void setPhotofile(byte[] photofile) {
-		this.photofile = photofile;
+	public void setApicfile(byte[] apicfile) {
+		this.apicfile = apicfile;
 	}
 
 	public Activity getActivity() {
@@ -58,7 +58,4 @@ public class ActivityPic {
 		this.activity = activity;
 	}
 
-	
-	
 }
-

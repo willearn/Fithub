@@ -16,10 +16,27 @@
 				<h1 class="mt-4" style="text-align: center;">全部活動</h1>
 				<div class="card mb-4">
 					<div class="card-body table-responsive">
+						<!--選擇顯示幾筆-->
+						<form id="selectedForm" th:action="@{/activity/page}" method="get">
+							<input type="hidden" id="selectedValue" name="selectedValue" />
+							<select style="width: 60px;margin-bottom: 20px;" class="form-select-sm" id="select">
+								<option value="1">1</option>
+								<option value="5">5</option>
+								<option value="10">10</option>
+								<option value="15">15</option>
+								<option value="20">20</option>
+								<option value="25">25</option>
+							</select>
+						</form>
+
 						<table class="table table-bordered">
 							<thead class="align-middle text-center">
 								<tr class="table-primary">
-									<th><button class="btn btn-outline-danger" id="deleteActivitys">刪除</button></th>
+
+									<th>
+										<input type="checkbox" id="selectAllCheckbox">
+										<button class="btn btn-outline-danger" id="deleteActivitys">刪除</button>
+									</th>
 									<th>名稱</th>
 									<th>內容</th>
 									<th>活動日期</th>
@@ -33,108 +50,162 @@
 									<th>修改</th>
 								</tr>
 							</thead>
-							
-							<tbody class="align-middle">
-								<tr th:each="activity : ${page.content}">
-									<form th:action="@{/activity/delete}" th:method="delete" id="deleteForm">
-										<td><input type="checkbox" class="form-check-input" name="selectId"
-												th:value="${activity.activityid}"></td>
-									</form>
-									<td th:text="${activity} ? ${activity.activityname}"></td>
-									<td th:text="${activity} ? ${activity.activitydescription}"></td>
-									<td th:text="${activity} ? ${activity.activitydate}"></td>
-									<td><a target="_blank" th:href="${activity.activityurl}">[[${activity.activityurl}]]</a></td>
-									<td th:text="${activity} ? ${activity.activitydisplay}"></td>
-									<td th:text="${activity} ? ${activity.employee.employeename}"></td>
-									<td th:text="${activity} ? ${activity.activityon}"></td>
-									<td th:text="${activity} ? ${activity.activityoff}"></td>
-									<td th:text="${activity} ? ${activity.activitysort}"></td>
-									<td><button class="btn btn-outline-success">預覽</button></td>
 
-									<!--修改-->
-									<form th:action="@{/activity/update}" method="post">
-										<input type="hidden" name="activityid" th:value="${activity.activityid}" />
-										<input type="hidden" name="activityname" th:value="${activity.activityname}" />
-										<input type="hidden" name="activitydescription" th:value="${activity.activitydescription}" />
-										<input type="hidden" name="activitydate" th:value="${activity.activitydate}" />
-										<input type="hidden" name="activityurl" th:value="${activity.activityurl}" />
-										<input type="hidden" name="activitydisplay" th:value="${activity.activitydisplay}" />
-										<input type="hidden" name="employeeid" th:value="${activity.employeeid}" />
-										<input type="hidden" name="activityon" th:value="${activity.activityon}" />
-										<input type="hidden" name="activityoff" th:value="${activity.activityoff}" />
-										<input type="hidden" name="activitysort" th:value="${activity.activitysort}" />
-										<input type="hidden" name="empName" th:value="${activity.employee.employeename}" />
-										<td><button type="submit" class="btn btn-outline-info">修改</button></td>
-									</form>
-								</tr>
+							<tbody class="align-middle">
+								<th:block th:each="activity : ${page.content}">
+									<tr>
+										<form th:action="@{/activity/delete}" th:method="delete" id="deleteForm">
+											<td class="center"><input type="checkbox" class="form-check-input"
+													name="select" th:value="${activity.activityid}"></td>
+											<!--傳被選取id值-->
+											<input type="hidden" id="selectIdInput" name="selectId">
+										</form>
+										<td class="center" th:text="${activity} ? ${activity.activityname}"></td>
+										<td th:text="${activity} ? ${activity.activitydescription}"></td>
+										<td class="center" th:text="${activity} ? ${activity.activitydate}"></td>
+										<td class="center"><a target="_blank"
+												th:href="${activity.activityurl}">[[${activity.activityurl}]]</a></td>
+										<td class="center" th:text="${activity} ? ${activity.activitydisplay}"></td>
+										<td class="center" th:text="${activity} ? ${activity.employee.employeename}">
+										</td>
+										<td class="center" th:text="${activity} ? ${activity.activityon}"></td>
+										<td class="center" th:text="${activity} ? ${activity.activityoff}"></td>
+										<td class="center" th:text="${activity} ? ${activity.activitysort}"></td>
+										<td class="center"><button class="btn btn-outline-success">預覽</button></td>
+
+										<!--修改-->
+										<form th:action="@{/activity/update}" method="post">
+											<input type="hidden" name="activityid" th:value="${activity.activityid}" />
+											<input type="hidden" name="activityname"
+												th:value="${activity.activityname}" />
+											<input type="hidden" name="activitydescription"
+												th:value="${activity.activitydescription}" />
+											<input type="hidden" name="activitydate"
+												th:value="${activity.activitydate}" />
+											<input type="hidden" name="activityurl"
+												th:value="${activity.activityurl}" />
+											<input type="hidden" name="activitydisplay"
+												th:value="${activity.activitydisplay}" />
+											<input type="hidden" name="employeeid" th:value="${activity.employeeid}" />
+											<input type="hidden" name="activityon" th:value="${activity.activityon}" />
+											<input type="hidden" name="activityoff"
+												th:value="${activity.activityoff}" />
+											<input type="hidden" name="activitysort"
+												th:value="${activity.activitysort}" />
+											<input type="hidden" name="empName"
+												th:value="${activity.employee.employeename}" />
+											<td class="center"><button type="submit"
+													class="btn btn-outline-info">修改</button></td>
+										</form>
+									</tr>
+								</th:blocK>
 							</tbody>
 						</table>
-						
+
+						<p th:text="${'全部 '+countData+' 筆資料'}"></p>
+
 						<ul class="pagination">
-							<!--上一頁按鈕-->
-							<th:block th:switch="${page.number != 0}">
-								<li th:case="${true}" class="page-item">
-									<a class="page-link" th:href="@{/activity/page?(p=${page.number})}">上一頁</a>
-								</li>
-								<li th:case="${false}" class="page-item disable">
-									<span class="page-link">上一頁</span>
-								</li>
-							</th:block>
-
-							<!--頁數-->
-							<th:block th:each=" pageNumber : ${#numbers.sequence(1,page.totalPages)}">
-								<th block th:switch="${page.Number == pageNumber -1}">
-									<li>
-										<a th:case="${true}" class="page-link active"
-											th:href="@{/activity/page?(p=${pageNumber})}">[[${pageNumber}]]</a>
+							<th:block th:if="${page.totalPages != 0}">
+								<!--上一頁按鈕-->
+								<th:block th:switch="${page.number != 0}">
+									<li th:case="${true}" class="page-item">
+										<a class="page-link" th:href="@{/activity/page?(p=${page.number})}">上一頁</a>
 									</li>
-									<li>
-										<a th:case="${false}" class="page-link"
-											th:href="@{/activity/page?(p=${pageNumber})}">[[${pageNumber}]]</a>
+									<li th:case="${false}" class="page-item disable">
+										<span class="page-link">上一頁</span>
 									</li>
-							</th:block>
-							</th:block>
+								</th:block>
 
-							<!--下一頁按鈕-->
-							<th:block th:switch="${page.number != page.totalPages -1}">
-								<li th:case="${true}" class="page-item">
-									<a class="page-link" th:href="@{/activity/page?(p=${page.number + 2})}">下一頁</a>
-								</li>
-								<li th:case="${false}" class="page-item disable">
-									<span class="page-link">下一頁</span>
-								</li>
-							</th:block>
+								<!--頁數-->
+								<th:block th:each=" pageNumber : ${#numbers.sequence(1,page.totalPages)}">
+
+									<th block th:switch="${page.Number == pageNumber -1}">
+										<li>
+											<a th:case="${true}" class="page-link active"
+												th:href="@{/activity/page?(p=${pageNumber})}">[[${pageNumber}]]</a>
+										</li>
+										<li>
+											<a th:case="${false}" class="page-link"
+												th:href="@{/activity/page?(p=${pageNumber})}">[[${pageNumber}]]</a>
+										</li>
+								</th:block>
+
+								<!--下一頁按鈕-->
+								<th:block th:switch="${page.number != page.totalPages -1}">
+									<li th:case="${true}" class="page-item">
+										<a class="page-link" th:href="@{/activity/page?(p=${page.number + 2})}">下一頁</a>
+									</li>
+									<li th:case="${false}" class="page-item disable">
+										<span class="page-link">下一頁</span>
+									</li>
+								</th:block>
 						</ul>
+						</th:block>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<script th:src="@{/js/activity.js}"></script>
-	
+
 	<script>
 		const deleteButton = document.querySelector('#deleteActivitys');
-		
-		deleteButton.addEventListener('click', (event) => {
-			let checkboxes = document.querySelectorAll('input[name="selectId"]:checked');
-			// 勾選的checkbox值放入陣列
-			let selectId = [];
-			checkboxes.forEach((checkbox) => {
-				selectId.push(checkbox.value);
-			});
-			let selectIdInput = document.createElement('input');
-			selectIdInput.type = 'hidden';
-			selectIdInput.name = 'selectId';
-			// selectId值放入隱藏的input元素中  .join 將陣列合成一個字串 
-			selectIdInput.value = selectId.join(',');
-			document.getElementById('deleteForm').appendChild(selectIdInput);
 
-			// 提交表單
-			 if (deleteMessage()) {
-            document.getElementById('deleteForm').submit();
-        	}
+		//多筆刪除勾選的活動
+		deleteButton.addEventListener('click', (event) => {
+			let checkboxes = document.querySelectorAll('input[name="select"]:checked');
+			// 勾選的checkbox值放入字串中，以逗號分隔
+			let select = '';
+
+			checkboxes.forEach((checkbox, index) => {
+				// 如果不是第一個值，則在前面加上逗號
+				if (index > 0) {
+					select += ',';
+				}
+				select += checkbox.value;
+			});
+
+			let selectIdInput = document.getElementById('selectIdInput');
+			// selectId值放入隱藏的input元素中
+			selectIdInput.value = select;
+
+			//判斷是否有勾選
+			if (select !== '') {
+				// 提交表單
+				if (deleteMessage()) {
+					document.getElementById('deleteForm').submit();
+				}
+			}
 		});
-		
+
+		//每頁顯示幾筆
+		document.getElementById('select').addEventListener('change', function () {
+			var selectValue = this.value;
+			console.log('Selected value: ' + selectValue);
+			document.getElementById('select').value = selectValue;
+			document.getElementById('selectedValue').value = selectValue;
+			document.getElementById('selectedForm').submit();
+		});
+
+		//全選
+		const selectAllcheckbox = document.querySelector('#selectAllCheckbox')
+		const checkboxes = document.querySelectorAll('.form-check-input');
+
+		selectAllcheckbox.addEventListener('change', function () {
+
+			const isChecked = selectAllCheckbox.checked;
+
+			for (const checkbox of checkboxes) {
+				checkbox.checked = isChecked;
+			}
+		});
+
+		const tdElements = document.querySelectorAll('.center');
+		for (i = 0; i < tdElements.length; i++) {
+			tdElements[i].style.textAlign = 'center';
+		}
+
+
 	</script>
 </body>
 
