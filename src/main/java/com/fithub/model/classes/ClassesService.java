@@ -25,7 +25,7 @@ public class ClassesService implements IClassesService {
 	}
 
 	@Override
-	public Boolean updateById(Classes classes) {
+	public Boolean update(Classes classes) {
 		Boolean result = exitsById(classes.getClassId());
 		if (result) {
 			classesRepo.saveAndFlush(classes);

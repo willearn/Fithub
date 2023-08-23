@@ -21,13 +21,13 @@ public class CourseCategoriesController {
 	@Autowired
 	private ICourseCategoriesService cService;
 	
-	@GetMapping("/cousecategories.controller/{cid}")
+	@GetMapping("/{cid}")
 	public CourseCategories processQueryAction(@PathVariable("cid") int cid) {
 		CourseCategories resultBean = cService.findById(cid); 
 		return resultBean;
 	}
 	
-	@GetMapping("/cousecategories.controller")
+	@GetMapping
 	public List<CourseCategories> processQueryAllAction() {
 		return cService.findAll();
 	}

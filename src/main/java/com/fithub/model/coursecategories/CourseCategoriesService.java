@@ -23,7 +23,7 @@ public class CourseCategoriesService implements ICourseCategoriesService {
 	}
 
 	@Override
-	public Boolean updateById(CourseCategories courseCategories) {
+	public Boolean update(CourseCategories courseCategories) {
 		Boolean result = exitsById(courseCategories.getCategoryId());
 		if (result) {
 			courseCategoriesRepo.saveAndFlush(courseCategories);

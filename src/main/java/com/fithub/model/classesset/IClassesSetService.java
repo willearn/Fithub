@@ -11,7 +11,7 @@ public interface IClassesSetService {
 	public ClassesSet insert(ClassesSet classesSet);
 
 	// 修改單筆
-	public Boolean updateById(ClassesSet classesSet);
+	public Boolean update(ClassesSet classesSet);
 
 	// 刪除單筆
 	public Boolean deleteById(Integer id);

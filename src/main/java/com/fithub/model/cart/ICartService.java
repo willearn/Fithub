@@ -11,7 +11,7 @@ public interface ICartService {
 	public Cart insert(Cart cart);
 
 	// 修改單筆
-	public Boolean updateById(Cart cart);
+	public Boolean update(Cart cart);
 
 	// 刪除單筆
 	public Boolean deleteById(Integer id);

@@ -25,7 +25,7 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public Boolean updateById(Order order) {
+	public Boolean update(Order order) {
 		Boolean result = exitsById(order.getOrderId());
 		if (result) {
 			orderRepo.saveAndFlush(order);

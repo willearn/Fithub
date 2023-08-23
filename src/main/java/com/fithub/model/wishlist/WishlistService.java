@@ -25,7 +25,7 @@ public class WishlistService implements IWishlistService {
 	}
 
 	@Override
-	public Boolean updateById(Wishlist wishlist) {
+	public Boolean update(Wishlist wishlist) {
 		Boolean result = exitsById(wishlist.getListId());
 		if (result) {
 			wishlistRepo.saveAndFlush(wishlist);

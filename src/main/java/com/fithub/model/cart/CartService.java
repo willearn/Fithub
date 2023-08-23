@@ -24,7 +24,7 @@ public class CartService implements ICartService {
 	}
 
 	@Override
-	public Boolean updateById(Cart cart) {
+	public Boolean update(Cart cart) {
 		Boolean result = exitsById(cart.getCartId());
 		if (result) {
 			cartRepo.saveAndFlush(cart);

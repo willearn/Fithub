@@ -11,7 +11,7 @@ public interface IClassesService {
 	public Classes insert(Classes classes);
 
 	// 修改單筆
-	public Boolean updateById(Classes classes);
+	public Boolean update(Classes classes);
 
 	// 刪除單筆
 	public Boolean deleteById(Integer id);

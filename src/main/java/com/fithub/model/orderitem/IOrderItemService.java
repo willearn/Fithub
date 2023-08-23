@@ -11,7 +11,7 @@ public interface IOrderItemService {
 	public OrderItem insert(OrderItem orderItem);
 
 	// 修改單筆
-	public Boolean updateById(OrderItem orderItem);
+	public Boolean update(OrderItem orderItem);
 
 	// 刪除單筆
 	public Boolean deleteById(Integer id);

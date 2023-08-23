@@ -11,7 +11,7 @@ public interface ICourseService {
 	public Course insert(Course course);
 
 	// 修改單筆
-	public Boolean updateById(Course course);
+	public Boolean update(Course course);
 
 	// 刪除單筆
 	public Boolean deleteById(Integer id);

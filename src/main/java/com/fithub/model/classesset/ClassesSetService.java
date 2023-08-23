@@ -25,7 +25,7 @@ public class ClassesSetService implements IClassesSetService {
 	}
 
 	@Override
-	public Boolean updateById(ClassesSet classesSet) {
+	public Boolean update(ClassesSet classesSet) {
 		Boolean result = exitsById(classesSet.getClassesSetId());
 		if (result) {
 			classesSetRepo.saveAndFlush(classesSet);

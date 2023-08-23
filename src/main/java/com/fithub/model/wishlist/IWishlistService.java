@@ -11,7 +11,7 @@ public interface IWishlistService {
 	public Wishlist insert(Wishlist wishlist);
 
 	// 修改單筆
-	public Boolean updateById(Wishlist wishlist);
+	public Boolean update(Wishlist wishlist);
 
 	// 刪除單筆
 	public Boolean deleteById(Integer id);
