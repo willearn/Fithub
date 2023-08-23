@@ -63,8 +63,7 @@ public class CourseController {
 		if (msg) {
 			return true;
 		}
-			return false;
-				
+			return false;			
 	}
 	
 	
