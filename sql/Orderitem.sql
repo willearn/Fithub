@@ -8,3 +8,6 @@ create table Orderitem(
 
 ALTER TABLE orderitem
 ADD CONSTRAINT fk_Coupon_Id FOREIGN KEY (couponid) REFERENCES coupon(couponid);
+
+ALTER TABLE orderitem
+ADD CONSTRAINT FK_Orderitem_classes FOREIGN KEY (classid) REFERENCES Classes(classid);

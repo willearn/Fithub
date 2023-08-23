@@ -7,3 +7,6 @@ create table Wishlist(
 	wishaddsince date not null,
 	wishremovedate date
 );
+
+ALTER TABLE Wishlist
+ADD CONSTRAINT FK__Wishlist__classes FOREIGN KEY (classid) REFERENCES Classes(classid);

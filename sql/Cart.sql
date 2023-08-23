@@ -5,3 +5,6 @@ create table Cart(
 	memberid int not null references Member(memberid),
 	classid int not null references Classes(classid)
 );
+
+ALTER TABLE Cart
+ADD CONSTRAINT FK__Cart__Classes FOREIGN KEY (classid) REFERENCES Classes(classid);
