@@ -3,6 +3,7 @@ package com.fithub.model.rentorder;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fithub.model.classroom.Classroom;
 import com.fithub.model.member.Member;
@@ -47,6 +48,7 @@ public class RentOrder {
 	@JoinColumn(name = "memberid", insertable = false, updatable = false)
 	private Member member;
 
+	
 	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
 	@JoinTable(name = "RentOrderClassroom", joinColumns = @JoinColumn(name = "rentorderid"), inverseJoinColumns = @JoinColumn(name = "classroomid"))
 	private List<Classroom> classrooms = new ArrayList<Classroom>();

@@ -29,7 +29,7 @@ public class RentOrderController {
 	private IRentOrderService iRentOrderService;
 
 	@Autowired
-	private IClassroomService classroomService;
+	private IClassroomService iclassroomService;
 
 	// 列出所有租借訂單
 	@GetMapping("/list")
@@ -47,7 +47,7 @@ public class RentOrderController {
 		// 取得所有教室編號
 		List<Integer> classroomids = rentOrder.getClassroomids();
 		for (Integer classroomid : classroomids) {
-			classrooms.add(classroomService.findById(classroomid));
+			classrooms.add(iclassroomService.findById(classroomid));
 		}
 
 		// 將所有教室加到同一筆訂單
@@ -66,7 +66,7 @@ public class RentOrderController {
 		// 取得所有教室編號
 		List<Integer> classroomids = rentOrder.getClassroomids();
 		for (Integer classroomid : classroomids) {
-			classrooms.add(classroomService.findById(classroomid));
+			classrooms.add(iclassroomService.findById(classroomid));
 		}
 
 		// 將所有教室加到同一筆訂單
