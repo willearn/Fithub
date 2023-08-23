@@ -23,4 +23,7 @@ public interface IClassroomService {
 	// 查詢單筆
 	Classroom findById(Integer id);
 	
+	// 刪除多筆
+	void deleteAllById(Iterable<Integer> selectIds);
+	
 }

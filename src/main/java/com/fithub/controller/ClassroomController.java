@@ -48,4 +48,10 @@ public class ClassroomController {
 		iclassroomService.deleteById(id);
 	}
 
+	// 刪除多間教室
+	@DeleteMapping("/delete/multiple")
+	public void deleteMultipleRentOrders(@RequestBody List<Integer> ids) {
+		iclassroomService.deleteAllById(ids);
+	}
+
 }

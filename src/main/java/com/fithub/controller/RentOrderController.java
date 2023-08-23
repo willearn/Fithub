@@ -1,6 +1,5 @@
 package com.fithub.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fithub.model.classroom.Classroom;
-import com.fithub.model.classroom.IClassroomService;
 import com.fithub.model.rentorder.IRentOrderService;
 import com.fithub.model.rentorder.RentOrder;
 
@@ -29,9 +26,6 @@ public class RentOrderController {
 	private IRentOrderService iRentOrderService;
 
 
-	@Autowired
-	private IClassroomService iclassroomService;
-
 	// 列出所有租借訂單
 	@GetMapping("/list")
 	public List<RentOrder> findAllRentOrders() {
@@ -41,18 +35,6 @@ public class RentOrderController {
 	// 儲存租借訂單
 	@PostMapping("/insert")
 	public void insertRentOrder(@RequestBody RentOrder rentOrder) {
-
-		// 建立教室類的空集合
-		List<Classroom> classrooms = new ArrayList<Classroom>();
-
-		// 取得所有教室編號
-		List<Integer> classroomids = rentOrder.getClassroomids();
-		for (Integer classroomid : classroomids) {
-			classrooms.add(iclassroomService.findById(classroomid));
-		}
-
-		// 將所有教室加到同一筆訂單
-		rentOrder.setClassrooms(classrooms);
 		// 新增訂單
 		iRentOrderService.insert(rentOrder);
 	}
@@ -60,19 +42,6 @@ public class RentOrderController {
 	// 儲存租借訂單(多對多更新會自動刪除中間表,直接重新新增中間表)
 	@PutMapping("/update")
 	public void updateRentOrder(@RequestBody RentOrder rentOrder) {
-
-		// 建立教室類的空集合
-		List<Classroom> classrooms = new ArrayList<Classroom>();
-
-		// 取得所有教室編號
-		List<Integer> classroomids = rentOrder.getClassroomids();
-		for (Integer classroomid : classroomids) {
-			classrooms.add(iclassroomService.findById(classroomid));
-		}
-
-		// 將所有教室加到同一筆訂單
-		rentOrder.setClassrooms(classrooms);
-
 		// 修改訂單
 		iRentOrderService.updateById(rentOrder);
 	}

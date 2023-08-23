@@ -54,4 +54,10 @@ public class ClassroomService implements IClassroomService {
 		return result;
 	}
 
+	// 刪除多筆
+	@Override
+	public void deleteAllById(Iterable<Integer> selectIds) {
+		classroomRepo.deleteAllById(selectIds);
+	}
+
 }
