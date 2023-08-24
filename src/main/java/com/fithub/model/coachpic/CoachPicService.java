@@ -15,7 +15,6 @@ public class CoachPicService implements ICoachPicService{
 	@Override
 	public boolean insert(CoachPic cBean) {
 		CoachPic result = cDao.findCoachPicyByEmpidCpicFile(cBean.getEmployeeid(), cBean.getCpicfile());
-		System.out.println("result-------" + result);
 		if(result == null) {
 			CoachPic resultBean = cDao.save(cBean);
 			if (resultBean != null) {
