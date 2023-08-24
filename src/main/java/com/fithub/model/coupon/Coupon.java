@@ -49,9 +49,9 @@ public class Coupon {
     @JoinColumn(name = "couponcategoriesid", insertable = false, updatable = false)
     private CouponCategories CouponCategories;
     
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon")
-	@JsonIgnore
-	private Set<OrderItem> orderItem = new HashSet<OrderItem>();
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon")
+//	@JsonIgnore
+//	private Set<OrderItem> orderItem = new HashSet<OrderItem>();
 
     public Coupon() {
     }

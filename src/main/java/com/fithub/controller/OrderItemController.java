@@ -18,6 +18,11 @@ public class OrderItemController {
     public List<OrderItem> getAllOrderItems() {
         return orderItemService.findAll();
     }
+    
+    @GetMapping("/details")
+    public List<OrderItem> getAllOrderItemsWithDetails() {
+        return orderItemService.findAllWithDetails();
+    }
 
     @PostMapping
     public OrderItem addOrderItem(@RequestBody OrderItem orderItem) {
