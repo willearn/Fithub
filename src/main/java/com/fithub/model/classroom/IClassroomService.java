@@ -26,4 +26,7 @@ public interface IClassroomService {
 	// 刪除多筆
 	void deleteAllById(Iterable<Integer> selectIds);
 	
+	// 查詢全部教室名稱和ID
+	List<Object[]> findAllClassroomNamesAndIds();
+	
 }
