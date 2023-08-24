@@ -50,9 +50,12 @@ public class DepartmentController {
 		return new ResponseEntity<List<Department>>(dept,HttpStatus.NOT_FOUND);
 	}
 	
+
+	
 	@PostMapping("/departments")
 	public ResponseEntity<Object> insert(@RequestBody Department dBean) {
 		boolean result = dService.insert(dBean);
+		System.out.println(result);
 		if(result){
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
