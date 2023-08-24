@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fithub.model.coursecategories.CourseCategories;
 import com.fithub.model.coursecategories.ICourseCategoriesService;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/coursecategories")
+@CrossOrigin()
 public class CourseCategoriesController {
 
 	
@@ -27,7 +27,7 @@ public class CourseCategoriesController {
 		return resultBean;
 	}
 	
-	@GetMapping
+	@GetMapping("/findAll")
 	public List<CourseCategories> processQueryAllAction() {
 		return cService.findAll();
 	}

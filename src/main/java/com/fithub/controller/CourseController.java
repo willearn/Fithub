@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fithub.model.course.Course;
 import com.fithub.model.course.ICourseService;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/course")
+@CrossOrigin()
 public class CourseController {
 
 	@Autowired
@@ -38,14 +38,12 @@ public class CourseController {
 	} 
 	
 	@GetMapping("/{cid}")
-	@ResponseBody
 	public Course processQueryAction(@PathVariable("cid") int cid) {
 		Course resultBean = cService.findById(cid); 
 		return resultBean;
 	}
 	
-	@GetMapping
-	@ResponseBody
+	@GetMapping("/findAll")
 	public List<Course> processQueryAllAction() {
 		return cService.findAll();
 	}
@@ -57,7 +55,6 @@ public class CourseController {
 	}	
 	
 	@DeleteMapping(value = "/{cid}", produces = "text/plain;charset=UTF-8")
-	@ResponseBody
 	public Boolean processDeleteAction(@PathVariable("cid") int cid) {
 		boolean msg=cService.deleteById(cid);
 		return msg ?  true :  false ;
