@@ -45,6 +45,11 @@ public class CartService implements ICartService {
 	}
 
 	@Override
+	public void deleteAllById(Iterable<Integer> selectIds) {
+		cartRepo.deleteAllById(selectIds);
+	}
+
+	@Override
 	public Boolean exitsById(Integer id) {
 		return cartRepo.existsById(id);
 

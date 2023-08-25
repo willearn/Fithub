@@ -35,13 +35,17 @@ public class CourseCategoriesService implements ICourseCategoriesService {
 	@Override
 	public Boolean deleteById(Integer id) {
 		Boolean result = courseCategoriesRepo.existsById(id);
-
 		if (result) {
 			courseCategoriesRepo.deleteById(id);
 			return true;
 		}
 		return false;
 
+	}
+
+	@Override
+	public void deleteAllById(Iterable<Integer> selectIds) {
+		courseCategoriesRepo.deleteAllById(selectIds);
 	}
 
 	@Override

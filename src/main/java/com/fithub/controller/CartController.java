@@ -56,7 +56,7 @@ public class CartController {
         }
 	}	
 	
-	@PutMapping
+	@PutMapping("/{cid}")
 	public ResponseEntity<?> updateCart(@RequestBody Cart cBean) {	
         try {
         	Boolean resultBoolean=cService.update(cBean);
@@ -75,5 +75,15 @@ public class CartController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 						
+	}
+	
+	@DeleteMapping("/deleteMultiple")
+	public ResponseEntity<?> deleteMultipleCarts(@RequestBody List<Integer> cids) {
+		try {
+			cService.deleteAllById(cids);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }

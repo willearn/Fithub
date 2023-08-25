@@ -27,7 +27,7 @@ public class ClassesController {
 	private IClassesService cService;
 		
 	@GetMapping("/{cid}")
-	public ResponseEntity<?> findClasses(@PathVariable("cid") int cid) {
+	public ResponseEntity<?> findClass(@PathVariable("cid") int cid) {
         try {
         	Classes resultBean = cService.findById(cid); 
             return new ResponseEntity<>(resultBean, HttpStatus.OK);
@@ -47,7 +47,7 @@ public class ClassesController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> insertClasses(@RequestBody Classes cBean) {	
+	public ResponseEntity<?> insertClass(@RequestBody Classes cBean) {	
         try {
         	Classes resultBean=cService.insert(cBean);
             return new ResponseEntity<>(resultBean,HttpStatus.OK);
@@ -56,8 +56,8 @@ public class ClassesController {
         }
 	}
 	
-	@PutMapping
-	public ResponseEntity<?> updateClasses(@RequestBody Classes cBean) {	
+	@PutMapping("/{cid}")
+	public ResponseEntity<?> updateClass(@RequestBody Classes cBean) {	
         try {
         	Boolean resultBoolean=cService.update(cBean);
             return new ResponseEntity<>(resultBoolean,HttpStatus.OK);
@@ -67,7 +67,7 @@ public class ClassesController {
 	}	
 	
 	@DeleteMapping("/{cid}")
-	public ResponseEntity<?> deleteClasses(@PathVariable("cid") int cid) {
+	public ResponseEntity<?> deleteClass(@PathVariable("cid") int cid) {
         try {
         	Boolean resultBoolean=cService.deleteById(cid);
             return new ResponseEntity<>(resultBoolean,HttpStatus.OK);
@@ -75,5 +75,15 @@ public class ClassesController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 						
+	}
+	
+	@DeleteMapping("/deleteMultiple")
+	public ResponseEntity<?> deleteMultipleClasses(@RequestBody List<Integer> cids) {
+		try {
+			cService.deleteAllById(cids);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }

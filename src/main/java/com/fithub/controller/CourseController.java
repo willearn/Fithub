@@ -56,7 +56,7 @@ public class CourseController {
         }
 	}	
 	
-	@PutMapping
+	@PutMapping("/{cid}")
 	public ResponseEntity<?> updateCourse(@RequestBody Course cBean) {	
         try {
         	Boolean resultBoolean=cService.update(cBean);
@@ -75,6 +75,16 @@ public class CourseController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 						
+	}
+	
+	@DeleteMapping("/deleteMultiple")
+	public ResponseEntity<?> deleteMultipleCourses(@RequestBody List<Integer> cids) {
+		try {
+			cService.deleteAllById(cids);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	

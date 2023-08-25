@@ -57,7 +57,7 @@ public class CourseCategoriesController {
         }
 	}	
 	
-	@PutMapping
+	@PutMapping("/{cid}")
 	public ResponseEntity<?> updateCourseCategories(@RequestBody CourseCategories cBean) {	
         try {
         	Boolean resultBoolean=cService.update(cBean);
@@ -68,7 +68,7 @@ public class CourseCategoriesController {
 	}	
 	
 	@DeleteMapping("/{cid}")
-	public ResponseEntity<?> deleteCourse(@PathVariable("cid") int cid) {
+	public ResponseEntity<?> deleteCourseCategory(@PathVariable("cid") int cid) {
         try {
         	Boolean resultBoolean=cService.deleteById(cid);
             return new ResponseEntity<>(resultBoolean,HttpStatus.OK);
@@ -76,5 +76,15 @@ public class CourseCategoriesController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 						
+	}
+	
+	@DeleteMapping("/deleteMultiple")
+	public ResponseEntity<?> deleteMultipleCourseCategories(@RequestBody List<Integer> cids) {
+		try {
+			cService.deleteAllById(cids);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }

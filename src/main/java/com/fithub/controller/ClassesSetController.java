@@ -56,7 +56,7 @@ public class ClassesSetController {
         }
 	}	
 	
-	@PutMapping
+	@PutMapping("/{cid}")
 	public ResponseEntity<?> updateClassesSet(@RequestBody ClassesSet cBean) {	
         try {
         	Boolean resultBoolean=cService.update(cBean);
@@ -75,5 +75,15 @@ public class ClassesSetController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 						
+	}
+	
+	@DeleteMapping("/deleteMultiple")
+	public ResponseEntity<?> deleteMultipleClassesSets(@RequestBody List<Integer> cids) {
+		try {
+			cService.deleteAllById(cids);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }

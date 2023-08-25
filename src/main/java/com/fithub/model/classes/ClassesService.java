@@ -46,6 +46,12 @@ public class ClassesService implements IClassesService {
 	}
 
 	@Override
+	public void deleteAllById(Iterable<Integer> selectIds) {
+		classesRepo.deleteAllById(selectIds);
+		
+	}
+
+	@Override
 	public Boolean exitsById(Integer id) {
 		return classesRepo.existsById(id);
 

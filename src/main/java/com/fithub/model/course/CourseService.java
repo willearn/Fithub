@@ -42,6 +42,12 @@ public class CourseService implements ICourseService {
 		}
 		return false;
 	}
+	
+	@Override
+	public void deleteAllById(Iterable<Integer> selectIds) {
+		courseRepo.deleteAllById(selectIds);
+		
+	}
 
 	@Override
 	public Boolean exitsById(Integer id) {

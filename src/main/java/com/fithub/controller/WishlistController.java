@@ -57,7 +57,7 @@ public class WishlistController {
         }
 	}	
 	
-	@PutMapping
+	@PutMapping("/{wid}")
 	public ResponseEntity<?> updateWishlist(@RequestBody Wishlist wBean) {	
         try {
         	Boolean resultBoolean=wService.update(wBean);
@@ -76,6 +76,16 @@ public class WishlistController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 						
+	}
+	
+	@DeleteMapping("/deleteMultiple")
+	public ResponseEntity<?> deleteMultipleWishlists(@RequestBody List<Integer> cids) {
+		try {
+			wService.deleteAllById(cids);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 }

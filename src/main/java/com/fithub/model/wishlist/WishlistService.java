@@ -46,6 +46,11 @@ public class WishlistService implements IWishlistService {
 	}
 
 	@Override
+	public void deleteAllById(Iterable<Integer> selectIds) {
+		wishlistRepo.deleteAllById(selectIds);
+	}
+
+	@Override
 	public Boolean exitsById(Integer id) {
 		return wishlistRepo.existsById(id);
 

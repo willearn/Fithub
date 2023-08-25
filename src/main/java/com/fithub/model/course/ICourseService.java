@@ -16,6 +16,9 @@ public interface ICourseService {
 	// 刪除單筆
 	public Boolean deleteById(Integer id);
 
+	// 刪除多筆
+	public void deleteAllById(Iterable<Integer> selectIds);
+	
 	// 確認id存在
 	public Boolean exitsById(Integer id);
 	

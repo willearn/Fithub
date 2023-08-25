@@ -46,6 +46,12 @@ public class ClassesSetService implements IClassesSetService {
 	}
 
 	@Override
+	public void deleteAllById(Iterable<Integer> selectIds) {
+		classesSetRepo.deleteAllById(selectIds);
+		
+	}
+
+	@Override
 	public Boolean exitsById(Integer id) {
 		return classesSetRepo.existsById(id);
 
