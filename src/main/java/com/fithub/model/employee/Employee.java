@@ -34,10 +34,10 @@ public class Employee {
 	@Column(name="DEPTID")
 	private int deptid;
 	private String employeetitle;
-	private int manager;
+	private Integer manager;
 	private String hiredate;
 	private String resigndate;
-	private int salary;
+	private Integer salary;
 	private String employeebirthday;
 	private String employeeintroduction;
 	
