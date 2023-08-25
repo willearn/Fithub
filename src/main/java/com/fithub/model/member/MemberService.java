@@ -1,6 +1,7 @@
 package com.fithub.model.member;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class MemberService implements IMemberService {
 		return result;
 	}
 
-	// 新增單筆活動
+	// 新增單筆
 	@Override
 	public Member insert(Member member) {
 		Member result = memberRepo.save(member);
@@ -29,8 +30,8 @@ public class MemberService implements IMemberService {
 	// 修改單筆
 	@Override
 	public void updateById(Member member) {
-		Boolean result = findById(member.getMemberid());
-		if (result) {
+		Member result = findById(member.getMemberid());
+		if (result != null ) {
 			memberRepo.saveAndFlush(member);
 		}
 	}
@@ -45,10 +46,13 @@ public class MemberService implements IMemberService {
 		}
 	}
 
-	// 確認id存在
+	//查詢單筆
 	@Override
-	public Boolean findById(Integer id) {
-		Boolean result = memberRepo.existsById(id);
-		return result;
+	public Member findById(Integer id) {
+		Optional<Member> resultBean = memberRepo.findById(id);
+		if(resultBean.isPresent()) {
+			return resultBean.get();
+		}
+		return null;
 	}
 }
