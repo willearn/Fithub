@@ -13,40 +13,39 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fithub.model.coursecategories.CourseCategories;
-import com.fithub.model.coursecategories.ICourseCategoriesService;
+import com.fithub.model.cart.Cart;
+import com.fithub.model.cart.ICartService;
 
 @RestController
-@RequestMapping("/coursecategories")
+@RequestMapping("/cart")
 @CrossOrigin()
-public class CourseCategoriesController {
+public class CartController {
 
-	
 	@Autowired
-	private ICourseCategoriesService cService;
-	
+	private ICartService cService;
+		
 	@GetMapping("/{cid}")
-	public CourseCategories findCourseCategory(@PathVariable("cid") int cid) {
+	public Cart findCart(@PathVariable("cid") int cid) {
 		return cService.findById(cid); 
 	}
 	
 	@GetMapping("/findAll")
-	public List<CourseCategories> findAllCourseCategories() {
+	public List<Cart> findAllCarts() {
 		return cService.findAll();
 	}
 	
 	@PostMapping
-	public CourseCategories insertCourseCategories(@RequestBody CourseCategories cBean) {	
+	public Cart insertCart(@RequestBody Cart cBean) {	
 		return cService.insert(cBean);
 	}	
 	
 	@PutMapping
-	public Boolean updateCourseCategories(@RequestBody CourseCategories cBean) {	
+	public Boolean updateCart(@RequestBody Cart cBean) {	
 		return cService.update(cBean);
 	}	
 	
 	@DeleteMapping("/{cid}")
-	public Boolean deleteCourse(@PathVariable("cid") int cid) {
+	public Boolean deleteCart(@PathVariable("cid") int cid) {
 		return cService.deleteById(cid);
 						
 	}

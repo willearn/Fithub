@@ -13,41 +13,42 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fithub.model.coursecategories.CourseCategories;
-import com.fithub.model.coursecategories.ICourseCategoriesService;
+import com.fithub.model.wishlist.IWishlistService;
+import com.fithub.model.wishlist.Wishlist;
+
 
 @RestController
-@RequestMapping("/coursecategories")
+@RequestMapping("/wishlist")
 @CrossOrigin()
-public class CourseCategoriesController {
+public class WishlistController {
 
-	
 	@Autowired
-	private ICourseCategoriesService cService;
-	
+	private IWishlistService wService;
+		
 	@GetMapping("/{cid}")
-	public CourseCategories findCourseCategory(@PathVariable("cid") int cid) {
-		return cService.findById(cid); 
+	public Wishlist findWishlist(@PathVariable("cid") int cid) {
+		return wService.findById(cid); 
 	}
 	
 	@GetMapping("/findAll")
-	public List<CourseCategories> findAllCourseCategories() {
-		return cService.findAll();
+	public List<Wishlist> findAllWishlists() {
+		return wService.findAll();
 	}
 	
 	@PostMapping
-	public CourseCategories insertCourseCategories(@RequestBody CourseCategories cBean) {	
-		return cService.insert(cBean);
+	public Wishlist insertWishlist(@RequestBody Wishlist wBean) {	
+		return wService.insert(wBean);
 	}	
 	
 	@PutMapping
-	public Boolean updateCourseCategories(@RequestBody CourseCategories cBean) {	
-		return cService.update(cBean);
+	public Boolean updateWishlist(@RequestBody Wishlist wBean) {	
+		return wService.update(wBean);
 	}	
 	
 	@DeleteMapping("/{cid}")
-	public Boolean deleteCourse(@PathVariable("cid") int cid) {
-		return cService.deleteById(cid);
+	public Boolean deleteWishlist(@PathVariable("cid") int cid) {
+		return wService.deleteById(cid);
 						
 	}
+	
 }
