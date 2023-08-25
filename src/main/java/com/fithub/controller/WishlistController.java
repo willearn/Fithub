@@ -3,6 +3,8 @@ package com.fithub.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,28 +28,53 @@ public class WishlistController {
 	private IWishlistService wService;
 		
 	@GetMapping("/{cid}")
-	public Wishlist findWishlist(@PathVariable("cid") int cid) {
-		return wService.findById(cid); 
+	public ResponseEntity<?> findWishlist(@PathVariable("cid") int cid) {
+        try {
+            Wishlist resultBean = wService.findById(cid); 
+            return new ResponseEntity<>(resultBean, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 	
 	@GetMapping("/findAll")
-	public List<Wishlist> findAllWishlists() {
-		return wService.findAll();
+	public ResponseEntity<?> findAllWishlists() {
+        try {
+            List<Wishlist> resultList = wService.findAll();
+            return new ResponseEntity<>(resultList, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 	
 	@PostMapping
-	public Wishlist insertWishlist(@RequestBody Wishlist wBean) {	
-		return wService.insert(wBean);
+	public ResponseEntity<?> insertWishlist(@RequestBody Wishlist wBean) {	
+        try {
+        	Wishlist resultBean=wService.insert(wBean);
+            return new ResponseEntity<>(resultBean,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}	
 	
 	@PutMapping
-	public Boolean updateWishlist(@RequestBody Wishlist wBean) {	
-		return wService.update(wBean);
+	public ResponseEntity<?> updateWishlist(@RequestBody Wishlist wBean) {	
+        try {
+        	Boolean resultBoolean=wService.update(wBean);
+            return new ResponseEntity<>(resultBoolean,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}	
 	
-	@DeleteMapping("/{cid}")
-	public Boolean deleteWishlist(@PathVariable("cid") int cid) {
-		return wService.deleteById(cid);
+	@DeleteMapping("/{wid}")
+	public ResponseEntity<?> deleteWishlist(@PathVariable("wid") int wid) {
+        try {
+        	Boolean resultBoolean=wService.deleteById(wid);
+            return new ResponseEntity<>(resultBoolean,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 						
 	}
 	

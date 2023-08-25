@@ -3,6 +3,8 @@ package com.fithub.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,28 +27,53 @@ public class ClassesSetController {
 	private IClassesSetService cService;
 		
 	@GetMapping("/{cid}")
-	public ClassesSet findClassesSet(@PathVariable("cid") int cid) {
-		return cService.findById(cid); 
+	public ResponseEntity<?> findClassesSet(@PathVariable("cid") int cid) {
+        try {
+        	ClassesSet resultBean = cService.findById(cid); 
+            return new ResponseEntity<>(resultBean, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 	
 	@GetMapping("/findAll")
-	public List<ClassesSet> findAllClassesSets() {
-		return cService.findAll();
+	public ResponseEntity<?> findAllClassesSets() {
+        try {
+            List<ClassesSet> resultList = cService.findAll();
+            return new ResponseEntity<>(resultList, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 	
 	@PostMapping
-	public ClassesSet insertClassesSet(@RequestBody ClassesSet cBean) {	
-		return cService.insert(cBean);
+	public ResponseEntity<?> insertClassesSet(@RequestBody ClassesSet cBean) {	
+        try {
+        	ClassesSet resultBean=cService.insert(cBean);
+            return new ResponseEntity<>(resultBean,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}	
 	
 	@PutMapping
-	public Boolean updateClassesSet(@RequestBody ClassesSet cBean) {	
-		return cService.update(cBean);
+	public ResponseEntity<?> updateClassesSet(@RequestBody ClassesSet cBean) {	
+        try {
+        	Boolean resultBoolean=cService.update(cBean);
+            return new ResponseEntity<>(resultBoolean,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}	
 	
 	@DeleteMapping("/{cid}")
-	public Boolean deleteClassesSet(@PathVariable("cid") int cid) {
-		return cService.deleteById(cid);
+	public ResponseEntity<?> deleteClassesSet(@PathVariable("cid") int cid) {
+        try {
+        	Boolean resultBoolean=cService.deleteById(cid);
+            return new ResponseEntity<>(resultBoolean,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 						
 	}
 }

@@ -3,6 +3,8 @@ package com.fithub.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,28 +27,53 @@ public class CartController {
 	private ICartService cService;
 		
 	@GetMapping("/{cid}")
-	public Cart findCart(@PathVariable("cid") int cid) {
-		return cService.findById(cid); 
+	public ResponseEntity<?> findCart(@PathVariable("cid") int cid) {
+        try {
+        	Cart resultBean = cService.findById(cid); 
+            return new ResponseEntity<>(resultBean, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 	
 	@GetMapping("/findAll")
-	public List<Cart> findAllCarts() {
-		return cService.findAll();
+	public ResponseEntity<?> findAllCarts() {
+        try {
+            List<Cart> resultList = cService.findAll();
+            return new ResponseEntity<>(resultList, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 	
 	@PostMapping
-	public Cart insertCart(@RequestBody Cart cBean) {	
-		return cService.insert(cBean);
+	public ResponseEntity<?> insertCart(@RequestBody Cart cBean) {	
+        try {
+        	Cart resultBean=cService.insert(cBean);
+            return new ResponseEntity<>(resultBean,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}	
 	
 	@PutMapping
-	public Boolean updateCart(@RequestBody Cart cBean) {	
-		return cService.update(cBean);
+	public ResponseEntity<?> updateCart(@RequestBody Cart cBean) {	
+        try {
+        	Boolean resultBoolean=cService.update(cBean);
+            return new ResponseEntity<>(resultBoolean,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}	
 	
 	@DeleteMapping("/{cid}")
-	public Boolean deleteCart(@PathVariable("cid") int cid) {
-		return cService.deleteById(cid);
+	public ResponseEntity<?> deleteCart(@PathVariable("cid") int cid) {
+        try {
+        	Boolean resultBoolean=cService.deleteById(cid);
+            return new ResponseEntity<>(resultBoolean,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 						
 	}
 }

@@ -3,6 +3,8 @@ package com.fithub.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,28 +27,53 @@ public class CourseController {
 	private ICourseService cService;
 		
 	@GetMapping("/{cid}")
-	public Course findCourse(@PathVariable("cid") int cid) {
-		return cService.findById(cid); 
+	public ResponseEntity<?> findCourse(@PathVariable("cid") int cid) {
+        try {
+        	Course resultBean = cService.findById(cid); 
+            return new ResponseEntity<>(resultBean, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 	
 	@GetMapping("/findAll")
-	public List<Course> findAllCourses() {
-		return cService.findAll();
+	public ResponseEntity<?> findAllCourses() {
+        try {
+            List<Course> resultList = cService.findAll();
+            return new ResponseEntity<>(resultList, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 	
 	@PostMapping
-	public Course insertCourse(@RequestBody Course cBean) {	
-		return cService.insert(cBean);
+	public ResponseEntity<?> insertCourse(@RequestBody Course cBean) {	
+        try {
+        	Course resultBean=cService.insert(cBean);
+            return new ResponseEntity<>(resultBean,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}	
 	
 	@PutMapping
-	public Boolean updateCourse(@RequestBody Course cBean) {	
-		return cService.update(cBean);
+	public ResponseEntity<?> updateCourse(@RequestBody Course cBean) {	
+        try {
+        	Boolean resultBoolean=cService.update(cBean);
+            return new ResponseEntity<>(resultBoolean,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}	
 	
 	@DeleteMapping("/{cid}")
-	public Boolean deleteCourse(@PathVariable("cid") int cid) {
-		return cService.deleteById(cid);
+	public ResponseEntity<?> deleteCourse(@PathVariable("cid") int cid) {
+        try {
+        	Boolean resultBoolean=cService.deleteById(cid);
+            return new ResponseEntity<>(resultBoolean,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 						
 	}
 	
