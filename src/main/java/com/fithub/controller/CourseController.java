@@ -25,58 +25,58 @@ public class CourseController {
 
 	@Autowired
 	private ICourseService cService;
-		
+
 	@GetMapping("/{cid}")
 	public ResponseEntity<?> findCourse(@PathVariable("cid") int cid) {
-        try {
-        	Course resultBean = cService.findById(cid); 
-            return new ResponseEntity<>(resultBean, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+		try {
+			Course resultBean = cService.findById(cid);
+			return new ResponseEntity<>(resultBean, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
-	
+
 	@GetMapping("/findAll")
 	public ResponseEntity<?> findAllCourses() {
-        try {
-            List<Course> resultList = cService.findAll();
-            return new ResponseEntity<>(resultList, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+		try {
+			List<Course> resultList = cService.findAll();
+			return new ResponseEntity<>(resultList, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<?> insertCourse(@RequestBody Course cBean) {	
-        try {
-        	Course resultBean=cService.insert(cBean);
-            return new ResponseEntity<>(resultBean,HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-	}	
-	
+	public ResponseEntity<?> insertCourse(@RequestBody Course cBean) {
+		try {
+			Course resultBean = cService.insert(cBean);
+			return new ResponseEntity<>(resultBean, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	@PutMapping("/{cid}")
-	public ResponseEntity<?> updateCourse(@RequestBody Course cBean) {	
-        try {
-        	Boolean resultBoolean=cService.update(cBean);
-            return new ResponseEntity<>(resultBoolean,HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-	}	
-	
+	public ResponseEntity<?> updateCourse(@RequestBody Course cBean) {
+		try {
+			Boolean resultBoolean = cService.update(cBean);
+			return new ResponseEntity<>(resultBoolean, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	@DeleteMapping("/{cid}")
 	public ResponseEntity<?> deleteCourse(@PathVariable("cid") int cid) {
-        try {
-        	Boolean resultBoolean=cService.deleteById(cid);
-            return new ResponseEntity<>(resultBoolean,HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-						
+		try {
+			Boolean resultBoolean = cService.deleteById(cid);
+			return new ResponseEntity<>(resultBoolean, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
 	}
-	
+
 	@DeleteMapping("/deleteMultiple")
 	public ResponseEntity<?> deleteMultipleCourses(@RequestBody List<Integer> cids) {
 		try {
@@ -86,6 +86,5 @@ public class CourseController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	
+
 }

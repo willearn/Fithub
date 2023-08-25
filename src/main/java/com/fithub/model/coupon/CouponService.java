@@ -1,12 +1,12 @@
 package com.fithub.model.coupon;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class CouponService {
+public class CouponService implements ICouponService {
 
     private final CouponRepository couponRepository;
 
@@ -15,20 +15,42 @@ public class CouponService {
         this.couponRepository = couponRepository;
     }
 
+    @Override
     public Coupon getCouponById(Integer id) {
         return couponRepository.findById(id).orElse(null);
     }
 
+    @Override
     public List<Coupon> getAllCoupons() {
         return couponRepository.findAll();
     }
 
-    public void saveCoupon(Coupon coupon) {
+    @Override
+    public boolean saveCoupon(Coupon coupon) {
         couponRepository.save(coupon);
+        return true;
     }
 
-    public void deleteCouponById(Integer id) {
+    @Override
+    public boolean updateCoupon(Coupon coupon) {
+        couponRepository.save(coupon);
+        return true;
+    }
+
+    @Override
+    public boolean deleteCouponById(Integer id) {
         couponRepository.deleteById(id);
+        return true;
     }
-}
 
+    @Override
+    public boolean existsById(Integer id) {
+        return couponRepository.existsById(id);
+    }
+
+	@Override
+	public void deleteAllById(Iterable<Integer> selectIds) {
+		couponRepository.deleteAllById(selectIds);		
+	}
+    
+}

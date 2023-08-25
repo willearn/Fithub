@@ -19,7 +19,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="order")
+@Table(name="orders")
 public class Order {
 
 	@Id 
@@ -27,7 +27,7 @@ public class Order {
 	@Column(name="orderid")
 	private int orderId;
 	
-	@Column(name="orderdeate")
+	@Column(name="orderdate")
 	private String orderDate;
 	
 	@Column(name="ordercondition")

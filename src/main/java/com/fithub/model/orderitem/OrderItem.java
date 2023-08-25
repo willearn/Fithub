@@ -1,6 +1,8 @@
 package com.fithub.model.orderitem;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fithub.model.classes.Classes;
+import com.fithub.model.coupon.Coupon;
 import com.fithub.model.order.Order;
 
 import jakarta.persistence.Column;
@@ -33,13 +35,19 @@ public class OrderItem {
 	@Column(name="couponid")
 	private int couponId; 
 	
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="ORDERID",insertable = false,updatable = false)
 	private Order order;
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="CLASSID",insertable = false,updatable = false)
 	private Classes classes;
 	
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="couponid",insertable = false,updatable = false)
+	private Coupon coupon;
 	
 }

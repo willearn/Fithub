@@ -1,6 +1,5 @@
 package com.fithub.model.coupon;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fithub.model.couponcategories.CouponCategories;
 
@@ -43,6 +42,10 @@ public class Coupon {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "couponcategoriesid", insertable = false, updatable = false)
     private CouponCategories CouponCategories;
+    
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon")
+//	@JsonIgnore
+//	private Set<OrderItem> orderItem = new HashSet<OrderItem>();
 
     public Coupon() {
     }
