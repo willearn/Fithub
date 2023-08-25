@@ -23,10 +23,8 @@ public class ActivityPic {
 	@Column(name = "apicid")
 	private Integer apicid;
 
-	
 	@Column(name = "apicfile")
 	private String apicfile;
-	
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "activityid")

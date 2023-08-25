@@ -1,6 +1,5 @@
 package com.fithub.model.activity;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,19 +19,19 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
-
 @Data
-@Entity 
-@Table(name="Activity")
+@Entity
+@Table(name = "Activity")
 public class Activity {
-	
-	//設定主鍵
-	@Id @Column(name="activityid")
+
+	// 設定主鍵
+	@Id
+	@Column(name = "activityid")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer activityid;
-	
+
 	private Integer employeeid;
-	
+
 	private String activityname;
 	private String activitydescription;
 	private String activitydate;
@@ -41,13 +40,12 @@ public class Activity {
 	private String activityon;
 	private String activityoff;
 	private Integer activitysort;
-	 
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="employeeid",insertable = false,updatable = false)
+	@JoinColumn(name = "employeeid", insertable = false, updatable = false)
 	private Employee employee;
-	
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "activity")
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "activity")
 	private List<ActivityPic> activitypic = new ArrayList<>();
 
 }

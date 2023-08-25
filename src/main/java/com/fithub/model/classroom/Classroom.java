@@ -24,8 +24,9 @@ import lombok.Data;
 @Table(name = "classroom")
 public class Classroom {
 
-	public interface ClassroomNameView {}
-	
+	public interface ClassroomNameView {
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "classroomid")
@@ -47,7 +48,6 @@ public class Classroom {
 	@Column(name = "classroomstatus")
 	private String classroomStatus;
 
-	
 	@Column(name = "classroompic")
 	private String classroomPic;
 
