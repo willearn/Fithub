@@ -62,6 +62,7 @@ public class CoachPicController {
 	public ResponseEntity<Object> insert(@RequestBody Map<String, String> request) {
 		Integer employeeid = Integer.parseInt(request.get("employeeid"));
 		String base64Image = request.get("cpicfile");
+		System.out.println(base64Image);
 		byte[] imageBytes = Base64.getDecoder().decode(base64Image.split(",")[1]);
 		
 		CoachPic cBean = new CoachPic();
