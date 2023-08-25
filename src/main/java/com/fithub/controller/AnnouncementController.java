@@ -3,6 +3,8 @@ package com.fithub.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,31 +28,56 @@ public class AnnouncementController {
 
 	// 列出所有公告
 	@GetMapping("/list")
-	public List<Announcement> findAllClassrooms() {
-		return iannouncementService.findAll();
+	public ResponseEntity<?> findAllAnnouncements() {
+		try {
+			List<Announcement> announcements = iannouncementService.findAll();
+			return new ResponseEntity<>(announcements, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	// 新增公告
 	@PostMapping("/insert")
-	public void insertClassroom(@RequestBody Announcement announcement) {
-		iannouncementService.insert(announcement);
+	public ResponseEntity<?> insertAnnouncement(@RequestBody Announcement announcement) {
+		try {
+			iannouncementService.insert(announcement);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	// 修改公告
 	@PutMapping("/update")
-	public void updateClassroom(@RequestBody Announcement announcement) {
-		iannouncementService.updateById(announcement);
+	public ResponseEntity<?> updateAnnouncement(@RequestBody Announcement announcement) {
+		try {
+			iannouncementService.updateById(announcement);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	// 刪除公告
 	@DeleteMapping("/delete/{id}")
-	public void deleteClassroom(@PathVariable("id") int id) {
-		iannouncementService.deleteById(id);
+	public ResponseEntity<?> deleteAnnouncement(@PathVariable("id") int id) {
+		try {
+			iannouncementService.deleteById(id);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	// 刪除多筆公告
 	@DeleteMapping("/delete/multiple")
-	public void deleteMultipleAnnouncements(@RequestBody List<Integer> ids) {
-		iannouncementService.deleteAllById(ids);
+	public ResponseEntity<?> deleteMultipleAnnouncements(@RequestBody List<Integer> ids) {
+		try {
+			iannouncementService.deleteAllById(ids);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }

@@ -1,160 +1,91 @@
 package com.fithub.controller;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.fithub.model.activity.Activity;
 import com.fithub.model.activity.IActivityService;
-import com.fithub.model.activitypic.ActivityPic;
 import com.fithub.model.activitypic.IActivityPicService;
-import com.fithub.model.employee.Employee;
 import com.fithub.model.employee.EmployeeRepository;
 
-@Controller
+@CrossOrigin
+@RestController
+@RequestMapping("/activity")
 public class ActivityController {
 
 	@Autowired
-	private IActivityService aService;
+	private IActivityService iActivityService;
 
 	@Autowired
-	private EmployeeRepository eService;
+	private EmployeeRepository employeeRepository;
 
 	@Autowired
-	private IActivityPicService apicService;
+	private IActivityPicService iActivityPicService;
 
-	// 搜員工給新增活動選擇
-	@GetMapping("/activity/insert")
-	public String addActivity(Model model) {
-		List<Employee> employees = eService.findAll();
-		model.addAttribute("employees", employees);
-		return "activity/insertActivity";
-	}
-
-	// 新增單筆活動(可上傳多張圖片)
-	@PostMapping("/activity/insert")
-	public String addActivity(@ModelAttribute Activity activity, @RequestParam("pic") MultipartFile[] files)
-			throws IOException {
-		//如果有上傳檔案
-		if(!files[0].isEmpty()) {
-			List<ActivityPic> activityPicList = new ArrayList<>();
-			for (MultipartFile file : files) {
-				System.out.println("------------------------------------file");
-				ActivityPic activityPic = new ActivityPic();
-				byte[] photoByte = file.getBytes();
-				activityPic.setApicfile(photoByte);
-				activityPicList.add(activityPic);
-			}
-			activity.setActivitypic(activityPicList);
+	// 列出所有活動
+	@GetMapping("/list")
+	public ResponseEntity<?> findAllActivities() {
+		try {
+			List<Activity> activities = iActivityService.findAll();
+			return new ResponseEntity<>(activities, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		aService.insert(activity);
-		return "redirect:/activity/page";
 	}
 
-	//	// 新增單筆活動
-	//	@PostMapping("/activity/insert")
-	//	public String addActivity(Activity activity) {
-	//		aService.insert(activity);
-	//		return "redirect:/activity/page";
-	//	}
-	
-	// // 新增多筆
-	// @PostMapping("/activity/insertMultipleActivity")
-	// public String insertMultipleActivity(@RequestBody List<Activity>
-	// customerList) {
-	// aService.insertAll(customerList);
-	// return "redirect:/activity/page";
-	// }
-
-	// // 刪除單筆
-	// @DeleteMapping("/activity/delete")
-	// public String deleteActivity(@RequestParam("id") Integer id) {
-	// aService.deleteById(id);
-	// return "redirect:/activity/page";
-	// }
-
-	// 刪除多筆
-	@DeleteMapping("/activity/delete")
-	public String deletesActivity(@RequestParam("selectId") String selectId) {
-		// 字串切割為字串陣列 Java 16後可以直接使用.toList(),不用collect;
-		List<Integer> selectedIds = Arrays.stream(selectId.split(",")).map(Integer::valueOf)
-				.collect(Collectors.toList());
-		
-		aService.deleteAllById(selectedIds);
-		return "redirect:/activity/page";
-	}
-
-	// 傳值到修改頁面
-	@PostMapping("/activity/update")
-	public String updateActivity(@ModelAttribute Activity activity, @RequestParam("empName") String empname,
-			Model model) {
-		List<Employee> employees = eService.findAll();
-		model.addAttribute("employees", employees);
-		model.addAttribute("empname", empname);
-		model.addAttribute("activity", activity);
-		return "activity/updateActivity";
-	}
-
-	// 修改單筆
-	@PutMapping("/activity/update")
-	public String updateById(@ModelAttribute Activity activity) {
-		aService.updateById(activity);
-		return "redirect:/activity/page";
-	}
-
-	// 搜尋活動並分頁
-	@GetMapping("/activity/page")
-	public String showActivitys(@RequestParam(name = "p", defaultValue = "1") Integer pageNumber
-			,@RequestParam(name = "selectedValue",defaultValue="5") String selected, Model model) {
-		Page<Activity> page = aService.findByPage(pageNumber,Integer.parseInt(selected));
-		Long countData = aService.countData();
-		model.addAttribute("page", page);
-		model.addAttribute("countData", countData);
-		return "activity/showActivitys";
-	}
-
-	// 搜尋全部活動圖片資料
-	@GetMapping("/activity/activitypic")
-	public String showActivityPic(Model model) {
-		List<ActivityPic> activitypics = apicService.selectAllPic();
-		model.addAttribute("activityPics", activitypics);
-		return "/activity/showActivityPic";
-	}
-
-	// 取得資料庫圖片
-	@GetMapping("/activity/downloadPic")
-	public ResponseEntity<byte[]> downloadActivityPhoto(@RequestParam("id") Integer id) {
-		Optional<ActivityPic> optional = apicService.findById(id);
-
-		if (optional.isEmpty()) {
-			return null;
+	// 新增單筆活動
+	@PostMapping("/insert")
+	public ResponseEntity<?> insertActivity(@RequestBody Activity activity) {
+		try {
+			iActivityService.insert(activity);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		ActivityPic activityPic = optional.get();
-		byte[] activityImageFile = activityPic.getApicfile();
+	}
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.IMAGE_JPEG);
+	// 更新單筆活動
+	@PutMapping("/update")
+	public ResponseEntity<?> updateActivity(@RequestBody Activity activity) {
+		try {
+			iActivityService.updateById(activity);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
-		// 要傳送的資料,headers,要回傳的狀態碼
-		return new ResponseEntity<byte[]>(activityImageFile, headers, HttpStatus.OK);
+	// 刪除單筆活動
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<?> deleteActivity(@PathVariable("id") int id) {
+		try {
+			iActivityService.deleteById(id);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	// 刪除多筆活動
+	@DeleteMapping("/delete/multiple")
+	public ResponseEntity<?> deleteMultipleActivities(@RequestBody List<Integer> ids) {
+		try {
+			iActivityService.deleteAllById(ids);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }

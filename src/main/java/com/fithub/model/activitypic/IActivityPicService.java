@@ -1,15 +1,16 @@
 package com.fithub.model.activitypic;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface IActivityPicService {
+	
+	List<ActivityPic> findAll();
+	
+	ActivityPic insert(ActivityPic activityPic);
 
-	List<ActivityPic> selectAllPic();
+	void deleteById(Integer id);
 
-	// 刪除多筆
-	void deleteByActivityId(Iterable<Integer> selectIds);
+	void updateById(ActivityPic activityPic);
 
-	Optional<ActivityPic> findById(Integer id);
-
+	void deleteAllById(Iterable<Integer> selectIds);
 }

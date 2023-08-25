@@ -48,6 +48,4 @@ public class AnnouncementService implements IAnnouncementService {
 	public void deleteAllById(Iterable<Integer> selectIds) {
 		annRepository.deleteAllById(selectIds);
 	}
-
-
 }

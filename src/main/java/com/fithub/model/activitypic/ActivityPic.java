@@ -9,10 +9,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "Activitypic")
 public class ActivityPic {
@@ -22,41 +23,13 @@ public class ActivityPic {
 	@Column(name = "apicid")
 	private Integer apicid;
 
-	@Lob
+	
 	@Column(name = "apicfile")
-	private byte[] apicfile;
+	private String apicfile;
 	
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "activityid")
 	private Activity activity;
-
-	public ActivityPic() {
-		
-	}
-
-	public Integer getApicid() {
-		return apicid;
-	}
-
-	public void setApicid(Integer apicid) {
-		this.apicid = apicid;
-	}
-
-	public byte[] getApicfile() {
-		return apicfile;
-	}
-
-	public void setApicfile(byte[] apicfile) {
-		this.apicfile = apicfile;
-	}
-
-	public Activity getActivity() {
-		return activity;
-	}
-
-	public void setActivity(Activity activity) {
-		this.activity = activity;
-	}
 
 }

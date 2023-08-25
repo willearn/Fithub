@@ -3,6 +3,8 @@ package com.fithub.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fithub.model.rentorder.IRentOrderService;
 import com.fithub.model.rentorder.RentOrder;
 
-//http://localhost:8080/fithub/rent/list
 @CrossOrigin
 @RestController
 @RequestMapping("/rent")
@@ -25,36 +26,58 @@ public class RentOrderController {
 	@Autowired
 	private IRentOrderService iRentOrderService;
 
-
 	// 列出所有租借訂單
 	@GetMapping("/list")
-	public List<RentOrder> findAllRentOrders() {
-		return iRentOrderService.findAll();
+	public ResponseEntity<?> findAllRentOrders() {
+		try {
+			List<RentOrder> rentOrders = iRentOrderService.findAll();
+			return new ResponseEntity<>(rentOrders, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	// 儲存租借訂單
 	@PostMapping("/insert")
-	public void insertRentOrder(@RequestBody RentOrder rentOrder) {
-		// 新增訂單
-		iRentOrderService.insert(rentOrder);
+	public ResponseEntity<?> insertRentOrder(@RequestBody RentOrder rentOrder) {
+		try {
+			iRentOrderService.insert(rentOrder);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
-	// 儲存租借訂單
+	// 更新租借訂單
 	@PutMapping("/update")
-	public void updateRentOrder(@RequestBody RentOrder rentOrder) {
-		iRentOrderService.updateById(rentOrder);
+	public ResponseEntity<?> updateRentOrder(@RequestBody RentOrder rentOrder) {
+		try {
+			iRentOrderService.updateById(rentOrder);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	// 刪除單筆訂單
 	@DeleteMapping("/delete/{id}")
-	public void deleteRentOrder(@PathVariable("id") int id) {
-		iRentOrderService.deleteById(id);
+	public ResponseEntity<?> deleteRentOrder(@PathVariable("id") int id) {
+		try {
+			iRentOrderService.deleteById(id);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	// 刪除多筆訂單
 	@DeleteMapping("/delete/multiple")
-	public void deleteMultipleRentOrders(@RequestBody List<Integer> ids) {
-		iRentOrderService.deleteAllById(ids);
+	public ResponseEntity<?> deleteMultipleRentOrders(@RequestBody List<Integer> ids) {
+		try {
+			iRentOrderService.deleteAllById(ids);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
-
 }
