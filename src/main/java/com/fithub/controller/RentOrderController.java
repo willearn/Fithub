@@ -39,10 +39,9 @@ public class RentOrderController {
 		iRentOrderService.insert(rentOrder);
 	}
 
-	// 儲存租借訂單(多對多更新會自動刪除中間表,直接重新新增中間表)
+	// 儲存租借訂單
 	@PutMapping("/update")
 	public void updateRentOrder(@RequestBody RentOrder rentOrder) {
-		// 修改訂單
 		iRentOrderService.updateById(rentOrder);
 	}
 

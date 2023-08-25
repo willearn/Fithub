@@ -42,6 +42,12 @@ public class AnnouncementService implements IAnnouncementService {
 			annRepository.deleteById(id);
 		}
 	}
+	
+	// 刪除多筆
+	@Override
+	public void deleteAllById(Iterable<Integer> selectIds) {
+		annRepository.deleteAllById(selectIds);
+	}
 
 
 }

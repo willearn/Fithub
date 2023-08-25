@@ -16,6 +16,9 @@ public interface IAnnouncementService {
 	// 刪除單筆
 	void deleteById(Integer id);
 
+	// 刪除多筆
+	void deleteAllById(Iterable<Integer> selectIds);
+
 
 
 }
