@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,15 +17,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.fithub.model.member.Member;
 import com.fithub.model.member.MemberService;
 
-
 //@RequestMapping("/members")
 //@RestController
 @Controller
+@CrossOrigin
 public class MemberController {
 
 	@Autowired
 	private MemberService mService;
-	
+
 	@GetMapping("/members/showMembers")
 	public String getMembers() {
 		return "member/memberHome";
@@ -32,66 +33,57 @@ public class MemberController {
 
 	// 所有會員資料
 	@GetMapping("/members")
-	public ResponseEntity<List<Member>> getAllMembers() {
-		List<Member> members = mService.findAll();
-		return ResponseEntity.ok(members);
+	public ResponseEntity<?> getAllMembers() {
+		try {
+			List<Member> members = mService.findAll();
+			return new ResponseEntity<>(members, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	// 單一會員資料
 	@GetMapping("/members/{id}")
-	public ResponseEntity<Member> getMember(@PathVariable Integer id) {
-//	        Boolean exists = mService.findById(id);
-
-		Member resultBean = mService.findById(id);
-
-		if (resultBean != null) {
-			// Assuming you have a method to get a single member by ID
-			// Member member = mService.findOne(id);
-			// return ResponseEntity.ok(member);
-//	            return ResponseEntity.ok().build();
-			return new ResponseEntity<Member>(resultBean,HttpStatus.OK);
-		} else {
-//	            return ResponseEntity.notFound().build();
+	public ResponseEntity<?> getMember(@PathVariable Integer id) {
+		try {
+			Member resultBean = mService.findById(id);
+			return new ResponseEntity<Member>(resultBean, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<Member>(resultBean,HttpStatus.NOT_FOUND);
 	}
 
 	// 新增會員資料
-
 	@PostMapping("/members")
-	public ResponseEntity<Member> insertMember(@RequestBody Member member) {
-		Member savedMember = mService.insert(member);
-		return new ResponseEntity<>(savedMember, HttpStatus.CREATED);
+	public ResponseEntity<?> insertMember(@RequestBody Member member) {
+		try {
+			mService.insert(member);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
+//修改會員資料
 	@PutMapping("/members/{id}")
-	public ResponseEntity<Member> updateMember(@PathVariable Integer id, @RequestBody Member updatedMember) {
-//	        Boolean exists = mService.findById(id);
-//	        if (exists) {
-		
-		Member resultBean = mService.findById(id);
-
-		if (resultBean != null) {
+	public ResponseEntity<?> updateMember(@PathVariable Integer id, @RequestBody Member updatedMember) {
+		try {
 			mService.updateById(updatedMember);
-			return ResponseEntity.ok(updatedMember);
-		} else {
-			return ResponseEntity.notFound().build();
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	// 刪除會員資料
 	@DeleteMapping("/members/{id}")
-	public ResponseEntity<Void> deleteMember(@PathVariable Integer id) {
-//	        Boolean exists = mService.findById(id);
-//	        if (exists) {
-
-		Member resultBean = mService.findById(id);
-
-		if (resultBean != null) {
+	public ResponseEntity<?> deleteMember(@PathVariable Integer id) {
+		try {
 			mService.deleteById(id);
-			return ResponseEntity.noContent().build();
-		} else {
-			return ResponseEntity.notFound().build();
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
 }

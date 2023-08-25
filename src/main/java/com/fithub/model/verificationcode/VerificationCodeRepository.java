@@ -14,6 +14,8 @@ public interface VerificationCodeRepository extends JpaRepository<VerificationCo
 	Optional<VerificationCode> findByEmail(String email);
 	boolean existsByEmail(String email);
 	
+	
+	// 由EMAIL刪除
 	@Modifying
 	@Transactional
 	@Query("delete from VerificationCode where email = :email")

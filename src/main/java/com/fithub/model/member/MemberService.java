@@ -46,13 +46,7 @@ public class MemberService implements IMemberService {
 		}
 	}
 
-	// 確認id存在
-//	@Override
-//	public Boolean findById(Integer id) {
-//		Boolean result = memberRepo.existsById(id);
-//		return result;
-//	}
-	
+	//查詢單筆
 	@Override
 	public Member findById(Integer id) {
 		Optional<Member> resultBean = memberRepo.findById(id);

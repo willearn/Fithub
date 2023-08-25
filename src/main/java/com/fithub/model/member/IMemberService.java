@@ -7,7 +7,7 @@ public interface IMemberService {
 	// 查詢全部
 	List<Member> findAll();
 
-	// 新增單筆活動
+	// 新增單筆
 	Member insert(Member member);
 
 	// 修改單筆
@@ -15,7 +15,7 @@ public interface IMemberService {
 
 	// 刪除單筆
 	void deleteById(Integer id);
-
+	
 	// 確認id存在
 //	Boolean findById(Integer id);
 	
