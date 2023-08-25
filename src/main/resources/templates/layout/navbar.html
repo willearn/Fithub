@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+
+	<head>
+		<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+		<link th:href="@{/css/styles.css}" rel="stylesheet" />
+		<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+	</head>
+</head>
+
+<body class="sb-nav-fixed">
+
+	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-secondary">
+		<!-- 左側導覽伸縮按鈕-->
+		<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+				class="fas fa-bars"></i></button>
+		<!-- 左上標題-->
+		<a class="navbar-brand ps-3" href="${pageContext.request.contextPath}/view/backStageIndex.jsp"
+			style="text-align: left;">Fithub管理系統</a>
+		<form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+			<!-- 右上登入-->
+			<ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+				<li class="nav-item  dropdown">
+					<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+						<li><a class="dropdown-item"
+								href="${pageContext.request.contextPath}/BackStageLogout">Logout</a></li>
+					</ul>
+				</li>
+			</ul>
+		</form>
+	</nav>
+
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_nav">
+			<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+				<div class="sb-sidenav-menu">
+					<div class="nav">
+
+						<!-- 組織 -->
+						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+							data-bs-target="#collapseLayouts1" aria-expanded="false" aria-controls="collapseLayouts">
+							<div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+							組織管理
+							<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+						</a>
+						<div class="collapse" id="collapseLayouts1" aria-labelledby="headingOne"
+							data-bs-parent="#sidenavAccordion">
+							<nav class="sb-sidenav-menu-nested nav">
+								<a class="nav-link" href="${pageContext.request.contextPath}/BackStageGetDept">部門分類</a>
+								<a class="nav-link" href="${pageContext.request.contextPath}/BackStageGetEmp">員工管理</a>
+							</nav>
+						</div>
+
+						<!-- 課程 -->
+						<a class="nav-link collapsed " href="#" data-bs-toggle="collapse"
+							data-bs-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts">
+							<div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+							課程管理
+							<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+						</a>
+						<div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne"
+							data-bs-parent="#sidenavAccordion">
+							<nav class="sb-sidenav-menu-nested nav">
+								<a class="nav-link" href="${pageContext.request.contextPath}/GetAllCourse">課程管理</a>
+								<a class="nav-link" href="#">課程排程</a>
+							</nav>
+						</div>
+
+						<!-- 活動 -->
+						<a class="nav-link collapsed " href="#" data-bs-toggle="collapse"
+							data-bs-target="#collapseLayouts3" aria-expanded="false" aria-controls="collapseLayouts">
+							<div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+							活動管理
+							<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+						</a>
+						<div class="collapse" id="collapseLayouts3" aria-labelledby="headingOne"
+							data-bs-parent="#sidenavAccordion">
+							<nav class="sb-sidenav-menu-nested nav">
+								<a class="nav-link" th:href="@{/activity/page}">全部活動</a>
+								<a class="nav-link" th:href="@{/activity/insert}">新增活動</a>
+								<a class="nav-link" th:href="@{/activity/activitypic}">活動圖片</a>
+							</nav>
+						</div>
+
+						<!-- 優惠券 -->
+						<a class="nav-link collapsed " href="#" data-bs-toggle="collapse"
+							data-bs-target="#collapseLayouts4" aria-expanded="false" aria-controls="collapseLayouts">
+							<div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+							優惠券管理
+							<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+						</a>
+						<div class="collapse" id="collapseLayouts4" aria-labelledby="headingOne"
+							data-bs-parent="#sidenavAccordion">
+							<nav class="sb-sidenav-menu-nested nav">
+								<a class="nav-link" href="${pageContext.request.contextPath}/GetAllCou">優惠券資料</a>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</nav>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+	<script th:src="@{/js/scripts.js}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+	<script th:src="@{/js/datatables-simple-demo.js}"></script>
+</body>
+
+</html>

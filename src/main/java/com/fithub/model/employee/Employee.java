@@ -1,6 +1,5 @@
 package com.fithub.model.employee;
 
-
 import com.fithub.model.department.Department;
 
 import jakarta.persistence.Column;
