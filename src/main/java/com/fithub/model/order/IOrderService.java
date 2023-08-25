@@ -21,4 +21,6 @@ public interface IOrderService {
 	
 	// 查詢單筆
 	public Order findById(Integer id);
+	
+	void deleteAllById(Iterable<Integer> selectIds);
 }

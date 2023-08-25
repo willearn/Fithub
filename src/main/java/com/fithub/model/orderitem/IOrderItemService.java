@@ -23,4 +23,6 @@ public interface IOrderItemService {
 	public OrderItem findById(Integer id);
 
 	public List<OrderItem> findAllWithDetails();
+	
+	void deleteAllById(Iterable<Integer> selectIds);
 }

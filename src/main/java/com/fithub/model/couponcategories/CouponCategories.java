@@ -3,7 +3,6 @@ package com.fithub.model.couponcategories;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fithub.model.coupon.Coupon;
 
 import jakarta.persistence.CascadeType;

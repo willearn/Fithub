@@ -68,4 +68,11 @@ public class OrderItemService implements IOrderItemService {
 		return result.get();
 	}
 
+	@Override
+	public void deleteAllById(Iterable<Integer> selectIds) {
+		orderItemRepo.deleteAllById(selectIds);
+		
+	}
+	
+
 }
