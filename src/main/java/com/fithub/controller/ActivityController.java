@@ -61,21 +61,9 @@ public class ActivityController {
 	}
 
 	// 新增單筆活動
-//	@PostMapping("/insert")
-//	public ResponseEntity<?> insertActivity(@RequestBody Activity activity) {
-//		try {
-//			System.out.println(object);
-//			iActivityService.insert(activity);
-//			return new ResponseEntity<>(HttpStatus.OK);
-//		} catch (Exception e) {
-//			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
-//	}
-
 	@PostMapping("/insert")
 	public ResponseEntity<?> insertActivity(@RequestBody Activity activity) {
 		String[] result = activity.getPic();
-
 		try {
 			if (result != null && result.length > 0 && !result[0].isEmpty()) {
 				List<ActivityPic> activityPicList = new ArrayList<>();
