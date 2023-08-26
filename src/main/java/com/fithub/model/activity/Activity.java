@@ -3,6 +3,8 @@ package com.fithub.model.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fithub.model.activitypic.ActivityPic;
 import com.fithub.model.employee.Employee;
 
@@ -17,6 +19,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 
 @Data
@@ -40,12 +43,16 @@ public class Activity {
 	private String activityon;
 	private String activityoff;
 	private Integer activitysort;
+	
+	@Transient
+	private String[] pic;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "employeeid", insertable = false, updatable = false)
 	private Employee employee;
 
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "activity")
 	private List<ActivityPic> activitypic = new ArrayList<>();
-
+	
 }

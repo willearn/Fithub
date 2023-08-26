@@ -1,5 +1,6 @@
 package com.fithub.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fithub.model.activity.Activity;
 import com.fithub.model.activity.IActivityService;
+import com.fithub.model.activitypic.ActivityPic;
 import com.fithub.model.activitypic.IActivityPicService;
 import com.fithub.model.employee.Employee;
 import com.fithub.model.employee.EmployeeRepository;
@@ -59,16 +61,37 @@ public class ActivityController {
 	}
 
 	// 新增單筆活動
+//	@PostMapping("/insert")
+//	public ResponseEntity<?> insertActivity(@RequestBody Activity activity) {
+//		try {
+//			System.out.println(object);
+//			iActivityService.insert(activity);
+//			return new ResponseEntity<>(HttpStatus.OK);
+//		} catch (Exception e) {
+//			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+//	}
+	
 	@PostMapping("/insert")
 	public ResponseEntity<?> insertActivity(@RequestBody Activity activity) {
+		
+		String[] result = activity.getPic();
+
 		try {
-			System.out.println(activity);
-//			iActivityService.insert(activity);
-			return new ResponseEntity<>(HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+			List<ActivityPic> activityPicList = new ArrayList<>();
+	        for (int i =0;i<result.length;i++) {
+	        	ActivityPic apic = new ActivityPic();
+	        	apic.setApicfile(result[i]);
+	        	activityPicList.add(apic);
+	        }
+	        activity.setActivitypic(activityPicList);
+	        iActivityService.insert(activity);
+	        return new ResponseEntity<>(HttpStatus.OK);
+	    } catch (Exception e) {
+	        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
 	}
+	
 
 	// 更新單筆活動
 	@PutMapping("/update")
