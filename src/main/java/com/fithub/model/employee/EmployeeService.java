@@ -48,5 +48,10 @@ public class EmployeeService implements IEmployeeService{
 		List<Employee> list = eDao.findAll();
 		return list;
 	}
+	
+	public List<Object[]> findAllemployeenameAndemployeeid(){
+		List<Object[]> list = eDao.findAllemployeenameAndemployeeid();
+		return list;
+	}
 
 }

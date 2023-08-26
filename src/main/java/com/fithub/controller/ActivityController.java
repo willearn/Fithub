@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fithub.model.activity.Activity;
 import com.fithub.model.activity.IActivityService;
 import com.fithub.model.activitypic.IActivityPicService;
+import com.fithub.model.employee.Employee;
 import com.fithub.model.employee.EmployeeRepository;
+import com.fithub.model.employee.IEmployeeService;
 
 @CrossOrigin
 @RestController
@@ -29,7 +31,7 @@ public class ActivityController {
 	private IActivityService iActivityService;
 
 	@Autowired
-	private EmployeeRepository employeeRepository;
+	private IEmployeeService iEmployeeService;
 
 	@Autowired
 	private IActivityPicService iActivityPicService;
@@ -44,12 +46,24 @@ public class ActivityController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	// 列出所有員工姓名和編號
+	@GetMapping("/findAllemployeenameAndemployeeid")
+	public ResponseEntity<?> findAllemployeenameAndemployeeid() {
+	    try {
+	        List<Object[]> AllemployeenameAndemployeeid = iEmployeeService.findAllemployeenameAndemployeeid();
+	        return new ResponseEntity<>(AllemployeenameAndemployeeid, HttpStatus.OK);
+	    } catch (Exception e) {
+	        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
 
 	// 新增單筆活動
 	@PostMapping("/insert")
 	public ResponseEntity<?> insertActivity(@RequestBody Activity activity) {
 		try {
-			iActivityService.insert(activity);
+			System.out.println(activity);
+//			iActivityService.insert(activity);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
