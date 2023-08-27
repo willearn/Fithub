@@ -10,7 +10,7 @@ public interface ICouponCategoriesService {
     
     CouponCategories saveCouponCategories(CouponCategories couponCategories);
     
-    CouponCategories updateCouponCategories(Integer id, CouponCategories couponCategories);
+    boolean updateCouponCategories(CouponCategories couponCategories);
     
     void deleteCouponCategories(Integer id);
     

@@ -49,23 +49,18 @@ public class CouponCategoriesController {
             return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-   
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateCouponCategories(@PathVariable Integer id, @RequestBody CouponCategories couponCategories) {
-        try {
-            CouponCategories existingCouponCategories = couponCategoriesService.getCouponCategoriesById(id);
-            if (existingCouponCategories == null) {
-                return new ResponseEntity<>("Coupon categories with ID " + id + " not found.", HttpStatus.NOT_FOUND);
-            }
-
-            couponCategories.setCouponcategoriesid(id);
-            CouponCategories updatedCouponCategories = couponCategoriesService.saveCouponCategories(couponCategories);
-            
-            return new ResponseEntity<>(updatedCouponCategories, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-}
+  
+    
+	// 修改優惠券
+	@PutMapping("/update")
+	public ResponseEntity<?> updateCouponCategories(@RequestBody CouponCategories couponCategories) {
+		try {
+			couponCategoriesService.updateCouponCategories(couponCategories);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCouponCategories(@PathVariable Integer id) {
