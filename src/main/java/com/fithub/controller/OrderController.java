@@ -56,18 +56,21 @@ public class OrderController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateOrder(@PathVariable Integer id, @RequestBody Order order) {
+    @PutMapping("/update")
+    public ResponseEntity<String> updateOrder(@RequestBody Order order) {
         try {
-            order.setOrderId(id);
+            // Assuming you have a way to identify the order, possibly using order.getOrderId()
             Boolean updated = orderService.update(order);
+            
             if (updated) {
-                return new ResponseEntity<>("Order updated successfully.", HttpStatus.OK);
+                return ResponseEntity.ok("Order updated successfully.");
             } else {
-                return new ResponseEntity<>("Order with ID " + id + " not found.", HttpStatus.NOT_FOUND);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                     .body("Order not found.");
             }
         } catch (Exception e) {
-            return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body("An error occurred: " + e.getMessage());
         }
     }
 
