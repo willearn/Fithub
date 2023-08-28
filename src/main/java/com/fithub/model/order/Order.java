@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fithub.model.member.Member;
 import com.fithub.model.orderitem.OrderItem;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -52,7 +53,7 @@ public class Order {
 	@JoinColumn(name="MEMBERID",insertable = false,updatable = false)
 	private Member member;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
 	@JsonIgnore
 	private Set<OrderItem> orderItem = new HashSet<OrderItem>();
 	

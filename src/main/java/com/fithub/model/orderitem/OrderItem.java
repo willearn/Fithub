@@ -40,12 +40,12 @@ public class OrderItem {
 	@JoinColumn(name="ORDERID",insertable = false,updatable = false)
 	private Order order;
 	
-	@JsonIgnore
+//	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="CLASSID",insertable = false,updatable = false)
 	private Classes classes;
 	
-	@JsonIgnore
+//	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="couponid",insertable = false,updatable = false)
 	private Coupon coupon;
