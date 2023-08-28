@@ -10,6 +10,7 @@ public class ResponseModel {
     private boolean status = false;
     private String token = "";
     private String username = "";
+    private Integer loa = 0;
     
     public String toJSONString(){
         ObjectMapper objectMapper = new ObjectMapper();

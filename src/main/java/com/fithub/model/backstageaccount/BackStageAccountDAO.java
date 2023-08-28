@@ -19,4 +19,7 @@ public interface BackStageAccountDAO extends JpaRepository<BackStageAccount, Int
     @Transactional
 	@Query("delete from BackStageAccount where employeeaccount = :account")
     void deleteBackStageAccountByAccount(@Param("account") String account);
+	
+	@Query("select loa from BackStageAccount where employeeaccount = :account")
+	Integer findLoaByAccount(@Param("account") String account);
 }

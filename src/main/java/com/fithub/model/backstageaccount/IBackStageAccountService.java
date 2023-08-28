@@ -9,4 +9,6 @@ public interface IBackStageAccountService {
 	public void deleteBackStageAccountByAccount(String account);
 	public BackStageAccount findBackStageAccountByAccount(String account);
 	public List<BackStageAccount> findAll();
+	public BackStageAccount checkLogin(BackStageAccount bBean);
+	public Integer checkLoa(String account);
 }
