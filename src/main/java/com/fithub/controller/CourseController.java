@@ -1,6 +1,7 @@
 package com.fithub.controller;
 
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,13 +37,10 @@ public class CourseController {
 
 	@Autowired
 	private ICourseService cService;
+	
+	private String imagePath = "C:/SpringBoot/workspace/Fithub/src/main/resources/static/images/course/";
+//	String imagePath = "classpath:\\static/images/course/";
 
-	@Autowired
-	private final ResourceLoader resourceLoader;
-
-	public CourseController(ResourceLoader resourceLoader) {
-		this.resourceLoader = resourceLoader;
-	}
 
 	@GetMapping("/{cid}")
 	public ResponseEntity<?> findCourse(@PathVariable("cid") int cid) {
@@ -76,12 +75,16 @@ public class CourseController {
 
 	}
 
-	@PutMapping("/{cid}")
+	@PutMapping
 	public ResponseEntity<?> updateCourse(@RequestBody Course cBean) {
+		System.out.println("I am here to put");
+		System.out.println(cBean.getCourseName());
+		System.out.println(cBean.getCourseDescription());
 		try {
 			Boolean resultBoolean = cService.update(cBean);
 			return new ResponseEntity<>(resultBoolean, HttpStatus.OK);
 		} catch (Exception e) {
+			System.out.println(e.getStackTrace());
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -89,6 +92,13 @@ public class CourseController {
 	@DeleteMapping("/{cid}")
 	public ResponseEntity<?> deleteCourse(@PathVariable("cid") int cid) {
 		try {
+			Course resultBean = cService.findById(cid);
+			File destinationFile = new File(imagePath+resultBean.getCourseImgPath());
+			
+			// Delete the img file
+			if (destinationFile.exists()) {
+			    destinationFile.delete();
+			}
 			Boolean resultBoolean = cService.deleteById(cid);
 			return new ResponseEntity<>(resultBoolean, HttpStatus.OK);
 		} catch (Exception e) {
@@ -110,7 +120,6 @@ public class CourseController {
 
 	@PostMapping("/uploadImg")
 	public ResponseEntity<?> uploadImg(@RequestParam(required = false) MultipartFile photoContent) {
-		String imagePath = "C:/SpringBoot/workspace/Fithub/src/main/resources/static/images/course/";
 		try {
 			if (photoContent != null) {
 				String imageFileName = UUID.randomUUID().toString()+ ".jpg";
@@ -125,23 +134,91 @@ public class CourseController {
 		return new ResponseEntity<>("Bad Request", HttpStatus.BAD_REQUEST);
 
 	}
+	
+	@PutMapping("/uploadImg")
+	public ResponseEntity<?> uploadUpdateImg(@RequestParam(required = false) MultipartFile photoContent,
+			@RequestParam(value="courseImgPath") String courseImgPath) {
+		
+		// ================== 資料更新後不再使用.length()<20 
+		if (courseImgPath.length()<20 || courseImgPath==null) {
+			courseImgPath = UUID.randomUUID().toString()+ ".jpg";
+		}
+		// ==================
+		try {
+			if (photoContent != null) {
+				File destinationFile = new File(imagePath+courseImgPath);
+				
+				// Delete the exist img file
+				if (destinationFile.exists()) {
+				    destinationFile.delete();
+				}
+				photoContent.transferTo(destinationFile);
 
-	@GetMapping("/img/{cid}")
-	public ResponseEntity<?> getCourseImg(@PathVariable("cid") int cid) {
+				return new ResponseEntity<>(courseImgPath, HttpStatus.OK);
+			}
+		} 
+		catch (IOException  e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		} 
+		return new ResponseEntity<>("Bad Request", HttpStatus.BAD_REQUEST);
+
+	}
+	
+	// 清理image Course資料夾 刪除未使用檔案
+	@DeleteMapping("/deleteImg")
+	public ResponseEntity<?> deleteCourseImgNoUse() {
+        File folder = new File(imagePath);
+
+        // 確保指定path存在且是一個目錄
+        if (folder.exists() && folder.isDirectory()) {
+            File[] files = folder.listFiles();
+
+            if (files != null) {
+                List<Course> resultList = cService.findAll();
+
+                for (File file : files) {
+                    if (file.isFile()) {
+                        boolean foundInResultList = false;
+                        String fileName = file.getName();
+
+                        for (Course course : resultList) {
+                            if (course.getCourseImgPath().equals(fileName)) {
+                                foundInResultList = true;
+                                break;
+                            }
+                        }
+
+                        if (!foundInResultList) {
+                            file.delete(); // 删除不在resultList中的文件
+                        }
+                    }
+                }
+            } else {
+                System.out.println("No files in the folder.");
+            }
+        } else {
+            System.out.println("Invalid folder path.");
+        }
+		return new ResponseEntity<>("Course folder clean!!!", HttpStatus.OK);
+
+	}
+
+	@GetMapping(value = "/getImg", produces = "image/*")
+	public ResponseEntity<?> getCourseImg(@RequestParam int cid) {
 		Course resultBean = cService.findById(cid);
-		String imagePath = "C:/SpringBoot/workspace/Fithub/src/main/resources/static/images/course/";
 		String imageName = resultBean.getCourseImgPath();
 		try {
-			String base64Image = convertImageToBase64(imagePath+imageName);
-            System.out.println("Base64 Image: " + base64Image);
-			return new ResponseEntity<>(base64Image, HttpStatus.OK);
+			BufferedInputStream bis = new BufferedInputStream(
+					new FileInputStream(ResourceUtils.getFile("classpath:\\static/images/course/"+imageName)));
+			byte[] imgContent = bis.readAllBytes();
+			bis.close();
+			return new ResponseEntity<>(imgContent, HttpStatus.OK);
 
 		} catch (IOException  e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		} 
 
 	}
-	
 	
     private String convertImageToBase64(String imagePath) throws IOException {
         File imageFile = new File(imagePath);
