@@ -10,10 +10,11 @@ import jakarta.transaction.Transactional;
 
 
 
-public interface BackStageAccountDAO extends JpaRepository<BackStageAccount, Integer>{
+public interface BackStageAccountRepository extends JpaRepository<BackStageAccount, Integer>{
 	
 	@Query("from BackStageAccount where employeeaccount = :account")
 	BackStageAccount findBackStageAccountByAccount(@Param("account") String account);
+	
 	
 	@Modifying
     @Transactional
@@ -22,4 +23,6 @@ public interface BackStageAccountDAO extends JpaRepository<BackStageAccount, Int
 	
 	@Query("select loa from BackStageAccount where employeeaccount = :account")
 	Integer findLoaByAccount(@Param("account") String account);
+	
+	
 }

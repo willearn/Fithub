@@ -4,23 +4,20 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DepartmentService implements IDepartmentService{
 
 	@Autowired
-	private DepartmentDAO dDao;
+	private DepartmentRepository dRepo;
 	
 	@Override
 	public boolean insert(Department dBean) {
-		Department result = dDao.findDepartmentByName(dBean.getDeptname());
+		Department result = dRepo.findDepartmentByName(dBean.getDeptname());
 		
 		if(result == null) {
-			Department resultBean = dDao.save(dBean);
+			Department resultBean = dRepo.save(dBean);
 			if(resultBean != null) {
 				return true;
 			}
@@ -31,10 +28,10 @@ public class DepartmentService implements IDepartmentService{
 	
 	@Override
 	public boolean update(Department dBean) {
-		Department result = dDao.findDepartmentByName(dBean.getDeptname());
+		Department result = dRepo.findDepartmentByName(dBean.getDeptname());
 		System.out.println("update-result:" + result);
 		if(result == null) {
-			Department resultBean = dDao.save(dBean);
+			Department resultBean = dRepo.save(dBean);
 			System.out.println("update-result2:" + resultBean);
 			if(resultBean!=null) {
 				return true;
@@ -45,12 +42,12 @@ public class DepartmentService implements IDepartmentService{
 	
 	@Override
 	public void deleteById(Integer id) {
-		dDao.deleteById(id);
+		dRepo.deleteById(id);
 	}
 	
 	@Override
 	public Department findById(Integer id) {
-		Optional<Department> optional = dDao.findById(id);
+		Optional<Department> optional = dRepo.findById(id);
 		
 		if(optional.isPresent()) {
 			return optional.get();
@@ -61,12 +58,12 @@ public class DepartmentService implements IDepartmentService{
 	
 	@Override
 	public List<Department> findAll() {
-		List<Department> list = dDao.findAll();
+		List<Department> list = dRepo.findAll();
 		return list;
 	}
 	
 	public boolean findDepartmentByName(String name) {
-		Department result = dDao.findDepartmentByName(name);
+		Department result = dRepo.findDepartmentByName(name);
 		
 		if(result != null) {
 			return true;

@@ -25,6 +25,9 @@ public class EmployeeController {
 	@Autowired
 	private IEmployeeService eService;
 	
+	@Autowired
+	private JobTitleController jController;
+	
 	@GetMapping("/employees/{eid}")
 	public ResponseEntity<Employee> findById(@PathVariable("eid") int eid) throws JsonProcessingException {
 		Employee emp = eService.findById(eid);
@@ -76,4 +79,14 @@ public class EmployeeController {
 			return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	@GetMapping("/employees/managers")
+	public ResponseEntity<List<Employee>> findManagers(){
+		Integer jobTitleId = jController.findJobTitleIdByName("主管");
+		List<Employee> resultBeans = eService.findManagerByJobTitleId(jobTitleId);
+		System.out.println("resultBeans--------------------" + resultBeans);
+		if(resultBeans != null) {
+			return new ResponseEntity<List<Employee>>(resultBeans,HttpStatus.OK);
+		}
+		return null;
+	}
 }

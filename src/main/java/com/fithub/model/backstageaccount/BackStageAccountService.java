@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BackStageAccountService implements IBackStageAccountService{
 
 	@Autowired
-	private BackStageAccountDAO bDao;
+	private BackStageAccountRepository bDao;
 	
 	@Autowired
 	private PasswordEncoder pwdEncoder;
