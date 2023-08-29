@@ -8,4 +8,5 @@ public interface IEmployeeService {
 	public void deleteById(Integer id);
 	public Employee findById(Integer id);
 	public List<Employee> findAll();
+	public List<Object[]> findNameAndIdByEmployeeTitle(String employeeTitle);
 }

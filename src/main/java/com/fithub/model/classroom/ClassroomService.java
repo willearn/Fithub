@@ -23,6 +23,12 @@ public class ClassroomService implements IClassroomService {
 		List<Object[]> result = classroomRepo.findAllClassroomNamesAndIds();
 		return result;
 	}
+	
+	@Override
+	public List<Object[]> findAllClassroomsWithoutDescriptionsAndPics() {
+		List<Object[]> result = classroomRepo.findAllClassroomsWithoutDescriptionsAndPics();
+		return result;
+	}
 
 	@Override
 	public Classroom insert(Classroom classroom) {

@@ -1,5 +1,6 @@
 package com.fithub.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fithub.model.classroom.Classroom;
 import com.fithub.model.classroom.IClassroomService;
+import com.fithub.model.employee.Employee;
 
 @CrossOrigin
 @RestController
@@ -43,6 +45,41 @@ public class ClassroomController {
 		try {
 			List<Object[]> classroomNamesAndIds = iclassroomService.findAllClassroomNamesAndIds();
 			return new ResponseEntity<>(classroomNamesAndIds, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	// Author Chrislafolia
+	// 查詢全部教室 不含 description 和 pic
+	@GetMapping("/listWithoutDescriptionsAndPics")
+	public ResponseEntity<?> findAllClassroomsWithoutDescriptionsAndPics() {
+		try {
+			List<Object[]> resultList = iclassroomService.findAllClassroomsWithoutDescriptionsAndPics();
+			if (resultList != null) {
+				List<Classroom> classroomsList = new ArrayList<>();
+				for (Object[] result : resultList) {
+				    // Assuming the first element of the result array is the employee title and the second is the employee ID
+					int classroomId = (int) result[0];
+				    String classroomName = (String) result[1];
+				    int classroomCapacity =(int) result[2];
+				    int classroomPrice =(int) result[3];
+				    String classroomStatus =(String) result[4];
+				    
+
+				    Classroom classroom = new Classroom();
+				    classroom.setClassroomId(classroomId);
+				    classroom.setClassroomName(classroomName);
+				    classroom.setClassroomCapacity(classroomCapacity);
+				    classroom.setClassroomPrice(classroomPrice);
+				    classroom.setClassroomStatus(classroomStatus);
+
+				    classroomsList.add(classroom);
+				}
+				return new ResponseEntity<>(classroomsList, HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

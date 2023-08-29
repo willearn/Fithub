@@ -1,5 +1,6 @@
 package com.fithub.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fithub.model.employee.Employee;
 import com.fithub.model.employee.IEmployeeService;
 
@@ -46,6 +48,32 @@ public class EmployeeController {
 		}
 		
 		return new ResponseEntity<List<Employee>>(emps,HttpStatus.NOT_FOUND);
+	}
+	
+	@PostMapping(value="/employees/title")
+	public ResponseEntity<?> findNameAndIdByEmployeeTitle(@RequestBody Employee eBean)  {
+		System.out.println(eBean.getEmployeetitle());
+		List<Object[]> resultList = eService.findNameAndIdByEmployeeTitle(eBean.getEmployeetitle());
+		
+		if (resultList != null) {
+		List<Employee> empsList = new ArrayList<>();
+		for (Object[] result : resultList) {
+		    // Assuming the first element of the result array is the employee title and the second is the employee ID
+			int employeeId = (int) result[0];
+		    String employeeName = (String) result[1];
+		    System.out.println(employeeId);
+		    System.out.println(employeeName);
+
+		    Employee employee = new Employee();
+		    employee.setEmployeename(employeeName);
+		    employee.setEmployeeid(employeeId);
+
+		    empsList.add(employee);
+		}
+			return new ResponseEntity<List<Employee>>(empsList,HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
 	@PostMapping("/employees")

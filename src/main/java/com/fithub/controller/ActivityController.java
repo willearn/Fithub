@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fithub.model.activity.Activity;
 import com.fithub.model.activity.IActivityService;
 import com.fithub.model.activitypic.IActivityPicService;
-import com.fithub.model.employee.EmployeeRepository;
+import com.fithub.model.employee.IEmployeeService;
 
 @CrossOrigin
 @RestController
@@ -29,7 +29,7 @@ public class ActivityController {
 	private IActivityService iActivityService;
 
 	@Autowired
-	private EmployeeRepository employeeRepository;
+	private IEmployeeService iEmployeeService;
 
 	@Autowired
 	private IActivityPicService iActivityPicService;

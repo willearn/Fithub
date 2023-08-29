@@ -49,4 +49,11 @@ public class EmployeeService implements IEmployeeService{
 		return list;
 	}
 
+	// Author: ChrislaFolia
+	@Override
+	public List<Object[]> findNameAndIdByEmployeeTitle(String employeeTitle) {
+		List<Object[]> list = eDao.findNameAndIdByEmployeeTitle(employeeTitle);
+		return list;
+	}
+
 }
