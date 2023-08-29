@@ -52,7 +52,6 @@ public class EmployeeController {
 	
 	@PostMapping(value="/employees/title")
 	public ResponseEntity<?> findNameAndIdByEmployeeTitle(@RequestBody Employee eBean)  {
-		System.out.println(eBean.getEmployeetitle());
 		List<Object[]> resultList = eService.findNameAndIdByEmployeeTitle(eBean.getEmployeetitle());
 		
 		if (resultList != null) {
@@ -61,8 +60,6 @@ public class EmployeeController {
 		    // Assuming the first element of the result array is the employee title and the second is the employee ID
 			int employeeId = (int) result[0];
 		    String employeeName = (String) result[1];
-		    System.out.println(employeeId);
-		    System.out.println(employeeName);
 
 		    Employee employee = new Employee();
 		    employee.setEmployeename(employeeName);

@@ -56,9 +56,9 @@ public class ClassesController {
         }
 	}
 	
-	@PutMapping("/{cid}")
+	@PutMapping
 	public ResponseEntity<?> updateClass(@RequestBody Classes cBean) {	
-        try {
+		try {
         	Boolean resultBoolean=cService.update(cBean);
             return new ResponseEntity<>(resultBoolean,HttpStatus.OK);
         } catch (Exception e) {
