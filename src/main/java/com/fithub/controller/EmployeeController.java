@@ -59,6 +59,7 @@ public class EmployeeController {
 	
 	@PutMapping("/employees/{eid}")
 	public ResponseEntity<Object> updateById(@PathVariable("eid") int eid,@RequestBody Employee eBean) {
+		System.out.println("eBean : " + eBean.getDeptid());
 		if(eService.findById(eid) != null) {
 			boolean result = eService.update(eBean);
 			if(result) {
