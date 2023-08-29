@@ -16,6 +16,16 @@ public class OrderItemController {
 
     @Autowired
     private OrderItemService orderItemService;
+    
+    @GetMapping("/{orderId}")
+    public ResponseEntity<OrderItem> getOrderItemByOrderId(@PathVariable Integer orderId) {
+        OrderItem orderItem = orderItemService.getOrderItemByOrderId(orderId);
+        if (orderItem != null) {
+            return new ResponseEntity<>(orderItem, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     @GetMapping
     public ResponseEntity<?> getAllOrderItems() {
@@ -27,15 +37,15 @@ public class OrderItemController {
         }
     }
     
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getOrderItemById(@PathVariable Integer id) {
-        try {
-            OrderItem orderItem = orderItemService.findById(id);
-            return new ResponseEntity<>(orderItem, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<?> getOrderItemById(@PathVariable Integer id) {
+//        try {
+//            OrderItem orderItem = orderItemService.findById(id);
+//            return new ResponseEntity<>(orderItem, HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
     
 
     @PostMapping
