@@ -78,5 +78,11 @@ public class OrderItemService implements IOrderItemService {
         return orderItemRepo.findByOrderId(orderId);
     }
 	
+	@Override
+	public List<OrderItem> getAllOrderItemByOrderId(Integer orderId){
+		List<OrderItem> resultBeans = orderItemRepo.getAllOrderItemByOrderId(orderId);
+		return resultBeans;
+	}
+	
 
 }

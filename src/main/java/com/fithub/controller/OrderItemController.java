@@ -37,6 +37,16 @@ public class OrderItemController {
         }
     }
     
+    @GetMapping("/items/{orderId}")
+    public ResponseEntity<?> getAllOrderItemsById(@PathVariable Integer orderId) {
+        try {
+            List<OrderItem> orderItems = orderItemService.getAllOrderItemByOrderId(orderId);
+            return new ResponseEntity<>(orderItems, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
 //    @GetMapping("/{id}")
 //    public ResponseEntity<?> getOrderItemById(@PathVariable Integer id) {
 //        try {

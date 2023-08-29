@@ -36,6 +36,7 @@ public class OrderController {
         }
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getOrderById(@PathVariable Integer id) {
         try {
@@ -45,6 +46,7 @@ public class OrderController {
             return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
 
     @PostMapping
     public ResponseEntity<?> createOrder(@RequestBody Order order) {
