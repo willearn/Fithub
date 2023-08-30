@@ -89,4 +89,15 @@ public class EmployeeController {
 		}
 		return null;
 	}
+	
+	@GetMapping("/employees/coachs")
+	public ResponseEntity<List<Employee>> findCoachs(){ 
+		Integer jobTitleId = jController.findJobTitleIdByName("教練");
+		List<Employee> resultBeans = eService.findManagerByJobTitleId(jobTitleId);
+		System.out.println("resultBeans--------------------" + resultBeans);
+		if(resultBeans != null) {
+			return new ResponseEntity<List<Employee>>(resultBeans,HttpStatus.OK);
+		}
+		return null;
+	}
 }

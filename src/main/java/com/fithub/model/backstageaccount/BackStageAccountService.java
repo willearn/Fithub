@@ -14,17 +14,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class BackStageAccountService implements IBackStageAccountService{
 
 	@Autowired
-	private BackStageAccountRepository bDao;
+	private BackStageAccountRepository bRepo;
 	
 	@Autowired
 	private PasswordEncoder pwdEncoder;
 	
 	@Override
 	public boolean insert(BackStageAccount bBean) {
-		BackStageAccount result = bDao.findBackStageAccountByAccount(bBean.getEmployeeaccount());
+		BackStageAccount result = bRepo.findBackStageAccountByAccount(bBean.getEmployeeaccount());
 		bBean.setEmployeepassword(pwdEncoder.encode(bBean.getEmployeepassword()));
 		if(result == null) {
-			BackStageAccount resultBean = bDao.save(bBean);
+			BackStageAccount resultBean = bRepo.save(bBean);
 			if(resultBean != null) {
 				return true;
 			}
@@ -35,7 +35,8 @@ public class BackStageAccountService implements IBackStageAccountService{
 	
 	@Override
 	public boolean update(BackStageAccount bBean) {
-		BackStageAccount result = bDao.save(bBean);
+		bBean.setEmployeepassword(pwdEncoder.encode(bBean.getEmployeepassword()));
+		BackStageAccount result = bRepo.save(bBean);
 		if(result != null) {
 			return true;
 		}
@@ -44,12 +45,12 @@ public class BackStageAccountService implements IBackStageAccountService{
 	
 	@Override
 	public void deleteBackStageAccountByAccount(String account) {
-		bDao.deleteBackStageAccountByAccount(account);
+		bRepo.deleteBackStageAccountByAccount(account);
 	}
 	
 	@Override
 	public BackStageAccount findBackStageAccountByAccount(String account) {
-		BackStageAccount resultBean = bDao.findBackStageAccountByAccount(account);
+		BackStageAccount resultBean = bRepo.findBackStageAccountByAccount(account);
 		
 		if(resultBean != null) {
 			return resultBean;
@@ -60,14 +61,14 @@ public class BackStageAccountService implements IBackStageAccountService{
 	
 	@Override
 	public List<BackStageAccount> findAll(){
-		List<BackStageAccount> list = bDao.findAll();
+		List<BackStageAccount> list = bRepo.findAll();
 		return list;
 	}
 	
 	@Override
 	public BackStageAccount checkLogin(BackStageAccount bBean) {
 		System.out.println("NAME:" + bBean.getEmployeeaccount());
-		BackStageAccount resultBean = bDao.findBackStageAccountByAccount(bBean.getEmployeeaccount());
+		BackStageAccount resultBean = bRepo.findBackStageAccountByAccount(bBean.getEmployeeaccount());
 		System.out.println("checkLogin");
 		System.out.println(resultBean);
 		if(resultBean != null) {
@@ -84,7 +85,7 @@ public class BackStageAccountService implements IBackStageAccountService{
 	
 	@Override
 	public Integer checkLoa(String account) {
-		Integer loa = bDao.findLoaByAccount(account);
+		Integer loa = bRepo.findLoaByAccount(account);
 		return loa;
 	}
 

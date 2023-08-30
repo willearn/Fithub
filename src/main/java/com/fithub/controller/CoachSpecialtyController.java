@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import com.fithub.model.coachspecialty.CoachSpecialty;
 import com.fithub.model.coachspecialty.ICoachSpecialtyService;
 
 @RestController
+@CrossOrigin()
 public class CoachSpecialtyController {
 
 	@Autowired
@@ -62,6 +64,9 @@ public class CoachSpecialtyController {
 	
 	@PutMapping("/coachspecialtys/{cid}")
 	public ResponseEntity<Object> updateById(@PathVariable("cid") int cid,@RequestBody CoachSpecialty cBean) {
+		System.out.println(cBean.getCoachspecialtyid());
+		System.out.println(cBean.getEmployeeid());
+		System.out.println(cBean.getSpecialtyid());
 		if(cService.findById(cid) != null) {
 			boolean result = cService.update(cBean);
 			if(result) {
