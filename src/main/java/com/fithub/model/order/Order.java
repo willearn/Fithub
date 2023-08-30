@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fithub.model.member.Member;
 import com.fithub.model.orderitem.OrderItem;
 
@@ -49,6 +50,7 @@ public class Order {
 	@Column(name="orderState")
 	private int orderstate;
 	
+	@JsonIgnoreProperties({ "rentOrders" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="MEMBERID",insertable = false,updatable = false)
 	private Member member;

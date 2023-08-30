@@ -50,7 +50,8 @@ public class Classroom {
 
 	@Column(name = "classroompic")
 	private String classroomPic;
-
+	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "classroom")
 	private Set<Classes> classes = new HashSet<Classes>();
 

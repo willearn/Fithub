@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fithub.model.order.Order;
 import com.fithub.model.rentorder.RentOrder;
 
 import jakarta.persistence.Column;
@@ -38,5 +39,9 @@ public class Member {
 	@JsonIgnore
 	@OneToMany(mappedBy = "member")
 	private List<RentOrder> rentOrders = new ArrayList<>();
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "member")
+	private List<Order> orders = new ArrayList<>();
 
 }

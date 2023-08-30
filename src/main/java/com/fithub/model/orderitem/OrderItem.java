@@ -1,6 +1,7 @@
 package com.fithub.model.orderitem;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fithub.model.classes.Classes;
 import com.fithub.model.coupon.Coupon;
 import com.fithub.model.order.Order;
@@ -35,12 +36,12 @@ public class OrderItem {
 	@Column(name="couponid")
 	private int couponId; 
 	
-	
+	@JsonIgnore //等下刪
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="ORDERID",insertable = false,updatable = false)
 	private Order order;
 	
-//	@JsonIgnore
+	@JsonIgnoreProperties({ "epmloyee","cart","classesSet","order","wishlist" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="CLASSID",insertable = false,updatable = false)
 	private Classes classes;
