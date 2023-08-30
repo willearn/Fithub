@@ -66,7 +66,6 @@ public class ActivityController {
 		
 			//取得多筆圖片base64字串
 			String[] result = activity.getPic();
-			
 		try {
 			if (result != null && result.length > 0 && !result[0].isEmpty()) {
 				List<ActivityPic> activityPicList = new ArrayList<>();
