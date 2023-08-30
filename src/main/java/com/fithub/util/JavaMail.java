@@ -15,7 +15,7 @@ import jakarta.mail.internet.MimeMessage.RecipientType;
 public class JavaMail {
 
 	private String username = "cc2260112@gmail.com";
-	private String password = "";
+	private String password = "wdzzghdrzqfcmdlo";
 	private String customer = "cc2260112@gmail.com";
 	private String subject = "測試";
 	private String txt = "信件內容文字";

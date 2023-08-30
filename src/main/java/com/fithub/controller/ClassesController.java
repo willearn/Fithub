@@ -86,4 +86,15 @@ public class ClassesController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@GetMapping("/findAllclassDateAndclassTime")
+	public ResponseEntity<?> findAllclassDateAndclassTime() {
+        try {
+            List<Object[]> resultList = cService.findAllclassDateAndclassTime();
+            return new ResponseEntity<>(resultList, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+	}
+	
 }
