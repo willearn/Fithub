@@ -80,4 +80,15 @@ public class RentOrderController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	// 列出所有租借訂單
+	@GetMapping("/findAllrentdateAndrenttime")
+	public ResponseEntity<?> findAllrentdateAndrenttime() {
+		try {
+			List<Object[]> allRentdateAndRenttime = iRentOrderService.findAllrentdateAndrenttime();
+			return new ResponseEntity<>(allRentdateAndRenttime, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

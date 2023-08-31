@@ -50,4 +50,11 @@ public class RentOrderService implements IRentOrderService {
 	public void deleteAllById(Iterable<Integer> selectIds) {
 		rentOrderRepo.deleteAllById(selectIds);
 	}
+	
+	// 查詢全部 rentdate 和 renttime
+	@Override
+	public List<Object[]> findAllrentdateAndrenttime() {
+		List<Object[]> result = rentOrderRepo.findAllrentdateAndrenttime();
+		return result;
+	}
 }

@@ -18,6 +18,9 @@ public interface IRentOrderService {
 	
 	// 刪除多筆
 	void deleteAllById(Iterable<Integer> selectIds);
+	
+	// 查詢全部 rentdate 和 renttime
+	List<Object[]> findAllrentdateAndrenttime();
 
 
 }
