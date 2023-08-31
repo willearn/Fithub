@@ -20,8 +20,6 @@ import com.fithub.model.activity.Activity;
 import com.fithub.model.activity.IActivityService;
 import com.fithub.model.activitypic.ActivityPic;
 import com.fithub.model.activitypic.IActivityPicService;
-import com.fithub.model.employee.Employee;
-import com.fithub.model.employee.EmployeeRepository;
 import com.fithub.model.employee.IEmployeeService;
 
 @CrossOrigin
