@@ -95,29 +95,6 @@ public class EmployeeController {
 		return new ResponseEntity<>(responseJson.toString(),HttpStatus.NOT_FOUND);
 	}
 	
-	@PostMapping(value="/employees/title")
-	public ResponseEntity<?> findNameAndIdByEmployeeTitle(@RequestBody Employee eBean)  {
-		List<Object[]> resultList = eService.findNameAndIdByEmployeeTitle(eBean.getEmployeetitle());
-		
-		if (resultList != null) {
-		List<Employee> empsList = new ArrayList<>();
-		for (Object[] result : resultList) {
-		    // Assuming the first element of the result array is the employee title and the second is the employee ID
-			int employeeId = (int) result[0];
-		    String employeeName = (String) result[1];
-
-		    Employee employee = new Employee();
-		    employee.setEmployeename(employeeName);
-		    employee.setEmployeeid(employeeId);
-
-		    empsList.add(employee);
-		}
-			return new ResponseEntity<List<Employee>>(empsList,HttpStatus.OK);
-		}
-		
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	}
-	
 	@PostMapping("/employees")
 	public ResponseEntity<Object> insert(@RequestBody Employee eBean) {
 		boolean result = eService.insert(eBean);
@@ -157,7 +134,7 @@ public class EmployeeController {
 		return null;
 	}
 	
-	@GetMapping("/employees/coachs")
+	@GetMapping("/employees/coaches")
 	public ResponseEntity<List<Employee>> findCoachs(){ 
 		Integer jobTitleId = jController.findJobTitleIdByName("教練");
 		List<Employee> resultBeans = eService.findManagerByJobTitleId(jobTitleId);

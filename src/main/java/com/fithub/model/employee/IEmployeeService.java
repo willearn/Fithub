@@ -13,7 +13,7 @@ public interface IEmployeeService {
 
 	public List<Employee> findAll();
 
-	public List<Object[]> findNameAndIdByEmployeeTitle(String employeeTitle);
+//	public List<Object[]> findNameAndIdByJobTitleId(Integer jobtitleid);
 
 	public List<Employee> findManagerByJobTitleId(Integer jobtitleid);
 }

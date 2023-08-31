@@ -58,6 +58,7 @@ public class ClassesController {
 	
 	@PutMapping
 	public ResponseEntity<?> updateClass(@RequestBody Classes cBean) {	
+		System.out.println(cBean.getPrice());
 		try {
         	Boolean resultBoolean=cService.update(cBean);
             return new ResponseEntity<>(resultBoolean,HttpStatus.OK);

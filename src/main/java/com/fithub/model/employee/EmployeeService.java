@@ -2,7 +2,6 @@ package com.fithub.model.employee;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,11 +58,6 @@ public class EmployeeService implements IEmployeeService{
 		return resultBeans;
 	}
 
-	// Author: ChrislaFolia
-	@Override
-	public List<Object[]> findNameAndIdByEmployeeTitle(String employeeTitle) {
-		List<Object[]> list = eDao.findNameAndIdByEmployeeTitle(employeeTitle);
-		return list;
-	}
-
+	
+	
 }

@@ -28,8 +28,8 @@ public class ActivityController {
 	@Autowired
 	private IActivityService iActivityService;
 
-	@Autowired
-	private IEmployeeService iEmployeeService;
+//	@Autowired
+//	private IEmployeeService iEmployeeService;
 
 	@Autowired
 	private IActivityPicService iActivityPicService;
