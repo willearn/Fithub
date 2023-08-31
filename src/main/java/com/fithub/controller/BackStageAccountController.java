@@ -73,4 +73,12 @@ public class BackStageAccountController {
 		bService.deleteBackStageAccountByAccount(account);
 			return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	public BackStageAccount checkLogin(BackStageAccount bBean) {
+		return bService.checkLogin(bBean);
+	}
+	
+	public Integer checkLoa(String account) {
+		return bService.checkLoa(account);
+	}
 }

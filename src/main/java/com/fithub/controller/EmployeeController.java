@@ -3,6 +3,9 @@ package com.fithub.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,6 +28,9 @@ public class EmployeeController {
 	@Autowired
 	private IEmployeeService eService;
 	
+	@Autowired
+	private JobTitleController jController;
+	
 	@GetMapping("/employees/{eid}")
 	public ResponseEntity<Employee> findById(@PathVariable("eid") int eid) throws JsonProcessingException {
 		Employee emp = eService.findById(eid);
@@ -37,15 +43,54 @@ public class EmployeeController {
 		return new ResponseEntity<Employee>(emp,HttpStatus.NOT_FOUND);
 	}
 	
+//	@GetMapping("/employees")
+//	public ResponseEntity<List<Employee>> findAll() throws JsonProcessingException {
+//		List<Employee> emps = eService.findAll();
+//		
+//		if (emps != null) {
+//			return new ResponseEntity<List<Employee>>(emps,HttpStatus.OK);
+//		}
+//		
+//		return new ResponseEntity<List<Employee>>(emps,HttpStatus.NOT_FOUND);
+//	}
+	
 	@GetMapping("/employees")
-	public ResponseEntity<List<Employee>> findAll() throws JsonProcessingException {
+	public ResponseEntity<?> findAll() throws JsonProcessingException, JSONException {
+		JSONObject responseJson = new JSONObject();
+		JSONArray array = new JSONArray();
+		
 		List<Employee> emps = eService.findAll();
 		
 		if (emps != null) {
-			return new ResponseEntity<List<Employee>>(emps,HttpStatus.OK);
+			for(Employee emp : emps) {
+				JSONObject item = new JSONObject()
+						.put("employeeid", emp.getEmployeeid())
+						.put("employeename", emp.getEmployeename())
+						.put("employeeemail", emp.getEmployeeemail())
+						.put("employeephone", emp.getEmployeephone())
+						.put("employeegender", emp.getEmployeegender())
+						.put("employeecity", emp.getEmployeecity())
+						.put("employeezone", emp.getEmployeezone())
+						.put("employeeaddress", emp.getEmployeeaddress())
+						.put("deptid", emp.getDeptid())
+						.put("deptname", emp.getDepartment().getDeptname())
+						.put("jobtitleid", emp.getJobtitleid())
+						.put("jobtitlename", emp.getJobtitle().getJobtitlename())
+						.put("managerid", emp.getManagerid())
+						.put("hiredate", emp.getHiredate())
+						.put("resigndate", emp.getResigndate())
+						.put("salary", emp.getSalary())
+						.put("employeebirthday", emp.getEmployeebirthday())
+						.put("employeeintroduction", emp.getEmployeeintroduction());
+				array = array.put(item);
+						
+			}
+			responseJson.put("list", array);
+			System.out.println(responseJson);
+			return new ResponseEntity<>(responseJson.toString(),HttpStatus.OK);
 		}
 		
-		return new ResponseEntity<List<Employee>>(emps,HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(responseJson.toString(),HttpStatus.NOT_FOUND);
 	}
 	
 	@PostMapping("/employees")
@@ -59,6 +104,7 @@ public class EmployeeController {
 	
 	@PutMapping("/employees/{eid}")
 	public ResponseEntity<Object> updateById(@PathVariable("eid") int eid,@RequestBody Employee eBean) {
+		System.out.println("eBean : " + eBean.getDeptid());
 		if(eService.findById(eid) != null) {
 			boolean result = eService.update(eBean);
 			if(result) {
@@ -75,4 +121,25 @@ public class EmployeeController {
 			return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	@GetMapping("/employees/managers")
+	public ResponseEntity<List<Employee>> findManagers(){
+		Integer jobTitleId = jController.findJobTitleIdByName("主管");
+		List<Employee> resultBeans = eService.findManagerByJobTitleId(jobTitleId);
+		System.out.println("resultBeans--------------------" + resultBeans);
+		if(resultBeans != null) {
+			return new ResponseEntity<List<Employee>>(resultBeans,HttpStatus.OK);
+		}
+		return null;
+	}
+	
+	@GetMapping("/employees/coachs")
+	public ResponseEntity<List<Employee>> findCoachs(){ 
+		Integer jobTitleId = jController.findJobTitleIdByName("教練");
+		List<Employee> resultBeans = eService.findManagerByJobTitleId(jobTitleId);
+		System.out.println("resultBeans--------------------" + resultBeans);
+		if(resultBeans != null) {
+			return new ResponseEntity<List<Employee>>(resultBeans,HttpStatus.OK);
+		}
+		return null;
+	}
 }

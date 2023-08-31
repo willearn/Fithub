@@ -12,10 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class EmployeeService implements IEmployeeService{
 	
 	@Autowired
-	private EmployeeDAO eDao;
+	private EmployeeRepository eRepo;
 
 	public boolean insert(Employee eBean) {
-		Employee resultBean = eDao.save(eBean);
+		Employee resultBean = eRepo.save(eBean);
 		if(resultBean != null) {
 			return true;
 		}
@@ -23,19 +23,19 @@ public class EmployeeService implements IEmployeeService{
 	}
 	
 	public boolean update(Employee eBean) {
-		Employee result = eDao.save(eBean);
-		if(result != null) {
+		Employee resultBean = eRepo.save(eBean);
+		if(resultBean != null) {
 			return true;
 		}
 		return false;
 	}
 	
 	public void deleteById(Integer id) {
-		eDao.deleteById(id);
+		eRepo.deleteById(id);
 	}
 	
 	public Employee findById(Integer id) {
-		Optional<Employee> optinoal = eDao.findById(id);
+		Optional<Employee> optinoal = eRepo.findById(id);
 		
 		if(optinoal.isPresent()) {
 			return optinoal.get();
@@ -45,12 +45,21 @@ public class EmployeeService implements IEmployeeService{
 	}
 	
 	public List<Employee> findAll(){
-		List<Employee> list = eDao.findAll();
-		return list;
+		List<Employee> resultBeans = eRepo.findAll();
+		return resultBeans;
+	}
+	
+	public List<Employee> findManagerByJobTitleId(Integer jobtitleid){
+		List<Employee> resultBeans = eRepo.findManagersByJobTitleId(jobtitleid.toString());
+
+		if(resultBeans.isEmpty()) {
+			return null;
+		}	
+		return resultBeans;
 	}
 	
 	public List<Object[]> findAllemployeenameAndemployeeid(){
-		List<Object[]> list = eDao.findAllemployeenameAndemployeeid();
+		List<Object[]> list = eRepo.findAllemployeenameAndemployeeid();
 		return list;
 	}
 

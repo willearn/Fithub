@@ -9,4 +9,5 @@ public interface IEmployeeService {
 	public Employee findById(Integer id);
 	public List<Employee> findAll();
 	public List<Object[]> findAllemployeenameAndemployeeid();
+	public List<Employee> findManagerByJobTitleId(Integer jobtitleid);
 }
