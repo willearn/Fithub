@@ -1,6 +1,5 @@
 package com.fithub.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +27,6 @@ public class RentOrderController {
 	@Autowired
 	private IRentOrderService iRentOrderService;
 
-	@Autowired
-	private IClassesService iClassesService;
 
 	// 列出所有租借訂單
 	@GetMapping("/list")

@@ -56,7 +56,7 @@ public class RentOrderService implements IRentOrderService {
 		rentOrderRepo.deleteAllById(selectIds);
 	}
 
-	// 查詢指定教室 rentdate,renttime,rentstatus
+	// 查詢指定教室是否被預訂或使用
 	@Override
 	public List<Object[]> findAllDateTimeFromRentOrderAndclass(Integer classroomId) {
 
@@ -87,10 +87,6 @@ public class RentOrderService implements IRentOrderService {
 		List<Object[]> mergedResult = new ArrayList<>();
 		mergedResult.addAll(allrentDateAndTime);
 		mergedResult.addAll(allclassDateAndclassTime);
-
-		for (Object[] objects : mergedResult) {
-			System.out.println(objects[0]+" "+objects[1]);
-		}
 		
 		return mergedResult;
 	}

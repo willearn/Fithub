@@ -19,7 +19,7 @@ public interface IRentOrderService {
 	// 刪除多筆
 	void deleteAllById(Iterable<Integer> selectIds);
 
-	// 查詢指定教室 rentdate 和 renttime
+	
 	List<Object[]> findAllDateTimeFromRentOrderAndclass(Integer classroomId);
 
 }
