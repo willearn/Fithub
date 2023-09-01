@@ -88,9 +88,9 @@ public class ClassesController {
 	}
 	
 	@GetMapping("/findAllclassDateAndclassTime")
-	public ResponseEntity<?> findAllclassDateAndclassTime() {
+	public ResponseEntity<?> findAllclassDateAndclassTime(@RequestBody Integer classroomId) {
         try {
-            List<Object[]> resultList = cService.findAllclassDateAndclassTime();
+            List<Object[]> resultList = cService.findAllclassDateAndclassTimeByClassroomId(classroomId);
             return new ResponseEntity<>(resultList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

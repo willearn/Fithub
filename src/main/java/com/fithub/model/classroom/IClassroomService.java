@@ -29,6 +29,6 @@ public interface IClassroomService {
 	List<Object[]> findAllClassroomNameAndId();
 
 	// 查詢全部教室名稱和狀態
-	List<Object[]> findAllClassroomNameAndStatus();
+	List<ClassroomDTO> findAllClassroomNameAndStatusAndId();
 
 }

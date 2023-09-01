@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fithub.model.classroom.Classroom;
+import com.fithub.model.classroom.ClassroomDTO;
 import com.fithub.model.classroom.IClassroomService;
 
 @CrossOrigin
@@ -48,12 +49,12 @@ public class ClassroomController {
 		}
 	}
 	
-	// 列出所有教室名稱和ID
-	@GetMapping("/findAllClassroomNameAndStatus")
-	public ResponseEntity<?> findAllClassroomNameAndStatus() {
+	// 列出所有教室名稱,狀態,ID
+	@GetMapping("/findAllClassroomNameAndStatusAndId")
+	public ResponseEntity<?> findAllClassroomNameAndStatusAndId() {
 		try {
-			List<Object[]> AllClassroomNameAndStatus = iclassroomService.findAllClassroomNameAndStatus();
-			return new ResponseEntity<>(AllClassroomNameAndStatus, HttpStatus.OK);
+			List<ClassroomDTO> AllClassroomNameAndStatusAndId = iclassroomService.findAllClassroomNameAndStatusAndId();
+			return new ResponseEntity<>(AllClassroomNameAndStatusAndId, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

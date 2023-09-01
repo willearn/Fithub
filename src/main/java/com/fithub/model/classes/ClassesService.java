@@ -64,9 +64,8 @@ public class ClassesService implements IClassesService {
 	}
 	
 	@Override
-	public List<Object[]> findAllclassDateAndclassTime() {
-		return classesRepo.findAllclassDateAndclassTime();
-
+	public List<Object[]> findAllclassDateAndclassTimeByClassroomId(Integer classroomId) {
+		return classesRepo.findAllclassDateAndclassTimeByClassroomId(classroomId);
 	}
 
 }

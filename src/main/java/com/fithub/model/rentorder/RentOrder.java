@@ -32,8 +32,8 @@ public class RentOrder {
 	private String rentorderdate;
 	private String rentdate;
 	private String renttime;
-	private String rentstatus;
 	private Integer rentamount;
+	private String rentstatus;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "memberid", insertable = false, updatable = false)
