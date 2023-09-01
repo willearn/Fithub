@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fithub.model.classes.IClassesService;
 import com.fithub.model.rentorder.IRentOrderService;
 import com.fithub.model.rentorder.RentOrder;
 
@@ -26,7 +25,6 @@ public class RentOrderController {
 
 	@Autowired
 	private IRentOrderService iRentOrderService;
-
 
 	// 列出所有租借訂單
 	@GetMapping("/list")
@@ -42,11 +40,34 @@ public class RentOrderController {
 	@GetMapping("/list/{classroomId}")
 	public ResponseEntity<?> findAllDateTimeFromRentOrderAndclass(@PathVariable("classroomId") Integer classroomId) {
 		try {
-			List<Object[]> findAllDateTimeFromRentOrderAndclass = iRentOrderService.findAllDateTimeFromRentOrderAndclass(classroomId);
-			
+			List<Object[]> findAllDateTimeFromRentOrderAndclass = iRentOrderService
+					.findAllDateTimeFromRentOrderAndclass(classroomId);
+
 			return new ResponseEntity<>(findAllDateTimeFromRentOrderAndclass, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	// 查詢場地是否被預訂或使用
+	@PostMapping("/checkRentOrder")
+	public ResponseEntity<?> checkRentOrder(@RequestBody RentOrder rentOrder) {
+		
+		Integer classroomid = rentOrder.getClassroomid();
+		String rentdate = rentOrder.getRentdate();
+		String renttime = rentOrder.getRenttime();
+		
+		try {
+			RentOrder result = iRentOrderService.checkRentOrder(classroomid, rentdate, renttime);
+			
+			if(result != null  && !result.getRentstatus().equals("取消")) {
+				return new ResponseEntity<>("已預定",HttpStatus.OK);
+			}else {
+				return new ResponseEntity<>("可預約",HttpStatus.OK);
+			}
+		
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 

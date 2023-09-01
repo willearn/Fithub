@@ -60,9 +60,11 @@ public class RentOrderService implements IRentOrderService {
 	@Override
 	public List<Object[]> findAllDateTimeFromRentOrderAndclass(Integer classroomId) {
 
-		List<Object[]> allrentDateAndrentTimeAndrentStatus = rentOrderRepo.findAllrentDateAndrentTimeAndrentStatusByClassroomId(classroomId);
-		List<Object[]> allclassDateAndclassTime = iClassesService.findAllclassDateAndclassTimeByClassroomId(classroomId);
-		
+		List<Object[]> allrentDateAndrentTimeAndrentStatus = rentOrderRepo
+				.findAllrentDateAndrentTimeAndrentStatusByClassroomId(classroomId);
+		List<Object[]> allclassDateAndclassTime = iClassesService
+				.findAllclassDateAndclassTimeByClassroomId(classroomId);
+
 		// 建立儲存篩選的集合
 		List<Object[]> filteredRentData = new ArrayList<>();
 
@@ -87,7 +89,12 @@ public class RentOrderService implements IRentOrderService {
 		List<Object[]> mergedResult = new ArrayList<>();
 		mergedResult.addAll(allrentDateAndTime);
 		mergedResult.addAll(allclassDateAndclassTime);
-		
+
 		return mergedResult;
+	}
+
+	@Override
+	public RentOrder checkRentOrder(Integer classroomId, String rentdate, String renttime) {
+		return rentOrderRepo.checkRentOrder(classroomId, rentdate, renttime);
 	}
 }

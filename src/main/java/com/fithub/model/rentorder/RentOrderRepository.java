@@ -12,4 +12,11 @@ public interface RentOrderRepository extends JpaRepository<RentOrder, Integer> {
     @Query("SELECT r.rentdate, r.renttime ,r.rentstatus FROM RentOrder r WHERE r.classroomid = :classroomid")
     List<Object[]> findAllrentDateAndrentTimeAndrentStatusByClassroomId(@Param("classroomid") Integer classroomId);
 
+    @Query("SELECT r FROM RentOrder r WHERE r.classroomid = :classroomid AND r.rentdate = :rentdate AND r.renttime = :renttime")
+    RentOrder checkRentOrder(
+        @Param("classroomid") Integer classroomId,
+        @Param("rentdate") String rentdate,
+        @Param("renttime") String renttime
+    );
+
 }
