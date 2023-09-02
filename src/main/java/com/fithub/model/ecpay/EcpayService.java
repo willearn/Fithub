@@ -1,4 +1,4 @@
-package com.fithub.util;
+package com.fithub.model.ecpay;
 
 import java.util.UUID;
 
@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import ecpay.payment.integration.AllInOne;
 import ecpay.payment.integration.domain.AioCheckOutALL;
-import ecpay.payment.integration.ecpayOperator.EcpayFunction;
 
 @Service
 public class EcpayService {
@@ -16,11 +15,12 @@ public class EcpayService {
 		AllInOne all = new AllInOne("");
 		// 產生隨機編號
 		String uuId = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 20);
+		
 		AioCheckOutALL obj = new AioCheckOutALL();
 		// 特店訂單編號
 		obj.setMerchantTradeNo(uuId);
-		// 特店交易時間
-		obj.setMerchantTradeDate("2017/01/01 08:05:23");
+		// 特店交易時間 綠界後台查詢以這為基準
+		obj.setMerchantTradeDate("2023/09/03 00:05:23");
 		// 如果商品名稱有多筆，需在金流選擇頁一行一行顯示商品名稱的話，商品名稱請以符號#分隔
 		obj.setItemName("TestItem");
 		// 總金額
@@ -39,9 +39,7 @@ public class EcpayService {
 		
 		
 		String form = all.aioCheckOut(obj, null);
-		//產生檢查碼,未完成
-//		String test = EcpayFunction.genCheckMacValue("5294y06JbISpM5x9", "v77hoKGq4kWxNNIS", obj);
-//		System.out.println(test);
+		
 		return form;
 	}
 }
