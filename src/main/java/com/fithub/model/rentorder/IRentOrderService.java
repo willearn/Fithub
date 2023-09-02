@@ -22,6 +22,6 @@ public interface IRentOrderService {
 	
 	List<Object[]> findAllDateTimeFromRentOrderAndclass(Integer classroomId);
 
-	RentOrder checkRentOrder(Integer classroomId, String rentdate, String renttime);
+	Boolean checkClassroomAvailability(Integer classroomId, String rentdate, String renttime);
 
 }

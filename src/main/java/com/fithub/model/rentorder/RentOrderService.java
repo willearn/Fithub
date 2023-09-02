@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.fithub.model.classes.Classes;
 import com.fithub.model.classes.IClassesService;
 
 @Service
@@ -94,7 +97,25 @@ public class RentOrderService implements IRentOrderService {
 	}
 
 	@Override
-	public RentOrder checkRentOrder(Integer classroomId, String rentdate, String renttime) {
-		return rentOrderRepo.checkRentOrder(classroomId, rentdate, renttime);
+	public Boolean checkClassroomAvailability(Integer classroomId, String rentdate, String renttime) {
+
+		//預設未被使用
+		Boolean usedClassroom = false;
+		RentOrder resultRentOrder = rentOrderRepo.checkRentOrder(classroomId, rentdate, renttime);
+
+		// 檢查租借場地訂單是否有預定該場地 如果已被使用就直接返回不再檢查課堂
+		if (resultRentOrder != null && !resultRentOrder.getRentstatus().equals("取消")) {
+			usedClassroom = true;
+			return usedClassroom;
+		}
+
+		Classes resultClasses = iClassesService.checkClass(classroomId, rentdate, renttime);
+		
+		// 檢查課堂是否有使用該場地
+		if (resultClasses != null) {
+			usedClassroom = true;
+		}
+
+		return usedClassroom;
 	}
 }

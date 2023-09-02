@@ -50,22 +50,18 @@ public class RentOrderController {
 	}
 
 	// 查詢場地是否被預訂或使用
-	@PostMapping("/checkRentOrder")
-	public ResponseEntity<?> checkRentOrder(@RequestBody RentOrder rentOrder) {
+	@PostMapping("/checkClassroomAvailability")
+	public ResponseEntity<?> checkClassroomAvailability(@RequestBody RentOrder rentOrder) {
 		
 		Integer classroomid = rentOrder.getClassroomid();
 		String rentdate = rentOrder.getRentdate();
 		String renttime = rentOrder.getRenttime();
 		
-		try {
-			RentOrder result = iRentOrderService.checkRentOrder(classroomid, rentdate, renttime);
-			
-			if(result != null  && !result.getRentstatus().equals("取消")) {
-				return new ResponseEntity<>("已預定",HttpStatus.OK);
-			}else {
-				return new ResponseEntity<>("可預約",HttpStatus.OK);
-			}
+		//true為已被使用 false為未使用
+		Boolean classroomAvailability = iRentOrderService.checkClassroomAvailability(classroomid, rentdate, renttime);
 		
+		try {
+			return new ResponseEntity<>(classroomAvailability, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
