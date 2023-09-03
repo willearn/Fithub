@@ -12,7 +12,7 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMessage.RecipientType;
 
-// william
+// william google寄信
 public class JavaMail {
 
 	private String username = "cc2260112@gmail.com";
