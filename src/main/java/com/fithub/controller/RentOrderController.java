@@ -79,15 +79,15 @@ public class RentOrderController {
 	}
 
 	// 更新租借訂單
-	@PutMapping("/update")
-	public ResponseEntity<?> updateRentOrder(@RequestBody RentOrder rentOrder) {
-		try {
-			iRentOrderService.updateById(rentOrder);
-			return new ResponseEntity<>(HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
+//	@PutMapping("/update")
+//	public ResponseEntity<?> updateRentOrder(@RequestBody RentOrder rentOrder) {
+//		try {
+//			iRentOrderService.updateById(rentOrder);
+//			return new ResponseEntity<>(HttpStatus.OK);
+//		} catch (Exception e) {
+//			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+//	}
 
 	// 刪除單筆訂單
 	@DeleteMapping("/delete/{id}")

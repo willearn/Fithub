@@ -34,12 +34,14 @@ public class RentOrderService implements IRentOrderService {
 		return result;
 	}
 
-	// 修改單筆
+	// 修改單筆狀態
 	@Override
-	public void updateById(RentOrder rentOrder) {
-		Boolean result = rentOrderRepo.existsById(rentOrder.getRentorderid());
-		if (result) {
-			rentOrderRepo.saveAndFlush(rentOrder);
+	public Boolean updateRentstatusById(Integer rentorderid, String rentamount) {
+		try {
+			rentOrderRepo.updateRentstatusById(rentorderid, rentamount);
+			return true;
+		} catch (Exception e) {
+			return false;
 		}
 	}
 
@@ -99,9 +101,9 @@ public class RentOrderService implements IRentOrderService {
 	@Override
 	public Boolean checkClassroomAvailability(Integer classroomId, String rentdate, String renttime) {
 
-		//預設未被使用
+		// 預設未被使用
 		Boolean usedClassroom = false;
-		RentOrder resultRentOrder = rentOrderRepo.checkRentOrder(classroomId, rentdate, renttime);
+		RentOrder resultRentOrder = rentOrderRepo.checkClassroomAvailability(classroomId, rentdate, renttime);
 
 		// 檢查租借場地訂單是否有預定該場地 如果已被使用就直接返回不再檢查課堂
 		if (resultRentOrder != null && !resultRentOrder.getRentstatus().equals("取消")) {
@@ -110,7 +112,7 @@ public class RentOrderService implements IRentOrderService {
 		}
 
 		Classes resultClasses = iClassesService.checkClass(classroomId, rentdate, renttime);
-		
+
 		// 檢查課堂是否有使用該場地
 		if (resultClasses != null) {
 			usedClassroom = true;
