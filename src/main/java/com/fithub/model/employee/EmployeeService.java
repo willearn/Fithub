@@ -20,11 +20,13 @@ public class EmployeeService implements IEmployeeService {
 
 	@Override
 	public boolean insert(Employee eBean) {
-		Employee resultBean = eRepo.save(eBean);
-		if (resultBean != null) {
+		try {
+			Employee resultBean = eRepo.save(eBean);
 			return true;
+		} catch (Exception e) {
+			return false;
 		}
-		return false;
+
 	}
 
 	@Override
@@ -90,14 +92,14 @@ public class EmployeeService implements IEmployeeService {
 
 		return page;
 	}
-	
+
 	@Override
 	public Page<Employee> findPageByName(Integer pageNumber, Integer rows, String name) {
 		Pageable pgb = PageRequest.of(pageNumber, rows, Sort.DEFAULT_DIRECTION, "employeeid");
 		System.out.println("pageNumber " + pageNumber);
 		System.out.println("rows " + rows);
 		System.out.println("name " + name);
-		Page<Employee> page = eRepo.searchByName(pgb,name);
+		Page<Employee> page = eRepo.searchByName(pgb, name);
 		System.out.println(page);
 		return page;
 	}

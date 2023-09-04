@@ -8,7 +8,7 @@ public interface IMemberService {
 	List<Member> findAll();
 
 	// 新增單筆
-	Member insert(Member member);
+	boolean insert(Member member);
 
 	// 修改單筆
 	void updateById(Member member);
