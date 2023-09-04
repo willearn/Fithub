@@ -11,7 +11,7 @@ public interface ClassroomRepository extends JpaRepository<Classroom, Integer> {
     @Query("SELECT c.classroomName, c.classroomId FROM Classroom c")
     List<Object[]> findAllClassroomNameAndId();
     
-	 // william 返回指定教室的全部 classroomId,classroomName,classroomstatus 
-    @Query("SELECT new com.fithub.model.classroom.ClassroomDTO(c.classroomId, c.classroomName, c.classroomStatus) FROM Classroom c")
-    List<ClassroomDTO> findAllClassroomNameAndStatusAndId();
+	 // william 返回指定教室的全部 classroomId,classroomName,classroomstatus,classroomPrice,classroomPic
+    @Query("SELECT new com.fithub.model.classroom.ClassroomDTO(c.classroomId, c.classroomName, c.classroomStatus ,c.classroomPrice,c.classroomPic) FROM Classroom c")
+    List<ClassroomDTO> getClassroomInfo();
 }

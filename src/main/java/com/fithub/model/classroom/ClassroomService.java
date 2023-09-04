@@ -25,8 +25,8 @@ public class ClassroomService implements IClassroomService {
 	}
 	
 	@Override
-	public List<ClassroomDTO> findAllClassroomNameAndStatusAndId() {
-		List<ClassroomDTO> result = classroomRepo.findAllClassroomNameAndStatusAndId();
+	public List<ClassroomDTO> getClassroomInfo() {
+		List<ClassroomDTO> result = classroomRepo.getClassroomInfo();
 		return result;
 	}
 

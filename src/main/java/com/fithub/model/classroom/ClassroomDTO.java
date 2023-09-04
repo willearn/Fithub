@@ -11,10 +11,16 @@ public class ClassroomDTO {
 
 	private String classroomStatus;
 
+	private int classroomPrice;
+	
+	private String classroomPic;
 
-	public ClassroomDTO(int classroomId, String classroomName, String classroomStatus) {
+	public ClassroomDTO(int classroomId, String classroomName, String classroomStatus,int classroomPrice,String classroomPic) {
 		this.classroomId = classroomId;
 		this.classroomName = classroomName;
 		this.classroomStatus = classroomStatus;
+		this.classroomPrice = classroomPrice;
+		this.classroomPic = classroomPic;
+		
 	}
 }

@@ -1,6 +1,5 @@
 package com.fithub.model.rentorder;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fithub.model.classroom.Classroom;
 import com.fithub.model.member.Member;
 
