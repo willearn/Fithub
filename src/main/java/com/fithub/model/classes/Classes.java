@@ -74,7 +74,7 @@ public class Classes {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "EMPLOYEEID", insertable = false, updatable = false)
-	private Employee epmloyee;
+	private Employee employee;
 
 	@JsonIgnoreProperties({ "classes","classroomPic" })
 	@ManyToOne(fetch = FetchType.LAZY)
