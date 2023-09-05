@@ -27,7 +27,7 @@ public class OrderItem {
 	@Column(name="itemid")
 	private int itemId;
 
-	@Column(name="ORDERID")
+	@Column(name="orderid")
 	private int orderId;
 	
 	@Column(name="CLASSID")
@@ -36,9 +36,9 @@ public class OrderItem {
 	@Column(name="couponid")
 	private int couponId; 
 	
-
+	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="ORDERID",insertable = false,updatable = false)
+	@JoinColumn(name="orderid",insertable = false,updatable = false)
 	private Order order;
 	
 	@JsonIgnoreProperties({ "epmloyee","cart","classesSet","order","wishlist" })

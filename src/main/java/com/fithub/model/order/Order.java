@@ -1,8 +1,8 @@
 package com.fithub.model.order;
 
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -55,8 +55,8 @@ public class Order {
 	@JoinColumn(name="MEMBERID",insertable = false,updatable = false)
 	private Member member;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
 	@JsonIgnore
-	private Set<OrderItem> orderItems = new HashSet<OrderItem>();
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
+	private List<OrderItem> orderItem = new ArrayList<>();
 	
 }

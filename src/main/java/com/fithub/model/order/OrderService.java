@@ -1,5 +1,6 @@
 package com.fithub.model.order;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,20 +74,23 @@ public class OrderService implements IOrderService {
 		orderRepo.deleteAllById(selectIds);
 		
 	}
-	
-	@Override
-    @Transactional
-    public Order createOrder(Order order) {
-        // 在这里进行订单的创建逻辑
-        // 可以设置其他字段的值，然后保存订单
+	@Transactional
+	public Order createOrder(Order order) {
+        // 这里可以进行一些订单属性的验证和处理
+        // ...
+        
+        // 保存订单
         Order savedOrder = orderRepo.save(order);
-
-        // 遍历订单项，为每个订单项设置关联订单并保存
-        for (OrderItem orderItem : order.getOrderItems()) {
-            orderItem.setOrder(savedOrder);
-            orderItemRepo.save(orderItem);
+        
+        // 创建订单项
+        List<OrderItem> orderItems = new ArrayList<>();
+        for (OrderItem item : order.getOrderItem()) {
+            item.setOrderId(savedOrder.getOrderId());
+            orderItems.add(orderItemRepo.save(item));
         }
-
+        
+        savedOrder.setOrderItem(orderItems);
+        
         return savedOrder;
     }
 
