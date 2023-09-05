@@ -1,4 +1,4 @@
-package com.fithub.config;
+package com.fithub.util;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

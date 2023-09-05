@@ -1,4 +1,4 @@
-package com.fithub.model.email;
+package com.fithub.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;

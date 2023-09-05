@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.fithub.model.backstageaccount.BackStageAccount;
-import com.fithub.model.email.EmailService;
+import com.fithub.util.EmailService;
 import com.fithub.model.member.Member;
 import com.fithub.model.member.MemberService;
 

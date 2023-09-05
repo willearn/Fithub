@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fithub.model.email.EmailService;
+import com.fithub.util.EmailService;
 import com.fithub.model.member.Member;
 import com.fithub.model.verificationcode.VerificationCode;
 import com.fithub.model.verificationcode.VerificationCodeService;
