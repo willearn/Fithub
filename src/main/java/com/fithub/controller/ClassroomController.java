@@ -42,9 +42,9 @@ public class ClassroomController {
 
 	// 列出所有教室名稱和ID
 	@GetMapping("/listName")
-	public ResponseEntity<?> findAllClassroomNameAndId() {
+	public ResponseEntity<?> findAllClassroomNamesAndIds() {
 		try {
-			List<Object[]> classroomNamesAndIds = iclassroomService.findAllClassroomNameAndId();
+			List<Object[]> classroomNamesAndIds = iclassroomService.findAllClassroomNamesAndIds();
 			return new ResponseEntity<>(classroomNamesAndIds, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -80,6 +80,12 @@ public class ClassroomController {
 				return new ResponseEntity<>(classroomsList, HttpStatus.OK);
 			}
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 
 	// 列出所有教室名稱,狀態,ID
 	@GetMapping("/getClassroomInfo")

@@ -19,8 +19,8 @@ public class ClassroomService implements IClassroomService {
 	}
 
 	@Override
-	public List<Object[]> findAllClassroomNameAndId() {
-		List<Object[]> result = classroomRepo.findAllClassroomNameAndId();
+	public List<Object[]> findAllClassroomNamesAndIds() {
+		List<Object[]> result = classroomRepo.findAllClassroomNamesAndIds();
 		return result;
 	}
 	
