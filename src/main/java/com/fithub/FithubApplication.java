@@ -8,6 +8,8 @@ public class FithubApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(FithubApplication.class, args);
+		
+
 	}
 
 }

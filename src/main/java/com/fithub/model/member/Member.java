@@ -9,6 +9,7 @@ import com.fithub.model.rentorder.RentOrder;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,7 +22,7 @@ import lombok.Data;
 @Table(name = "member")
 public class Member {
 
-	@Id  @Column(name="memberid")
+	@Id  @Column(name="MEMBERID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer memberid;
 	private String memberphoneno;
@@ -32,11 +33,11 @@ public class Member {
 	private String membercity;
 	private String memberzone;
 	private String memberaddress;
-	private Date memberbirthday;
-	private Date memberaccountsince;
+	private String memberbirthday;
+	private String memberaccountsince;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "member")
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "member")
 	private List<RentOrder> rentOrders = new ArrayList<>();
 
 }

@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.fithub.model.backstageaccount.BackStageAccount;
+import com.fithub.util.EmailService;
 import com.fithub.model.member.Member;
 import com.fithub.model.member.MemberService;
+
+import jakarta.mail.MessagingException;
 
 //@RequestMapping("/members")
 //@RestController
@@ -53,22 +57,28 @@ public class MemberController {
 		}
 	}
 
-	// 新增會員資料
+
+//	// 新增會員資料
 	@PostMapping("/members")
-	public ResponseEntity<?> insertMember(@RequestBody Member member) {
+	public ResponseEntity<Object> insertMember(@RequestBody Member mBean) {
 		try {
-			mService.insert(member);
+			mService.insert(mBean);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	public ResponseEntity<Object> insert(@RequestBody Member mBean){
+		return null;
+		
 	}
 
 //修改會員資料
 	@PutMapping("/members/{id}")
-	public ResponseEntity<?> updateMember(@PathVariable Integer id, @RequestBody Member updatedMember) {
+	public ResponseEntity<?> updateMember(@PathVariable Integer id, @RequestBody Member mBean) {
 		try {
-			mService.updateById(updatedMember);
+			mService.update(mBean);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -85,5 +95,6 @@ public class MemberController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
 
 }

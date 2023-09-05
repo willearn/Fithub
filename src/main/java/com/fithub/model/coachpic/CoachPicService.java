@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 public class CoachPicService implements ICoachPicService{
 
 	@Autowired
-	private CoachPicDAO cDao;
+	private CoachPicRespository cRepo;
 	
 	@Override
 	public boolean insert(CoachPic cBean) {
-		CoachPic result = cDao.findCoachPicyByEmpidCpicFile(cBean.getEmployeeid(), cBean.getCpicfile());
+		CoachPic result = cRepo.findCoachPicyByEmpidCpicFile(cBean.getEmployeeid(), cBean.getCpicfile());
 		if(result == null) {
-			CoachPic resultBean = cDao.save(cBean);
+			CoachPic resultBean = cRepo.save(cBean);
 			if (resultBean != null) {
 				return true;
 			}
@@ -26,9 +26,9 @@ public class CoachPicService implements ICoachPicService{
 
 	@Override
 	public boolean update(CoachPic cBean) {
-		CoachPic result = cDao.findCoachPicyByEmpidCpicFile(cBean.getEmployeeid(), cBean.getCpicfile());
+		CoachPic result = cRepo.findCoachPicyByEmpidCpicFile(cBean.getEmployeeid(), cBean.getCpicfile());
 		if(result == null) {
-			CoachPic resultBean = cDao.save(cBean);
+			CoachPic resultBean = cRepo.save(cBean);
 			if (resultBean != null) {
 				return true;
 			}
@@ -39,12 +39,12 @@ public class CoachPicService implements ICoachPicService{
 
 	@Override
 	public void deleteById(Integer id) {
-		cDao.deleteById(id);
+		cRepo.deleteById(id);
 	}
 
 	@Override
 	public CoachPic findById(Integer id) {
-		Optional<CoachPic> optional = cDao.findById(id);
+		Optional<CoachPic> optional = cRepo.findById(id);
 
 		if (optional.isPresent()) {
 			return optional.get();
@@ -55,7 +55,7 @@ public class CoachPicService implements ICoachPicService{
 
 	@Override
 	public List<CoachPic> findAll() {
-		List<CoachPic> list = cDao.findAll();
+		List<CoachPic> list = cRepo.findAll();
 		return list;
 	}
 }

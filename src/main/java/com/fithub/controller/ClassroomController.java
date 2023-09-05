@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fithub.model.classroom.Classroom;
+import com.fithub.model.classroom.ClassroomDTO;
 import com.fithub.model.classroom.IClassroomService;
 import com.fithub.model.employee.Employee;
 
@@ -41,15 +42,15 @@ public class ClassroomController {
 
 	// 列出所有教室名稱和ID
 	@GetMapping("/listName")
-	public ResponseEntity<?> findAllClassroomNamesAndIds() {
+	public ResponseEntity<?> findAllClassroomNameAndId() {
 		try {
-			List<Object[]> classroomNamesAndIds = iclassroomService.findAllClassroomNamesAndIds();
+			List<Object[]> classroomNamesAndIds = iclassroomService.findAllClassroomNameAndId();
 			return new ResponseEntity<>(classroomNamesAndIds, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	// Author Chrislafolia
 	// 查詢全部教室 不含 description 和 pic
 	@GetMapping("/listWithoutDescriptionsAndPics")
@@ -80,6 +81,12 @@ public class ClassroomController {
 			}
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
+	// 列出所有教室名稱,狀態,ID
+	@GetMapping("/getClassroomInfo")
+	public ResponseEntity<?> getClassroomInfo() {
+		try {
+			List<ClassroomDTO> classroomInfo = iclassroomService.getClassroomInfo();
+			return new ResponseEntity<>(classroomInfo, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

@@ -27,8 +27,10 @@ public interface IClassroomService {
 
 	// 查詢全部教室名稱和ID
 	List<Object[]> findAllClassroomNamesAndIds();
-	
+
 	// 查詢全部教室 不含 description 和 pic
 	public List<Object[]> findAllClassroomsWithoutDescriptionsAndPics();
+
+	List<ClassroomDTO> getClassroomInfo();
 
 }
