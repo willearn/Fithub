@@ -36,7 +36,7 @@ public class OrderItem {
 	@Column(name="couponid")
 	private int couponId; 
 	
-	@JsonIgnore //等下刪
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="ORDERID",insertable = false,updatable = false)
 	private Order order;
@@ -50,5 +50,6 @@ public class OrderItem {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="couponid",insertable = false,updatable = false)
 	private Coupon coupon;
+
 	
 }

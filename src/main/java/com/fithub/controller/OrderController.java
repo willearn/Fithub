@@ -48,15 +48,15 @@ public class OrderController {
     }
     
 
-    @PostMapping
-    public ResponseEntity<?> createOrder(@RequestBody Order order) {
-        try {
-            Order createdOrder = orderService.insert(order);
-            return new ResponseEntity<>(createdOrder, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//    @PostMapping
+//    public ResponseEntity<?> createOrder(@RequestBody Order order) {
+//        try {
+//            Order createdOrder = orderService.insert(order);
+//            return new ResponseEntity<>(createdOrder, HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
     @PutMapping("/update")
     public ResponseEntity<String> updateOrder(@RequestBody Order order) {
@@ -100,4 +100,11 @@ public class OrderController {
   			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
   		}
   	}
+  	
+  	@PostMapping
+    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+        Order createdOrder = orderService.createOrder(order);
+        return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
+    }
+  	
 }

@@ -57,6 +57,6 @@ public class Order {
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
 	@JsonIgnore
-	private Set<OrderItem> orderItem = new HashSet<OrderItem>();
+	private Set<OrderItem> orderItems = new HashSet<OrderItem>();
 	
 }

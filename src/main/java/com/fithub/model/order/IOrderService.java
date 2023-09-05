@@ -23,4 +23,6 @@ public interface IOrderService {
 	public Order findById(Integer id);
 	
 	void deleteAllById(Iterable<Integer> selectIds);
+	
+	Order createOrder(Order order);
 }
