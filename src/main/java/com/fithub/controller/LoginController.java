@@ -18,7 +18,6 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fithub.model.backstageaccount.BackStageAccount;
 import com.fithub.model.user.ResponseModel;
-import com.fithub.model.user.UserModel;
 
 @RestController
 @CrossOrigin()
@@ -81,8 +80,6 @@ public class LoginController {
 			String newToken = generateToken(username);
 			
 			Integer loa = bController.checkLoa(username);
-			
-			System.out.println("LOA:" + loa);
 
 			response.setStatus(true);
 			response.setUsername(username);

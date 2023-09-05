@@ -29,16 +29,6 @@ public class MemberController {
 
 	@Autowired
 	private MemberService mService;
-	
-	@Autowired
-	private EmailService eService;
-	
-	@PostMapping("/members/sendVerificationCode")
-	public ResponseEntity<Object> sendVerificationCode() throws MessagingException{
-		eService.sendVerificationCode();
-		return new ResponseEntity<>(HttpStatus.OK);
-		
-	}
 
 	@GetMapping("/members/showMembers")
 	public String getMembers() {
@@ -86,9 +76,9 @@ public class MemberController {
 
 //修改會員資料
 	@PutMapping("/members/{id}")
-	public ResponseEntity<?> updateMember(@PathVariable Integer id, @RequestBody Member updatedMember) {
+	public ResponseEntity<?> updateMember(@PathVariable Integer id, @RequestBody Member mBean) {
 		try {
-			mService.updateById(updatedMember);
+			mService.update(mBean);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

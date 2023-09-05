@@ -11,14 +11,17 @@ import jakarta.transaction.Transactional;
 
 public interface VerificationCodeRepository extends JpaRepository<VerificationCode, String> {
 	
-	Optional<VerificationCode> findByEmail(String email);
-	boolean existsByEmail(String email);
+	//XiaoQing
+	@Query("from VerificationCode where email = :email")
+	VerificationCode findByEmail(@Param("email") String email);
+	
+//	boolean existsByEmail(String email);
 	
 	
-	// 由EMAIL刪除
-	@Modifying
-	@Transactional
-	@Query("delete from VerificationCode where email = :email")
-	void deleteByEmail(@Param("email") String email);
+//	// 由EMAIL刪除
+//	@Modifying
+//	@Transactional
+//	@Query("delete from VerificationCode where email = :email")
+//	void deleteByEmail(@Param("email") String email);
 
 }

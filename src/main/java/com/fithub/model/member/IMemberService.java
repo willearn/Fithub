@@ -8,10 +8,10 @@ public interface IMemberService {
 	List<Member> findAll();
 
 	// 新增單筆
-	boolean insert(Member member);
+	boolean insert(Member mBean);
 
 	// 修改單筆
-	void updateById(Member member);
+	public boolean update(Member mBean);
 
 	// 刪除單筆
 	void deleteById(Integer id);

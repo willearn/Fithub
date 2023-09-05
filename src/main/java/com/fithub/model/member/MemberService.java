@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.fithub.model.employee.Employee;
+
 @Service
 public class MemberService implements IMemberService {
 
@@ -17,7 +19,7 @@ public class MemberService implements IMemberService {
 
 	@Autowired
 	private PasswordEncoder pwdEncoder;
-	
+
 	// 查詢全部
 	@Override
 	public List<Member> findAll() {
@@ -31,17 +33,17 @@ public class MemberService implements IMemberService {
 		try {
 			Member result = mRepo.findMemberByEmail(mBean.getMemberemail());
 			if (result == null) {
-				
-				//設定日期
+
+				// 設定日期
 				LocalDate currentDate = LocalDate.now();
 				DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 				String strDate = currentDate.format(dateFormatter);
-				
+
 				mBean.setMemberaccountsince(strDate);
-				
-				//密碼加密
+
+				// 密碼加密
 				mBean.setMemberpassword(pwdEncoder.encode(mBean.getMemberpassword()));
-				
+
 				Member resultBean = mRepo.save(mBean);
 				return true;
 			}
@@ -55,10 +57,17 @@ public class MemberService implements IMemberService {
 
 	// 修改單筆
 	@Override
-	public void updateById(Member member) {
-		Member result = findById(member.getMemberid());
-		if (result != null) {
-			mRepo.saveAndFlush(member);
+	public boolean update(Member mBean) {
+		try {
+			Optional<Member> optinoal = mRepo.findById(mBean.getMemberid());
+			if (optinoal.isPresent()) {
+				mRepo.save(mBean);
+				return true;
+			}
+			return false;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
 		}
 	}
 
@@ -82,16 +91,31 @@ public class MemberService implements IMemberService {
 		return null;
 	}
 
+	public Member findByEmail(String email) {
+		try {
+			Member resultBean = mRepo.findMemberByEmail(email);
+			if (resultBean != null) {
+				return resultBean;
+			}
+
+		} catch (Exception e) {
+			return null;
+		}
+		return null;
+	}
+
 	public Member checkLogin(Member mBean) {
 		try {
 			Member resultBean = mRepo.findMemberByEmail(mBean.getMemberemail());
 			if (resultBean != null) {
-
+				if (pwdEncoder.matches(mBean.getMemberpassword(), resultBean.getMemberpassword())) {
+					return resultBean;
+				}
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			return null;
 		}
-		return mBean;
+		return null;
 
 	}
 }

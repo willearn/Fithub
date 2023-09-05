@@ -14,13 +14,13 @@ public class EmailService {
 	@Autowired
 	private JavaMailSender javaMailSender;
 	
-	public void sendVerificationCode() throws MessagingException {
+	public void sendVerificationCode(String email , String verificationcode) throws MessagingException {
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		MimeMessageHelper mHelper = new MimeMessageHelper(mimeMessage,true);
-		mHelper.setFrom("Wayne's Talk <waynestalk@gmail.com>");
-		mHelper.setTo("tw3555488@gmail.com");
-		mHelper.setSubject("這是主旨");
-		mHelper.setText("測試用",true);
+		mHelper.setFrom("Fithub");
+		mHelper.setTo(email);
+		mHelper.setSubject("Fithub信箱驗證碼");
+		mHelper.setText("這是您的信箱驗證碼:" + verificationcode,true);
 		
 		javaMailSender.send(mimeMessage);
 	}
