@@ -6,6 +6,7 @@ import com.fithub.model.employee.Employee;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -32,7 +33,7 @@ public class BackStageAccount {
 //	@Transient
 //	private String employeename;
 	
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "EMPLOYEEID", insertable = false, updatable = false)
 	private Employee employee;
 	

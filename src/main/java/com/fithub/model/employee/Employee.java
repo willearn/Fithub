@@ -1,6 +1,7 @@
 package com.fithub.model.employee;
 
 import com.fithub.model.department.Department;
+import com.fithub.model.jobtitle.JobTitle;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,8 +34,10 @@ public class Employee {
 	
 	@Column(name="DEPTID")
 	private int deptid;
-	private String employeetitle;
-	private Integer manager;
+	
+	@Column(name="JOBTITLEID")
+	private String jobtitleid;
+	private Integer managerid;
 	private String hiredate;
 	private String resigndate;
 	private Integer salary;
@@ -46,6 +49,10 @@ public class Employee {
 	@JoinColumn(name="DEPTID",insertable = false,updatable = false)
 //	@JsonBackReference
 	private Department department;
+	
+	@ManyToOne
+	@JoinColumn(name = "JOBTITLEID",insertable = false,updatable = false)
+	private JobTitle jobtitle;
 	
 //	@OneToOne(fetch = FetchType.LAZY)
 //	private BackStageAccount backstageaccount;

@@ -1,5 +1,6 @@
 package com.fithub.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fithub.model.activity.Activity;
 import com.fithub.model.activity.IActivityService;
+import com.fithub.model.activitypic.ActivityPic;
 import com.fithub.model.activitypic.IActivityPicService;
-import com.fithub.model.employee.EmployeeRepository;
+import com.fithub.model.employee.IEmployeeService;
 
 @CrossOrigin
 @RestController
@@ -29,7 +31,7 @@ public class ActivityController {
 	private IActivityService iActivityService;
 
 	@Autowired
-	private EmployeeRepository employeeRepository;
+	private IEmployeeService iEmployeeService;
 
 	@Autowired
 	private IActivityPicService iActivityPicService;
@@ -45,12 +47,38 @@ public class ActivityController {
 		}
 	}
 
+	// 列出所有員工姓名和編號
+	@GetMapping("/findAllemployeenameAndemployeeid")
+	public ResponseEntity<?> findAllemployeenameAndemployeeid() {
+		try {
+			List<Object[]> AllemployeenameAndemployeeid = iEmployeeService.findAllemployeenameAndemployeeid();
+			return new ResponseEntity<>(AllemployeenameAndemployeeid, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	// 新增單筆活動
 	@PostMapping("/insert")
 	public ResponseEntity<?> insertActivity(@RequestBody Activity activity) {
+		
+			//取得多筆圖片base64字串
+			String[] result = activity.getPic();
 		try {
-			iActivityService.insert(activity);
-			return new ResponseEntity<>(HttpStatus.OK);
+			if (result != null && result.length > 0 && !result[0].isEmpty()) {
+				List<ActivityPic> activityPicList = new ArrayList<>();
+				for (int i = 0; i < result.length; i++) {
+					ActivityPic apic = new ActivityPic();
+					apic.setApicfile(result[i]);
+					activityPicList.add(apic);
+				}
+				activity.setActivitypic(activityPicList);
+				iActivityService.insert(activity);
+				return new ResponseEntity<>(HttpStatus.OK);
+			} else {
+				iActivityService.insert(activity);
+				return new ResponseEntity<>(HttpStatus.OK);
+			}
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

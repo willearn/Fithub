@@ -1,5 +1,7 @@
 package com.fithub.model.activitypic;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fithub.model.activity.Activity;
 
 import jakarta.persistence.Column;
@@ -26,8 +28,9 @@ public class ActivityPic {
 	@Column(name = "apicfile")
 	private String apicfile;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	
+	@JsonIgnore
 	@JoinColumn(name = "activityid")
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Activity activity;
-
 }

@@ -37,27 +37,57 @@ public class RentOrderController {
 		}
 	}
 
+	@GetMapping("/list/{classroomId}")
+	public ResponseEntity<?> findAllDateTimeFromRentOrderAndclass(@PathVariable("classroomId") Integer classroomId) {
+		try {
+			List<Object[]> findAllDateTimeFromRentOrderAndclass = iRentOrderService
+					.findAllDateTimeFromRentOrderAndclass(classroomId);
+
+			return new ResponseEntity<>(findAllDateTimeFromRentOrderAndclass, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	// 查詢場地是否被預訂或使用
+	@PostMapping("/checkClassroomAvailability")
+	public ResponseEntity<?> checkClassroomAvailability(@RequestBody RentOrder rentOrder) {
+		
+		Integer classroomid = rentOrder.getClassroomid();
+		String rentdate = rentOrder.getRentdate();
+		String renttime = rentOrder.getRenttime();
+		
+		//true為已被使用 false為未使用
+		Boolean classroomAvailability = iRentOrderService.checkClassroomAvailability(classroomid, rentdate, renttime);
+		
+		try {
+			return new ResponseEntity<>(classroomAvailability, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	// 儲存租借訂單
 	@PostMapping("/insert")
 	public ResponseEntity<?> insertRentOrder(@RequestBody RentOrder rentOrder) {
 		try {
-			iRentOrderService.insert(rentOrder);
-			return new ResponseEntity<>(HttpStatus.OK);
+			RentOrder rentOrder2 =   iRentOrderService.insert(rentOrder);
+			return new ResponseEntity<>(rentOrder2.getRentorderid(),HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	// 更新租借訂單
-	@PutMapping("/update")
-	public ResponseEntity<?> updateRentOrder(@RequestBody RentOrder rentOrder) {
-		try {
-			iRentOrderService.updateById(rentOrder);
-			return new ResponseEntity<>(HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
+//	@PutMapping("/update")
+//	public ResponseEntity<?> updateRentOrder(@RequestBody RentOrder rentOrder) {
+//		try {
+//			iRentOrderService.updateById(rentOrder);
+//			return new ResponseEntity<>(HttpStatus.OK);
+//		} catch (Exception e) {
+//			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+//	}
 
 	// 刪除單筆訂單
 	@DeleteMapping("/delete/{id}")
