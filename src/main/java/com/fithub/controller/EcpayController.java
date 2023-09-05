@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fithub.model.ecpay.EcpayDetailDTO;
 import com.fithub.model.ecpay.EcpayDetails;
 import com.fithub.model.ecpay.EcpayService;
 import com.fithub.model.rentorder.IRentOrderService;
@@ -31,19 +32,23 @@ public class EcpayController {
 	RentOrderRepository rentOrderRepository;
 
 	@PostMapping("/ecpayCheckout")
-	public String ecpayCheckout(@RequestBody RentOrder rentOrder) {
-		String aioCheckOutALLForm = ecpayService.ecpayCheckout(rentOrder);
+	public String ecpayCheckout(@RequestBody EcpayDetailDTO ecpayDetailDTO) {
+		String aioCheckOutALLForm = ecpayService.ecpayCheckout(ecpayDetailDTO);
 
 		return aioCheckOutALLForm;
 	}
 
-	// 取得綠界回傳資訊並回傳驗證
+	// 取得綠界回傳資訊並回傳驗證,更新訂單狀態
 	@PostMapping("/callback")
 	public String handleCallback(@ModelAttribute EcpayDetails ecpayDetails) {
-	
+		
+		
+		String rentOrderId = ecpayDetails.getMerchantTradeNo().substring(15); // 只保留索引15後的字串,去掉UUID
+
+		//判斷是否成功
 		if(ecpayDetails.getRtnCode().equals("1")) {
 		RentOrder rentOrder = new RentOrder();
-		rentOrder.setRentorderid(41);
+		rentOrder.setRentorderid(Integer.parseInt(rentOrderId));
 		rentOrder.setRentstatus("已付款");
 		Boolean updateResult =  iRentOrderService.updateRentstatusById(rentOrder.getRentorderid(),rentOrder.getRentstatus());
 		System.out.println(updateResult);

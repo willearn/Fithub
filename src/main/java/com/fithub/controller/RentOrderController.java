@@ -71,8 +71,8 @@ public class RentOrderController {
 	@PostMapping("/insert")
 	public ResponseEntity<?> insertRentOrder(@RequestBody RentOrder rentOrder) {
 		try {
-			iRentOrderService.insert(rentOrder);
-			return new ResponseEntity<>(HttpStatus.OK);
+			RentOrder rentOrder2 =   iRentOrderService.insert(rentOrder);
+			return new ResponseEntity<>(rentOrder2.getRentorderid(),HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
