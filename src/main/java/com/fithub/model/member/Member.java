@@ -22,7 +22,7 @@ import lombok.Data;
 @Table(name = "member")
 public class Member {
 
-	@Id  @Column(name="memberid")
+	@Id  @Column(name="MEMBERID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer memberid;
 	private String memberphoneno;
@@ -33,8 +33,8 @@ public class Member {
 	private String membercity;
 	private String memberzone;
 	private String memberaddress;
-	private Date memberbirthday;
-	private Date memberaccountsince;
+	private String memberbirthday;
+	private String memberaccountsince;
 	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "member")

@@ -16,51 +16,32 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.fithub.model.backstageaccount.BackStageAccount;
+import com.fithub.model.member.Member;
+import com.fithub.model.member.MemberService;
 import com.fithub.model.user.ResponseModel;
+import com.fithub.model.user.ResponseModelMember;
 
 @RestController
 @CrossOrigin()
-public class LoginController {
-	
-	@Autowired
-	private BackStageAccountController bController;
-	
+public class MemberLoginController {
 
-//	@PostMapping("/login")
-//	public String login(@RequestBody UserModel userModel) {
-//		ResponseModel loginResponse = new ResponseModel();
-//		
-//
-//		boolean flag = userModel.getUsername().equals("root") && userModel.getPassword().equals("root"); // 驗證帳號密碼
-//		if (flag) {
-//			String token = "";
-//			try {
-//				token = generateToken(userModel.getUsername()); // 生成token其中夾帶使用者帳號
-//				loginResponse.setStatus(true);
-//				loginResponse.setToken(token);
-//				loginResponse.setUsername(userModel.getUsername());
-//			} catch (Exception exception) {
-//				exception.printStackTrace();
-//			}
-//		}
-//
-//		return loginResponse.toJSONString();
-//	}
+	@Autowired
+	private MemberService mService;
 	
-	@PostMapping("/login")
-	public String login(@RequestBody BackStageAccount bBean) {
-		ResponseModel loginResponse = new ResponseModel();
+	@PostMapping("/memberlogin")
+	public String login(@RequestBody Member mBean) {
+		ResponseModelMember loginResponse = new ResponseModelMember();
 		
-		BackStageAccount resultBean = bController.checkLogin(bBean); // 驗證帳號密碼
+		Member resultBean = mService.checkLogin(mBean); // 驗證帳號密碼
 		if (resultBean != null) {
 			String token = "";
 			try {
-				token = generateToken(resultBean.getEmployeeaccount()); // 生成token其中夾帶使用者帳號
+				token = generateToken(resultBean.getMemberemail()); // 生成token其中夾帶使用者帳號
 				loginResponse.setStatus(true);
 				loginResponse.setToken(token);
-				loginResponse.setUsername(resultBean.getEmployeeaccount());
-				loginResponse.setLoa(resultBean.getLoa());
+				loginResponse.setMembername(resultBean.getMembername());
+				loginResponse.setMemberid(resultBean.getMemberid());
+				loginResponse.setMemberemail(resultBean.getMemberemail());
 			} catch (Exception exception) {
 				exception.printStackTrace();
 			}
@@ -68,23 +49,23 @@ public class LoginController {
 
 		return loginResponse.toJSONString();
 	}
-
-	@PostMapping("/auth")
+	
+	@PostMapping("/memberauth")
 	public String auth(@RequestBody Map<String, String> request) {
-		ResponseModel response = new ResponseModel();
+		ResponseModelMember response = new ResponseModelMember();
 		String token = request.get("token");
 		
 		
 		try {
-			String username = verifyToken(token);
-			String newToken = generateToken(username);
+			String memberemail = verifyToken(token);
+			String newToken = generateToken(memberemail);
 			
-			Integer loa = bController.checkLoa(username);
-
+			Member resultBean = mService.findByEmail(memberemail);
 			response.setStatus(true);
-			response.setUsername(username);
+			response.setMemberemail(memberemail);
 			response.setToken(newToken);
-			response.setLoa(loa);
+			response.setMembername(resultBean.getMembername());
+			response.setMemberid(response.getMemberid());
 
 		} catch (JWTVerificationException exception) {
 			System.out.println("jwt verify fail");
@@ -95,27 +76,27 @@ public class LoginController {
 
 		return response.toJSONString();
 	}
-
+	
 	String SECRET_KEY = "secretKey";
 	Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
-
-	String generateToken(String username) throws Exception {
+	
+	String generateToken(String memberemail) throws Exception {
 		String token = "";
 		LocalDateTime dateTime = LocalDateTime.now().plusMinutes(10);
 		Date expireTime = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
 
-		token = JWT.create().withClaim("username", username).withExpiresAt(expireTime).sign(algorithm);
+		token = JWT.create().withClaim("memberemail", memberemail).withExpiresAt(expireTime).sign(algorithm);
 
 		return token;
 	}
 
 	String verifyToken(String token) throws JWTVerificationException {
 		JWTVerifier verifier = JWT.require(algorithm).build();
-		String username = "";
+		String memberemail = "";
 
 		DecodedJWT decodedJWT = verifier.verify(token);
-		username = decodedJWT.getClaim("username").asString();
+		memberemail = decodedJWT.getClaim("memberemail").asString();
 
-		return username;
+		return memberemail;
 	}
 }
