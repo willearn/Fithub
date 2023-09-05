@@ -33,8 +33,6 @@ public class ActivityController {
 	@Autowired
 	private IEmployeeService iEmployeeService;
 
-	@Autowired
-	private IActivityPicService iActivityPicService;
 
 	// 列出所有活動
 	@GetMapping("/list")
@@ -64,6 +62,7 @@ public class ActivityController {
 		
 			//取得多筆圖片base64字串
 			String[] result = activity.getPic();
+			
 		try {
 			if (result != null && result.length > 0 && !result[0].isEmpty()) {
 				List<ActivityPic> activityPicList = new ArrayList<>();
@@ -87,9 +86,25 @@ public class ActivityController {
 	// 更新單筆活動
 	@PutMapping("/update")
 	public ResponseEntity<?> updateActivity(@RequestBody Activity activity) {
+		
+		//取得多筆圖片base64字串
+		String[] result = activity.getPic();
+		
 		try {
-			iActivityService.updateById(activity);
-			return new ResponseEntity<>(HttpStatus.OK);
+			if (result != null && result.length > 0 && !result[0].isEmpty()) {
+				List<ActivityPic> activityPicList = new ArrayList<>();
+				for (int i = 0; i < result.length; i++) {
+					ActivityPic apic = new ActivityPic();
+					apic.setApicfile(result[i]);
+					activityPicList.add(apic);
+				}
+				activity.setActivitypic(activityPicList);
+				iActivityService.updateById(activity);
+				return new ResponseEntity<>(HttpStatus.OK);
+			} else {
+				iActivityService.updateById(activity);
+				return new ResponseEntity<>(HttpStatus.OK);
+			}
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
