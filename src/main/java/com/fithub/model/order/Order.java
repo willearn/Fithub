@@ -4,6 +4,7 @@ package com.fithub.model.order;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fithub.model.member.Member;
@@ -20,6 +21,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 
 @Data
@@ -50,12 +52,17 @@ public class Order {
 	@Column(name="orderState")
 	private int orderstate;
 	
+	@Transient
+	private OrderItem[] items;
+	
+	
 	@JsonIgnoreProperties({ "rentOrders" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="MEMBERID",insertable = false,updatable = false)
 	private Member member;
 	
-	@JsonIgnore
+//	@JsonIgnore
+	@JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
 	private List<OrderItem> orderItem = new ArrayList<>();
 	

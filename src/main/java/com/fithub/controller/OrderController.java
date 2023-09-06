@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fithub.model.order.Order;
 import com.fithub.model.order.OrderService;
+import com.fithub.model.orderitem.OrderItem;
 
 @CrossOrigin
 @RestController
@@ -102,9 +103,26 @@ public class OrderController {
   	}
   	
   	 @PostMapping
-     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-         Order createdOrder = orderService.createOrder(order);
-         return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
+     public ResponseEntity<?> createOrder(@RequestBody Order order) {
+//  		 List<OrderItem> items =  order.getOrderItem();
+//  		 System.out.println(order.getOrderCondition()); 
+//  		 System.out.println("6666666666666" + order.getItems());
+//  		 for (OrderItem orderItem : items) {
+//			System.out.println(orderItem);
+//		}
+  		 
+  		 try {
+  			Order createdOrder = orderService.createOrder(order, order.getItems());
+  	         return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
+  		 }catch(Exception e){
+  			 e.printStackTrace();
+  			 return new ResponseEntity<>("GG", HttpStatus.BAD_REQUEST);
+  		 }
+  		 
+         
+         
+         
+         
      }
   	
 }

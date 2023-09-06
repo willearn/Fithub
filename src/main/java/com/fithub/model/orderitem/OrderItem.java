@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 
 @Data
@@ -27,10 +28,11 @@ public class OrderItem {
 	@Column(name="itemid")
 	private int itemId;
 
+
 	@Column(name="orderid")
 	private int orderId;
-	
-	@Column(name="CLASSID")
+
+	@Column(name="classid")
 	private int classId;
 		
 	@Column(name="couponid")

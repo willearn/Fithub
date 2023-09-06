@@ -74,24 +74,63 @@ public class OrderService implements IOrderService {
 		orderRepo.deleteAllById(selectIds);
 		
 	}
-	@Transactional
-	public Order createOrder(Order order) {
-        // 这里可以进行一些订单属性的验证和处理
-        // ...
-        
-        // 保存订单
-        Order savedOrder = orderRepo.save(order);
-        
-        // 创建订单项
-        List<OrderItem> orderItems = new ArrayList<>();
-        for (OrderItem item : order.getOrderItem()) {
-            item.setOrderId(savedOrder.getOrderId());
-            orderItems.add(orderItemRepo.save(item));
-        }
-        
-        savedOrder.setOrderItem(orderItems);
-        
-        return savedOrder;
-    }
+//	@Transactional
+//	public Order createOrder(Order order) {
+//
+//        Order savedOrder = orderRepo.save(order);
+//        
+//       
+//        List<OrderItem> orderItems = new ArrayList<>();
+//        
+//        for (OrderItem item : order.getOrderItem()) {
+//            item.setOrderId(savedOrder.getOrderId()); 
+//            item.setClassId(item.getClassId()); 
+//            item.setCouponId(item.getCouponId()); 
+//
+//            orderItems.add(orderItemRepo.save(item));            
+//        }
+//        
+//        savedOrder.setOrderItem(orderItems);
+//        
+//        return savedOrder;
+//    }
+	
+	@Override
+//	@Transactional
+	public Order createOrder(Order order, OrderItem[] orderItems) {
+		
+//	    List<OrderItem> orderItems = new ArrayList<>();
+	    
+//	    	OrderItem orderItem	= new OrderItem();
+		
+//		Order savedOrder = orderRepo.saveAndFlush(order);
+		
+		
+		List<OrderItem> orderItemsList = new ArrayList<>();
+		
+		for(OrderItem items :orderItems) {
+			items.setOrder(order);
+			orderItemsList.add(items);
+//			orderItemRepo.save(items);
+		}
+		
+		
+		order.setOrderItem(orderItemsList);
+	    	
+	    orderRepo.save(order);
+	    	
+//	    	orderItem.setOrderId(order.getOrderId()); 
+	        // 设置classId和couponId
+//	    	orderItem.setClassId();
+//	    	orderItem.setCouponId();
+//	        orderItems.add(orderItem);            
+	    
+	    
+//	    order.setOrderItem(orderItems);
+//	    Order savedOrder = orderRepo.save(order); // 保存Order对象
+	    
+	    return orderRepo.save(order);
+	}
+
 
 }
