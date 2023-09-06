@@ -7,43 +7,18 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Data;
 
+@Data
 @Entity
-@Table(name = "VerificationCode")
+@Table(name = "verificationcode")
 public class VerificationCode {
 
 	@Id
-	@Column(name = "Email")
+	@Column(name = "EMAIL")
 	private String email;
 	private String verificationcode;
-	private Date codeGeneratedate;
+	private String codeGeneratedate;
 
-	public VerificationCode() {
-
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getVerificationcode() {
-		return verificationcode;
-	}
-
-	public void setVerificationcode(String verificationcode) {
-		this.verificationcode = verificationcode;
-	}
-
-	public Date getCodeGeneratedate() {
-		return codeGeneratedate;
-	}
-
-	public void setCodeGeneratedate(Date codeGeneratedate) {
-		this.codeGeneratedate = codeGeneratedate;
-	}
 
 }

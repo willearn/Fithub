@@ -33,15 +33,13 @@ public class RentOrder {
 	private String rentorderdate;
 	private String rentdate;
 	private String renttime;
-	private String rentstatus;
 	private Integer rentamount;
+	private String rentstatus;
 
-	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "memberid", insertable = false, updatable = false)
 	private Member member;
 
-	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "classroomid",insertable = false, updatable = false)
 	private Classroom classroom;

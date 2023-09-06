@@ -24,5 +24,9 @@ public interface IClassesService {
 	
 	// 查詢單筆
 	public Classes findById(Integer id);
+
+	public List<Object[]> findAllclassDateAndclassTimeByClassroomId(Integer classroomId);
+
+	public Classes checkClass(Integer classroomId, String classDate, String classTime);
 	
 }

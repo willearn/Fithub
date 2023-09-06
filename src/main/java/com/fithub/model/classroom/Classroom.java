@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
 import com.fithub.model.classes.Classes;
 import com.fithub.model.rentorder.RentOrder;
 
@@ -24,15 +23,12 @@ import lombok.Data;
 @Table(name = "classroom")
 public class Classroom {
 
-	public interface ClassroomNameView {
-	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "classroomid")
 	private int classroomId;
 
-	@JsonView(ClassroomNameView.class)
 	@Column(name = "classroomname")
 	private String classroomName;
 
@@ -50,12 +46,12 @@ public class Classroom {
 
 	@Column(name = "classroompic")
 	private String classroomPic;
-	
+
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "classroom")
 	private Set<Classes> classes = new HashSet<Classes>();
 
 	@JsonIgnore
-	@OneToOne(mappedBy = "classroom", fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY,mappedBy = "classroom")
 	private RentOrder rentOrder;
 }

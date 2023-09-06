@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fithub.model.rentorder.RentOrder;
+
 @Service
 public class ClassesService implements IClassesService {
 
@@ -62,5 +64,14 @@ public class ClassesService implements IClassesService {
 		Optional<Classes> result = classesRepo.findById(id);
 		return result.get();
 	}
+	
+	@Override
+	public List<Object[]> findAllclassDateAndclassTimeByClassroomId(Integer classroomId) {
+		return classesRepo.findAllclassDateAndclassTimeByClassroomId(classroomId);
+	}
 
+	@Override
+	public Classes checkClass(Integer classroomId, String classDate, String classTime) {
+		return classesRepo.checkClass(classroomId, classDate, classTime);
+	}
 }
