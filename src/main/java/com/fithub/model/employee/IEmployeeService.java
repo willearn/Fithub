@@ -14,6 +14,10 @@ public interface IEmployeeService {
 	public List<Employee> findManagerByJobTitleId(Integer jobtitleid);
 	public long count ();
 	public long count(String name);
+	public long countByJobTitleId(String jobtitleid);
+	public long countByJobTitleIdAndName(String jobtitleid, String name);
 	public Page<Employee> findByPage(Integer pageNumber,Integer rows);
 	public Page<Employee> findPageByName(Integer pageNumber, Integer rows, String name);
+	public Page<Employee> findCoachByPage(Integer pageNumber,Integer rows , Integer jobtitleid);
+	public Page<Employee> findCoachPageByName(Integer pageNumber, Integer rows,Integer jobtitleid ,String name);
 }

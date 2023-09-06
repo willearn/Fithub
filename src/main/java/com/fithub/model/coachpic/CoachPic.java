@@ -1,5 +1,6 @@
 package com.fithub.model.coachpic;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fithub.model.coachspecialty.CoachSpecialty;
 import com.fithub.model.employee.Employee;
 import com.fithub.model.specialty.Specialty;
@@ -29,6 +30,7 @@ public class CoachPic {
 	
 	private byte[] cpicfile;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="EMPLOYEEID",insertable = false,updatable = false)
 	private Employee employee;

@@ -26,42 +26,70 @@ public class BackStageAccountService implements IBackStageAccountService {
 
 	@Override
 	public boolean insert(BackStageAccount bBean) {
-		BackStageAccount result = bRepo.findBackStageAccountByAccount(bBean.getEmployeeaccount());
-		bBean.setEmployeepassword(pwdEncoder.encode(bBean.getEmployeepassword()));
-		if (result == null) {
-			BackStageAccount resultBean = bRepo.save(bBean);
-			if (resultBean != null) {
-				return true;
+		try {
+			BackStageAccount result = bRepo.findBackStageAccountByAccount(bBean.getEmployeeaccount());
+			bBean.setEmployeepassword(pwdEncoder.encode(bBean.getEmployeepassword()));
+			if (result == null) {
+				BackStageAccount resultBean = bRepo.save(bBean);
+				if (resultBean != null) {
+					return true;
+				}
 			}
+			return false;
+		} catch (Exception e) {
+			return false;
 		}
 
-		return false;
 	}
 
 	@Override
 	public boolean update(BackStageAccount bBean) {
-		bBean.setEmployeepassword(pwdEncoder.encode(bBean.getEmployeepassword()));
-		BackStageAccount result = bRepo.save(bBean);
-		if (result != null) {
-			return true;
+		try {
+			if(bBean.getEmployeepassword() != null) {
+				bBean.setEmployeepassword(pwdEncoder.encode(bBean.getEmployeepassword()));
+				BackStageAccount result = bRepo.save(bBean);
+				if (result != null) {
+					return true;
+				}
+			}else {
+				Integer result = bRepo.updateLoaByAccount(bBean.getLoa(), bBean.getEmployeeaccount());
+				System.out.println(result);
+				if(result != 0) {
+					return true;
+				}
+			}
+			return false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
 		}
-		return false;
 	}
 
 	@Override
 	public void deleteBackStageAccountByAccount(String account) {
-		bRepo.deleteBackStageAccountByAccount(account);
+		try {
+			bRepo.deleteBackStageAccountByAccount(account);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public BackStageAccount findBackStageAccountByAccount(String account) {
-		BackStageAccount resultBean = bRepo.findBackStageAccountByAccount(account);
+		try {
+			BackStageAccount resultBean = bRepo.findBackStageAccountByAccount(account);
 
-		if (resultBean != null) {
-			return resultBean;
+			if (resultBean != null) {
+				return resultBean;
+			}
+
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 
-		return null;
 	}
 
 	@Override

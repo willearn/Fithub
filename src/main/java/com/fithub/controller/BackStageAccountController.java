@@ -76,8 +76,13 @@ public class BackStageAccountController {
 	
 	@DeleteMapping("/backstageaccounts/{account}")
 	public ResponseEntity<Object> delete(@PathVariable("account") String account){
-		bService.deleteBackStageAccountByAccount(account);
+		try {
+			bService.deleteBackStageAccountByAccount(account);
 			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	
 	}
 	
 	@PostMapping("/backstageaccounts/findPageByName")

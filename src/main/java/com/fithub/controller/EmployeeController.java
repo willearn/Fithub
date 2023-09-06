@@ -44,35 +44,35 @@ public class EmployeeController {
 		return new ResponseEntity<Employee>(emp, HttpStatus.NOT_FOUND);
 	}
 
-//	@GetMapping("/employees")
-//	public ResponseEntity<?> findAll() throws JsonProcessingException, JSONException {
-//		JSONObject responseJson = new JSONObject();
-//		JSONArray array = new JSONArray();
-//
-//		List<Employee> emps = eService.findAll();
-//
-//		if (emps != null) {
-//			for (Employee emp : emps) {
-//				JSONObject item = new JSONObject().put("employeeid", emp.getEmployeeid())
-//						.put("employeename", emp.getEmployeename()).put("employeeemail", emp.getEmployeeemail())
-//						.put("employeephone", emp.getEmployeephone()).put("employeegender", emp.getEmployeegender())
-//						.put("employeecity", emp.getEmployeecity()).put("employeezone", emp.getEmployeezone())
-//						.put("employeeaddress", emp.getEmployeeaddress()).put("deptid", emp.getDeptid())
-//						.put("deptname", emp.getDepartment().getDeptname()).put("jobtitleid", emp.getJobtitleid())
-//						.put("jobtitlename", emp.getJobtitle().getJobtitlename()).put("managerid", emp.getManagerid())
-//						.put("hiredate", emp.getHiredate()).put("resigndate", emp.getResigndate())
-//						.put("salary", emp.getSalary()).put("employeebirthday", emp.getEmployeebirthday())
-//						.put("employeeintroduction", emp.getEmployeeintroduction());
-//				array = array.put(item);
-//
-//			}
-//			responseJson.put("list", array);
-//			System.out.println(responseJson);
-//			return new ResponseEntity<>(responseJson.toString(), HttpStatus.OK);
-//		}
-//
-//		return new ResponseEntity<>(responseJson.toString(), HttpStatus.NOT_FOUND);
-//	}
+	@GetMapping("/employees")
+	public ResponseEntity<?> findAll() throws JsonProcessingException, JSONException {
+		JSONObject responseJson = new JSONObject();
+		JSONArray array = new JSONArray();
+
+		List<Employee> emps = eService.findAll();
+
+		if (emps != null) {
+			for (Employee emp : emps) {
+				JSONObject item = new JSONObject().put("employeeid", emp.getEmployeeid())
+						.put("employeename", emp.getEmployeename()).put("employeeemail", emp.getEmployeeemail())
+						.put("employeephone", emp.getEmployeephone()).put("employeegender", emp.getEmployeegender())
+						.put("employeecity", emp.getEmployeecity()).put("employeezone", emp.getEmployeezone())
+						.put("employeeaddress", emp.getEmployeeaddress()).put("deptid", emp.getDeptid())
+						.put("deptname", emp.getDepartment().getDeptname()).put("jobtitleid", emp.getJobtitleid())
+						.put("jobtitlename", emp.getJobtitle().getJobtitlename()).put("managerid", emp.getManagerid())
+						.put("hiredate", emp.getHiredate()).put("resigndate", emp.getResigndate())
+						.put("salary", emp.getSalary()).put("employeebirthday", emp.getEmployeebirthday())
+						.put("employeeintroduction", emp.getEmployeeintroduction());
+				array = array.put(item);
+
+			}
+			responseJson.put("list", array);
+			System.out.println(responseJson);
+			return new ResponseEntity<>(responseJson.toString(), HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>(responseJson.toString(), HttpStatus.NOT_FOUND);
+	}
 
 	// 分頁查詢
 	// json會傳送{"start":1,"rows":"5","name":"","sortOrder":"asc","sortType":"id"}
@@ -246,4 +246,52 @@ public class EmployeeController {
 		}
 		return null;
 	}
+	
+	@PostMapping("/employees/findCoachPageByName")
+	public ResponseEntity<?> findCoachPageByName(@RequestBody String json) {
+		Integer jobTitleId = jController.findJobTitleIdByName("教練");
+		
+		System.out.println(json.toString());
+		try {
+			JSONObject obj = new JSONObject(json);
+
+			JSONObject responseJson = new JSONObject();
+			JSONArray array = new JSONArray();
+
+			String name = obj.isNull("name") ? null : obj.getString("name");
+
+			long count;
+			Page<Employee> page;
+			
+			//有的話 依照name去搜尋有幾筆資料，沒有則搜尋全部
+			if (name != null) {
+				System.out.println("NAME != NULL");
+				count = eService.countByJobTitleIdAndName(jobTitleId.toString() , name);
+				page = eService.findCoachPageByName(obj.getInt("start"), obj.getInt("rows"),
+						jobTitleId, obj.getString("name"));
+			}else {
+				count = eService.countByJobTitleId(jobTitleId.toString());
+				page = eService.findCoachByPage(obj.getInt("start"), obj.getInt("rows"), jobTitleId);
+			}
+			System.out.println("count----" + count);
+			responseJson.put("count", count);
+
+			for (Employee emp : page) {
+				System.out.println("emp");
+				System.out.println(emp.getJobtitleid());
+				JSONObject item = new JSONObject().put("employeeid", emp.getEmployeeid())
+						.put("employeename", emp.getEmployeename());
+				array = array.put(item);
+			}
+
+			responseJson.put("list", array);
+			return new ResponseEntity<>(responseJson.toString(), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
+	
 }

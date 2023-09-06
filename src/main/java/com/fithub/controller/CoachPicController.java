@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,14 +32,45 @@ public class CoachPicController {
 
 	@GetMapping("/coachpics/{cid}")
 	public ResponseEntity<CoachPic> findById(@PathVariable("cid") int cid) throws JsonProcessingException {
-		CoachPic spec = cService.findById(cid);
-
-		if (spec != null) {
-			return new ResponseEntity<CoachPic>(spec, HttpStatus.OK);
+		try {
+			CoachPic spec = cService.findById(cid);
+			System.out.println("-----------------------------------------------------");
+			if (spec != null) {
+				System.out.println("-----------------------------------------------------");
+				System.out.println(spec.getCpicfile());
+				return new ResponseEntity<CoachPic>(spec, HttpStatus.OK);
+				
+			}
+			return new ResponseEntity<CoachPic>(HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<CoachPic>(HttpStatus.NOT_FOUND);
 		}
-
-		return new ResponseEntity<CoachPic>(spec, HttpStatus.NOT_FOUND);
+		
 	}
+	
+	@GetMapping("/coachpics/byemp/{eid}")
+	public ResponseEntity<List<CoachPic>> findByEmpId(@PathVariable("eid") int eid) throws JsonProcessingException {
+		try {
+			List<CoachPic> spec = cService.findByEmpId(eid);
+			System.out.println("-----------------------------------------------------");
+			if (spec != null) {
+				for (CoachPic coachPic : spec) {
+					System.out.println(coachPic.getCpicid());
+				}
+				System.out.println("-----------------------------------------------------");
+				return new ResponseEntity<List<CoachPic>>(spec, HttpStatus.OK);
+				
+			}
+			return new ResponseEntity<List<CoachPic>>(HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<List<CoachPic>>(HttpStatus.NOT_FOUND);
+		}
+		
+	}
+	
+	
 
 	@GetMapping("/coachpics")
 	public ResponseEntity<List<CoachPic>> findAll() throws JsonProcessingException {
@@ -60,22 +94,26 @@ public class CoachPicController {
 
 	@PostMapping("/coachpics")
 	public ResponseEntity<Object> insert(@RequestBody Map<String, String> request) {
-		Integer employeeid = Integer.parseInt(request.get("employeeid"));
-		String base64Image = request.get("cpicfile");
-		System.out.println(base64Image);
-		byte[] imageBytes = Base64.getDecoder().decode(base64Image.split(",")[1]);
-		
-		CoachPic cBean = new CoachPic();
-		cBean.setEmployeeid(employeeid);
-		cBean.setCpicfile(imageBytes);
-		
-		
-		boolean result = cService.insert(cBean);
-		if(result){
-			return new ResponseEntity<>(HttpStatus.OK);
-		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		try {
+			Integer employeeid = Integer.parseInt(request.get("employeeid"));
+			String base64Image = request.get("cpicfile");
+			System.out.println(base64Image);
+			byte[] imageBytes = Base64.getDecoder().decode(base64Image.split(",")[1]);
 
+			CoachPic cBean = new CoachPic();
+			cBean.setEmployeeid(employeeid);
+			cBean.setCpicfile(imageBytes);
+
+			boolean result = cService.insert(cBean);
+			if (result) {
+				return new ResponseEntity<>(HttpStatus.OK);
+			}
+
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 	@DeleteMapping("/coachpics/{cid}")
@@ -95,4 +133,66 @@ public class CoachPicController {
 
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+	
+//	@PostMapping("/coachpics/findPageByName")
+//	public ResponseEntity<?> findPageByName(@RequestBody String json) {
+//		System.out.println("JSON");
+//		System.out.println(json.toString());
+//		try {
+//			JSONObject obj = new JSONObject(json);
+//
+//			JSONObject responseJson = new JSONObject();
+//			JSONArray array = new JSONArray();
+//			JSONArray array2 = new JSONArray();
+//			
+//			String name = obj.isNull("name") ? null : obj.getString("name");
+//
+//			long count;
+//			
+//			//有的話 依照name去搜尋有幾筆資料，沒有則搜尋全部
+//			if (name != null) {
+//				Page<Object[]> page;
+//				count = cService.count(obj.getString("name"));
+//				page = cService.findPageByName(obj.getInt("start"), obj.getInt("rows"),
+//						obj.getString("name"));
+//				
+//				responseJson.put("count", count);
+//
+//				for (Object[] cp : page) {
+//					JSONObject item = new JSONObject().put("employeename", cp[0])
+//							.put("employeeid",cp[1])
+//							.put("cpicid",cp[2])
+//							.put("cpicfile",cp[3]);
+////					CoachPic cpic = new CoachPic();
+////					cpic.setCpicfile( cp[3]);
+//					array = array.put(item);
+////					array2 = array2.put(false)
+//				}
+//			}else {
+//				Page<CoachPic> page;
+//				count = cService.count();
+//				page = cService.findByPage(obj.getInt("start"), obj.getInt("rows"));
+//				
+//				responseJson.put("count", count);
+//
+//				for (CoachPic cp : page) {
+//					JSONObject item = new JSONObject()
+//							.put("employeename", cp.getEmployee().getEmployeename())
+//							.put("employeeid", cp.getEmployeeid())
+//							.put("cpicid", cp.getCpicid())
+//							.put("cpicfile", cp.getCpicfile());
+//					array = array.put(item);
+//				}
+//			}
+//			
+//		
+//
+//			responseJson.put("list", array);
+//			return new ResponseEntity<>(responseJson.toString(), HttpStatus.OK);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//	}
 }

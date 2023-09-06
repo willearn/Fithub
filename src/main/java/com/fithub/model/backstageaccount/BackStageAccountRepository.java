@@ -27,11 +27,17 @@ public interface BackStageAccountRepository extends JpaRepository<BackStageAccou
 	@Query("select loa from BackStageAccount where employeeaccount = :account")
 	Integer findLoaByAccount(@Param("account") String account);
 
-	// XiaoQing
+	// XiaoQing 查看employeeid的有幾筆資料
 	@Query("select count(*) from Employee as e inner join BackStageAccount as ba on e.employeeid = ba.employeeid where :name is null or e.employeename like %:name%")
 	long count(@Param("name") String name);
 
 	// XiaoQing
 	@Query("select e.employeeid, ba.employeeaccount ,e.employeename , ba.loa from Employee as e inner join BackStageAccount as ba on e.employeeid = ba.employeeid where e.employeename like %:name%")
 	Page<Object[]> searchByName(Pageable pageable, @Param("name") String name);
+
+	// XiaoQing
+	@Modifying
+	@Transactional
+	@Query("UPDATE BackStageAccount b SET  b.loa = :loa WHERE b.employeeaccount = :account")
+	Integer updateLoaByAccount(@Param("loa") Integer loa, @Param("account") String account);
 }

@@ -101,13 +101,36 @@ public class EmployeeService implements IEmployeeService {
 	@Override
 	public Page<Employee> findPageByName(Integer pageNumber, Integer rows, String name) {
 		Pageable pgb = PageRequest.of(pageNumber, rows, Sort.DEFAULT_DIRECTION, "employeeid");
-		System.out.println("pageNumber " + pageNumber);
-		System.out.println("rows " + rows);
-		System.out.println("name " + name);
 		Page<Employee> page = eRepo.searchByName(pgb, name);
-		System.out.println(page);
 		return page;
 	}
+
+	@Override
+	public Page<Employee> findCoachPageByName(Integer pageNumber, Integer rows,Integer jobtitleid ,   String name ) {
+		Pageable pgb = PageRequest.of(pageNumber, rows, Sort.DEFAULT_DIRECTION, "employeeid");
+		Page<Employee> page = eRepo.findManagersByJobTitleIdAndName(pgb, jobtitleid.toString(), name);
+		return page;
+	}
+
+	@Override
+	public Page<Employee> findCoachByPage(Integer pageNumber, Integer rows , Integer jobtitleid) {
+		Pageable pgb = PageRequest.of(pageNumber, rows, Sort.DEFAULT_DIRECTION, "employeeid");
+		Page<Employee> page = eRepo.findManagersByJobTitleId(pgb, jobtitleid.toString());
+		
+		return page;
+	}
+
+	@Override
+	public long countByJobTitleId(String jobtitleid) {
+		long count = eRepo.countByJobTitleId(jobtitleid);
+		return count;	
+		}
+	
+	@Override
+	public long countByJobTitleIdAndName(String jobtitleid, String name) {
+		long count = eRepo.countByJobTitleIdAndName(jobtitleid , name);
+		return count;	
+		}
 
 //	public List<Employee> find(JSONObject obj) throws JSONException{
 //		int start = obj.isNull("start") ? 0 : obj.getInt("start");
