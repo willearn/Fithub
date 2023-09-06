@@ -1,6 +1,7 @@
 package com.fithub.model.coachpic;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,10 +59,10 @@ public class CoachPicService implements ICoachPicService {
 	}
 
 	@Override
-	public List<CoachPic> findByEmpId(Integer id) {
+	public List<Map<String , String>> findByEmpId(Integer id) {
 		try {
 			System.out.println(id);
-			List<CoachPic> resultBeans = cRepo.findByEmpId(id);
+			List<Map<String , String>> resultBeans = cRepo.findByEmpId(id);
 			if (resultBeans != null) {
 				return resultBeans;
 			}

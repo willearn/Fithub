@@ -1,11 +1,11 @@
 package com.fithub.model.coachpic;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -24,6 +24,6 @@ public interface CoachPicRespository extends JpaRepository<CoachPic, Integer> {
 	Page<Object[]> searchByName(Pageable pageable, @Param("name") String name);
 
 	// XiaoQing
-	@Query("SELECT c.cpicid , c.employeeid, c.cpicfile FROM CoachPic c WHERE c.employeeid = :empid")
-	List<CoachPic> findByEmpId(@Param("empid") Integer empid);
+	@Query("SELECT c.cpicid as cpicid , c.employeeid as employeeid , c.cpicfile as cpicfile FROM CoachPic c WHERE c.employeeid = :empid")
+	List<Map<String , String>> findByEmpId(@Param("empid") Integer empid);
 }

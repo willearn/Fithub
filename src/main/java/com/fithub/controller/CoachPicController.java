@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fithub.model.coachpic.CoachPic;
 import com.fithub.model.coachpic.ICoachPicService;
 
@@ -29,6 +30,9 @@ public class CoachPicController {
 
 	@Autowired
 	private ICoachPicService cService;
+	
+	@Autowired
+	private ObjectMapper objectMapper;
 
 	@GetMapping("/coachpics/{cid}")
 	public ResponseEntity<CoachPic> findById(@PathVariable("cid") int cid) throws JsonProcessingException {
@@ -50,22 +54,18 @@ public class CoachPicController {
 	}
 	
 	@GetMapping("/coachpics/byemp/{eid}")
-	public ResponseEntity<List<CoachPic>> findByEmpId(@PathVariable("eid") int eid) throws JsonProcessingException {
+	public ResponseEntity<?> findByEmpId(@PathVariable("eid") int eid) throws JsonProcessingException {
 		try {
-			List<CoachPic> spec = cService.findByEmpId(eid);
-			System.out.println("-----------------------------------------------------");
+			List<Map<String , String>> spec = cService.findByEmpId(eid);
+			
+			System.out.println(spec);
 			if (spec != null) {
-				for (CoachPic coachPic : spec) {
-					System.out.println(coachPic.getCpicid());
-				}
-				System.out.println("-----------------------------------------------------");
-				return new ResponseEntity<List<CoachPic>>(spec, HttpStatus.OK);
-				
+				return new ResponseEntity<>(spec, HttpStatus.OK);
 			}
-			return new ResponseEntity<List<CoachPic>>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<List<CoachPic>>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
 	}
@@ -95,9 +95,11 @@ public class CoachPicController {
 	@PostMapping("/coachpics")
 	public ResponseEntity<Object> insert(@RequestBody Map<String, String> request) {
 		try {
+			System.out.println("request");
+			System.out.println(request);
 			Integer employeeid = Integer.parseInt(request.get("employeeid"));
 			String base64Image = request.get("cpicfile");
-			System.out.println(base64Image);
+			
 			byte[] imageBytes = Base64.getDecoder().decode(base64Image.split(",")[1]);
 
 			CoachPic cBean = new CoachPic();
@@ -110,6 +112,7 @@ public class CoachPicController {
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
