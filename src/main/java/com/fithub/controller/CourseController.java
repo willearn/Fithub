@@ -10,9 +10,11 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -60,6 +62,28 @@ public class CourseController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	// Author : Chrislafolia 分頁功能
+	@GetMapping("/page")
+	public ResponseEntity<?> showMessages(@RequestParam(name="p",defaultValue = "1") Integer pageNumber,
+			@RequestParam(name="size",defaultValue = "6") Integer dataSize) {
+		try {
+			// course data 放body
+			Page<Course> page = cService.findByPage(pageNumber,dataSize);
+			List<Course> courseResultList=page.getContent();			
+			
+			// TotalPages, numberOfElements 放header 
+			MultiValueMap<String, String> mvm=new LinkedMultiValueMap<>();
+			mvm.add("totalPages", Integer.toString(page.getTotalPages()));
+			mvm.add("numberOfElements",Integer.toString(page.getNumberOfElements()));
+			
+			return new ResponseEntity<>(courseResultList, mvm, HttpStatus.OK);
+			
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
 	}
 
 	@PostMapping
@@ -220,6 +244,9 @@ public class CourseController {
 
 	}
 	
+	
+	
+	// Author : Chrislafolia 目前未使用
     private String convertImageToBase64(String imagePath) throws IOException {
         File imageFile = new File(imagePath);
 

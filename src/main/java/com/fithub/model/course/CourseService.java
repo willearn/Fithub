@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -59,6 +62,15 @@ public class CourseService implements ICourseService {
 	public Course findById(Integer id) {
 		Optional<Course> result = courseRepo.findById(id);
 		return result.get();
+	}
+
+	@Override
+	public Page<Course> findByPage(Integer pageNumber, Integer dataSize) {
+		// 按照courseId降冪排序
+		PageRequest pgb =PageRequest.of(pageNumber-1, dataSize, Sort.Direction.DESC, "courseId");
+		
+		Page<Course> page = courseRepo.findAll(pgb);
+		return page;
 	}
 
 }
