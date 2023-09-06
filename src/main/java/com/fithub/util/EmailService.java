@@ -24,4 +24,19 @@ public class EmailService {
 		
 		javaMailSender.send(mimeMessage);
 	}
+	
+	
+	public void sendEmail(String name,String email ,String text) throws MessagingException {
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		MimeMessageHelper mHelper = new MimeMessageHelper(mimeMessage,true);
+		// 發件人
+		mHelper.setFrom(name);
+		// 收件人
+		mHelper.setTo("iSpanFithub@gmail.com");
+		// 消息頭
+		mHelper.setSubject("信箱:" + email);
+		// 消息體
+		mHelper.setText("內容:" + text );
+		javaMailSender.send(mimeMessage);
+	}
 }
