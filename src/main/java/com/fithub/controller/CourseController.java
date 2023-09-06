@@ -34,7 +34,7 @@ import com.fithub.model.course.ICourseService;
 
 @RestController
 @RequestMapping("/course")
-@CrossOrigin()
+@CrossOrigin(exposedHeaders = {"total-pages","number-of-elements"})
 public class CourseController {
 
 	@Autowired
@@ -75,8 +75,8 @@ public class CourseController {
 			
 			// TotalPages, numberOfElements 放header 
 			MultiValueMap<String, String> mvm=new LinkedMultiValueMap<>();
-			mvm.add("totalPages", Integer.toString(page.getTotalPages()));
-			mvm.add("numberOfElements",Integer.toString(page.getNumberOfElements()));
+			mvm.add("total-pages", Integer.toString(page.getTotalPages()));
+			mvm.add("number-of-elements",Integer.toString(page.getNumberOfElements()));
 			
 			return new ResponseEntity<>(courseResultList, mvm, HttpStatus.OK);
 			
