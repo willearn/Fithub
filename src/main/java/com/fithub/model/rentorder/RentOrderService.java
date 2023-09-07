@@ -47,11 +47,14 @@ public class RentOrderService implements IRentOrderService {
 
 	// 刪除單筆
 	@Override
-	public void deleteById(Integer id) {
+	public Boolean deleteById(Integer id) {
 		Boolean result = rentOrderRepo.existsById(id);
 
 		if (result) {
 			rentOrderRepo.deleteById(id);
+			return true;
+		}else {
+			return false;
 		}
 	}
 
