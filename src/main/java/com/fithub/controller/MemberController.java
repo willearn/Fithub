@@ -3,6 +3,9 @@ package com.fithub.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -56,6 +59,16 @@ public class MemberController {
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@GetMapping("/members/byemail/{email}")
+	public ResponseEntity<?> getMemberByEmail(@PathVariable String email) {
+		try {
+			Member resultBean = mService.findByEmail(email);
+			return new ResponseEntity<Member>(resultBean, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
 
 //	// 新增會員資料
@@ -94,6 +107,79 @@ public class MemberController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	@PostMapping("/members/findPageByName")
+	public ResponseEntity<?> findPageByName(@RequestBody String json) {
+		System.out.println("JSON");
+		System.out.println(json.toString());
+		try {
+			JSONObject obj = new JSONObject(json);
+
+			JSONObject responseJson = new JSONObject();
+			JSONArray array = new JSONArray();
+
+			String name = obj.isNull("name") ? null : obj.getString("name");
+
+			long count;
+			
+			
+			
+			//有的話 依照name去搜尋有幾筆資料，沒有則搜尋全部
+			if (name != null) {
+				Page<Member> page;
+				count = mService.count(obj.getString("name"));
+				page = mService.findPageByName(obj.getInt("start"), obj.getInt("rows"),
+						obj.getString("name"));
+				
+				responseJson.put("count", count);
+
+				for (Member member : page) {
+					JSONObject item = new JSONObject()
+							.put("memberid", member.getMemberid())
+							.put("memberphoneno", member.getMemberphoneno())
+							.put("membername", member.getMembername())
+							.put("membergender", member.getMembergender())
+							.put("memberemail", member.getMemberemail())
+							.put("membercity", member.getMembercity())
+							.put("memberzone", member.getMemberzone())
+							.put("memberaddress", member.getMemberaddress())
+							.put("memberbirthday", member.getMemberbirthday())
+							.put("memberaccountsince", member.getMemberaccountsince());
+					array = array.put(item);
+				}
+			}else {
+				Page<Member> page;
+				count = mService.count();
+				page = mService.findByPage(obj.getInt("start"), obj.getInt("rows"));
+				
+				responseJson.put("count", count);
+
+				for (Member member : page) {
+					JSONObject item = new JSONObject()
+							.put("memberid", member.getMemberid())
+							.put("memberphoneno", member.getMemberphoneno())
+							.put("membername", member.getMembername())
+							.put("membergender", member.getMembergender())
+							.put("memberemail", member.getMemberemail())
+							.put("membercity", member.getMembercity())
+							.put("memberzone", member.getMemberzone())
+							.put("memberaddress", member.getMemberaddress())
+							.put("memberbirthday", member.getMemberbirthday())
+							.put("memberaccountsince", member.getMemberaccountsince());
+					array = array.put(item);
+				}
+			}
+			
+		
+
+			responseJson.put("list", array);
+			return new ResponseEntity<>(responseJson.toString(), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
 

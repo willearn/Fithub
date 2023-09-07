@@ -6,9 +6,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.fithub.model.backstageaccount.BackStageAccount;
 import com.fithub.model.employee.Employee;
 
 @Service
@@ -116,6 +121,53 @@ public class MemberService implements IMemberService {
 			return null;
 		}
 		return null;
+	}
 
+	public Member checkGoogleLogin(Member mBean) {
+		try {
+			Member resultBean = mRepo.findMemberByEmail(mBean.getMemberemail());
+			if (resultBean != null) {
+				return resultBean;
+			} else {
+				// 設定日期
+				LocalDate currentDate = LocalDate.now();
+				DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				String strDate = currentDate.format(dateFormatter);
+
+				mBean.setMemberaccountsince(strDate);
+				
+				Member saveBean = mRepo.save(mBean);
+				return saveBean;
+			}
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	@Override
+	public long count() {
+		long count = mRepo.count();
+		return count;
+	}
+
+	@Override
+	public long count(String name) {
+		long count = mRepo.count(name);
+		return count;
+	}
+
+	@Override
+	public Page<Member> findByPage(Integer pageNumber, Integer rows) {
+		Pageable pgb = PageRequest.of(pageNumber, rows, Sort.DEFAULT_DIRECTION, "memberid");
+		Page<Member> page = mRepo.findAll(pgb);
+		return page;
+	}
+
+	@Override
+	public Page<Member> findPageByName(Integer pageNumber, Integer rows, String name) {
+		Pageable pgb = PageRequest.of(pageNumber, rows, Sort.DEFAULT_DIRECTION, "memberid");
+		Page<Member> page = mRepo.searchByName(pgb, name);
+		System.out.println(page);
+		return page;
 	}
 }

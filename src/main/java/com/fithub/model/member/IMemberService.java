@@ -2,6 +2,10 @@ package com.fithub.model.member;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
+import com.fithub.model.backstageaccount.BackStageAccount;
+
 public interface IMemberService {
 
 	// 查詢全部
@@ -20,5 +24,10 @@ public interface IMemberService {
 //	Boolean findById(Integer id);
 	
 	public Member findById(Integer id);
+	
+	long count();
+	public long count(String name);
+	Page<Member> findByPage(Integer pageNumber, Integer rows);
+	Page<Member> findPageByName(Integer pageNumber, Integer rows, String name);
 
 }

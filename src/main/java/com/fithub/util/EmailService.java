@@ -17,7 +17,7 @@ public class EmailService {
 	public void sendVerificationCode(String email , String verificationcode) throws MessagingException {
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		MimeMessageHelper mHelper = new MimeMessageHelper(mimeMessage,true);
-		mHelper.setFrom("Fithub");
+		mHelper.setFrom("Fithub <iSpanFithub@gmail.com>");
 		mHelper.setTo(email);
 		mHelper.setSubject("Fithub信箱驗證碼");
 		mHelper.setText("這是您的信箱驗證碼:" + verificationcode,true);

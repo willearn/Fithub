@@ -50,6 +50,29 @@ public class MemberLoginController {
 		return loginResponse.toJSONString();
 	}
 	
+	@PostMapping("/memberGooglelogin")
+	public String googleLogin(@RequestBody Member mBean) {
+		System.out.println(mBean);
+		ResponseModelMember loginResponse = new ResponseModelMember();
+		
+		Member resultBean = mService.checkGoogleLogin(mBean); // 驗證帳號密碼
+		if (resultBean != null) {
+			String token = "";
+			try {
+				token = generateToken(resultBean.getMemberemail()); // 生成token其中夾帶使用者帳號
+				loginResponse.setStatus(true);
+				loginResponse.setToken(token);
+				loginResponse.setMembername(resultBean.getMembername());
+				loginResponse.setMemberid(resultBean.getMemberid());
+				loginResponse.setMemberemail(resultBean.getMemberemail());
+			} catch (Exception exception) {
+				exception.printStackTrace();
+			}
+		}
+
+		return loginResponse.toJSONString();
+	}
+	
 	@PostMapping("/memberauth")
 	public String auth(@RequestBody Map<String, String> request) {
 		ResponseModelMember response = new ResponseModelMember();
