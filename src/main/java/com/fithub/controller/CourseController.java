@@ -255,7 +255,7 @@ public class CourseController {
 		String imageName = resultBean.getCourseImgPath();
 		try {
 			BufferedInputStream bis = new BufferedInputStream(
-					new FileInputStream(ResourceUtils.getFile("classpath:\\static/images/course/"+imageName)));
+					new FileInputStream(ResourceUtils.getFile(imagePath+imageName)));
 			byte[] imgContent = bis.readAllBytes();
 			bis.close();
 			return new ResponseEntity<>(imgContent, HttpStatus.OK);
