@@ -25,7 +25,8 @@ public class JavaMail {
 //	private String subject = "客戶EAMIL";
 //	private String txt = "信件內容文字";
 
-	public void SendMail(String name, String email, String context) throws UnsupportedEncodingException {
+	public void SendMail(String name, String email, String phone, String message, String subject)
+			throws UnsupportedEncodingException {
 		Properties prop = new Properties();
 		prop.setProperty("mail.transport.protocol", "smtp");
 		prop.setProperty("mail.host", "smtp.gmail.com");
@@ -34,7 +35,7 @@ public class JavaMail {
 		prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		prop.put("mail.smtp.socketFactory.port", "465");
 		// 顯示連線資訊
-		prop.put("mail.debug", "true");
+//		prop.put("mail.debug", "true");
 
 		Session session = Session.getDefaultInstance(prop, new Authenticator() {
 
@@ -44,26 +45,27 @@ public class JavaMail {
 			}
 		});
 
-		MimeMessage message = new MimeMessage(session);
+		MimeMessage mimemessage = new MimeMessage(session);
 
 		try {
 			// 寄件者
-			message.setSender(new InternetAddress(username));
+			mimemessage.setSender(new InternetAddress(username));
 
 			// 收件者
-			message.setRecipient(RecipientType.TO, new InternetAddress("iSpanFithub@gmail.com"));
+			mimemessage.setRecipient(RecipientType.TO, new InternetAddress("iSpanFithub@gmail.com"));
 
 			// 標題
-			message.setSubject("會員信箱:" + email);
+			mimemessage.setSubject(subject);
 
 			// 內容
-			message.setContent(context, "text/html;charset=UTF-8");
+			mimemessage.setContent("姓名:" + name + "<br>信箱:" + email + "<br>聯絡電話:" + phone + "<br>內容:" + message,
+					"text/html;charset=UTF-8");
 
-			message.setFrom(new InternetAddress("iSpanFithub@gmail.com", "會員姓名:" + name, "UTF-8"));
+			mimemessage.setFrom(new InternetAddress("iSpanFithub@gmail.com", subject, "UTF-8"));
 
 			// 將message傳出
 			Transport transport = session.getTransport();
-			transport.send(message);
+			transport.send(mimemessage);
 			transport.close();
 		} catch (AddressException e) {
 			// TODO Auto-generated catch block
