@@ -1,11 +1,14 @@
 package com.fithub.util;
 
+import java.io.UnsupportedEncodingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import jakarta.mail.MessagingException;
+import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
 @Service
@@ -26,17 +29,21 @@ public class EmailService {
 	}
 	
 	
-	public void sendEmail(String name,String email ,String text) throws MessagingException {
+	public void sendEmail(String name,String email ,String text) throws MessagingException, UnsupportedEncodingException {
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		MimeMessageHelper mHelper = new MimeMessageHelper(mimeMessage,true);
-		// 發件人
-		mHelper.setFrom(name);
+		// 發件人 參考建構子
+		mHelper.setFrom(new InternetAddress(email,name,"UTF-8"));
 		// 收件人
-		mHelper.setTo("iSpanFithub@gmail.com");
+		mHelper.setTo("cc2260112@gmail.com");
 		// 消息頭
-		mHelper.setSubject("信箱:" + email);
+		mHelper.setSubject(email);
 		// 消息體
-		mHelper.setText("內容:" + text );
+		mHelper.setText(text);
+		
 		javaMailSender.send(mimeMessage);
 	}
 }
+
+
+
