@@ -28,7 +28,10 @@ public interface ICourseService {
 	// 查詢單筆
 	public Course findById(Integer id);
 	
-	// 分頁功能
+	// 全部課程分頁功能
 	public Page<Course> findByPage(Integer pageNumber,Integer dataSize);
+	
+	// 各分類課程分頁功能
+	public Page<Course> findCourseByCategoryId(Integer categoryId,Integer pageNumber, Integer dataSize);
 	
 }

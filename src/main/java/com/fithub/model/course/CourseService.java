@@ -73,4 +73,11 @@ public class CourseService implements ICourseService {
 		return page;
 	}
 
+	@Override
+	public Page<Course> findCourseByCategoryId(Integer categoryId,Integer pageNumber, Integer dataSize) {
+		PageRequest pgb =PageRequest.of(pageNumber-1, dataSize, Sort.Direction.DESC, "courseId");
+		Page<Course> page = courseRepo.findByCategoryId(categoryId,pgb);
+		return page;
+	}
+
 }

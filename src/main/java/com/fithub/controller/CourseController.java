@@ -64,13 +64,35 @@ public class CourseController {
 		}
 	}
 	
-	// Author : Chrislafolia 分頁功能
+	// Author : Chrislafolia 全部課程分頁功能
 	@GetMapping("/page")
-	public ResponseEntity<?> showMessages(@RequestParam(name="p",defaultValue = "1") Integer pageNumber,
+	public ResponseEntity<?> showAllCoursesInPage(@RequestParam(name="p",defaultValue = "1") Integer pageNumber,
 			@RequestParam(name="size",defaultValue = "6") Integer dataSize) {
 		try {
 			// course data 放body
 			Page<Course> page = cService.findByPage(pageNumber,dataSize);
+			List<Course> courseResultList=page.getContent();			
+			
+			// TotalPages, numberOfElements 放header 
+			MultiValueMap<String, String> mvm=new LinkedMultiValueMap<>();
+			mvm.add("total-pages", Integer.toString(page.getTotalPages()));
+			mvm.add("number-of-elements",Integer.toString(page.getNumberOfElements()));
+			
+			return new ResponseEntity<>(courseResultList, mvm, HttpStatus.OK);
+			
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+	}
+	
+	// Author : Chrislafolia 各分類課程分頁功能
+	@GetMapping("/page/{categoryid}")
+	public ResponseEntity<?> showCoursesInPage(@PathVariable("categoryid") int categoryid,@RequestParam(name="p",defaultValue = "1") Integer pageNumber,
+			@RequestParam(name="size",defaultValue = "6") Integer dataSize) {
+		try {
+			// course data 放body
+			Page<Course> page = cService.findCourseByCategoryId(categoryid,pageNumber,dataSize);
 			List<Course> courseResultList=page.getContent();			
 			
 			// TotalPages, numberOfElements 放header 
