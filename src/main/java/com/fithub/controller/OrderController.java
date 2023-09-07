@@ -48,18 +48,19 @@ public class OrderController {
         }
     }
     
+  	@PostMapping
+    public ResponseEntity<?> createOrder(@RequestBody Order order) {
+        try {
+            orderService.createOrder(order);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }    
 
-//    @PostMapping
-//    public ResponseEntity<?> createOrder(@RequestBody Order order) {
-//        try {
-//            Order createdOrder = orderService.insert(order);
-//            return new ResponseEntity<>(createdOrder, HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
 
-    @PutMapping("/update")
+
+    @PutMapping("/update/{id}")
     public ResponseEntity<String> updateOrder(@RequestBody Order order) {
         try {
             // Assuming you have a way to identify the order, possibly using order.getOrderId()
@@ -100,29 +101,7 @@ public class OrderController {
   		} catch (Exception e) {
   			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
   		}
-  	}
-  	
-  	 @PostMapping
-     public ResponseEntity<?> createOrder(@RequestBody Order order) {
-//  		 List<OrderItem> items =  order.getOrderItem();
-//  		 System.out.println(order.getOrderCondition()); 
-//  		 System.out.println("6666666666666" + order.getItems());
-//  		 for (OrderItem orderItem : items) {
-//			System.out.println(orderItem);
-//		}
-  		 
-  		 try {
-  			Order createdOrder = orderService.createOrder(order, order.getItems());
-  	         return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
-  		 }catch(Exception e){
-  			 e.printStackTrace();
-  			 return new ResponseEntity<>("GG", HttpStatus.BAD_REQUEST);
-  		 }
-  		 
-         
-         
-         
-         
-     }
+  	} 	
+
   	
 }

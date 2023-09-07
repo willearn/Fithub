@@ -52,15 +52,11 @@ public class Order {
 	@Column(name="orderState")
 	private int orderstate;
 	
-	@Transient
-	private OrderItem[] items;
-	
-	
 	@JsonIgnoreProperties({ "rentOrders" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="MEMBERID",insertable = false,updatable = false)
 	private Member member;
-	
+		
 //	@JsonIgnore
 	@JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "order")

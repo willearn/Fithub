@@ -38,7 +38,7 @@ public class OrderItem {
 	@Column(name="couponid")
 	private int couponId; 
 	
-	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="orderid",insertable = false,updatable = false)
 	private Order order;

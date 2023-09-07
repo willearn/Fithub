@@ -26,5 +26,7 @@ public interface IOrderService {
 	
 	void deleteAllById(Iterable<Integer> selectIds);
 
-	Order createOrder(Order order, OrderItem[] orderItems);
+//	Order createOrder(Order order, OrderItem[] orderItems);
+
+	Order createOrder(Order order);
 }

@@ -96,41 +96,50 @@ public class OrderService implements IOrderService {
 //    }
 	
 	@Override
-//	@Transactional
-	public Order createOrder(Order order, OrderItem[] orderItems) {
-		
-//	    List<OrderItem> orderItems = new ArrayList<>();
-	    
-//	    	OrderItem orderItem	= new OrderItem();
-		
-//		Order savedOrder = orderRepo.saveAndFlush(order);
-		
-		
-		List<OrderItem> orderItemsList = new ArrayList<>();
-		
-		for(OrderItem items :orderItems) {
-			items.setOrder(order);
-			orderItemsList.add(items);
-//			orderItemRepo.save(items);
-		}
-		
-		
-		order.setOrderItem(orderItemsList);
-	    	
-	    orderRepo.save(order);
-	    	
-//	    	orderItem.setOrderId(order.getOrderId()); 
-	        // 设置classId和couponId
-//	    	orderItem.setClassId();
-//	    	orderItem.setCouponId();
-//	        orderItems.add(orderItem);            
-	    
-	    
-//	    order.setOrderItem(orderItems);
-//	    Order savedOrder = orderRepo.save(order); // 保存Order对象
-	    
-	    return orderRepo.save(order);
-	}
+    @Transactional
+    public Order createOrder(Order order) {
 
+        try {
+        // 取得複製orderitem集合
+        int i = 0;
+        int[] classids = new int[order.getOrderItem().size()];
+        int[] couponids = new int[order.getOrderItem().size()];
+
+
+        for (OrderItem orderitem : order.getOrderItem()) {
+            classids[i] = orderitem.getClassId();
+            couponids[i] = orderitem.getCouponId();
+            i++;
+        }
+
+
+        // 清空OrderItem
+        order.setOrderItem(null);
+
+        // 新增訂單取得訂單編號
+        Order savedOrder = orderRepo.save(order);
+        List<OrderItem> orderItems = new ArrayList<>();
+
+        for (int x = 0;x<classids.length;x++) {
+            //建立訂單項目 塞入新集合
+            OrderItem orderItem = new  OrderItem();
+            orderItem.setOrderId(savedOrder.getOrderId());
+            orderItem.setClassId(classids[x]);
+            orderItem.setCouponId(couponids[x]);
+            orderItems.add(orderItem);
+        }
+
+
+        order.setOrderItem(orderItems);
+        Order resultOrder = orderRepo.save(order);
+
+        return resultOrder;
+        }catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+		
 
 }
