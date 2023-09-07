@@ -57,15 +57,15 @@ public class EcpayService {
 		// 特店訂單編號
 		obj.setMerchantTradeNo(uuId+ecpayOrderDTO.getOrderId());
 		// 特店交易時間 綠界後台查詢以這為基準
-		obj.setMerchantTradeDate("2017/01/01 08:05:23");
+		obj.setMerchantTradeDate("2023/09/07 23:11:23");
 		// 如果商品名稱有多筆，需在金流選擇頁一行一行顯示商品名稱的話，商品名稱請以符號#分隔
-		obj.setItemName(ecpayOrderDTO.getCoursename());
+		obj.setItemName("null");
 		// 總金額
-		obj.setTotalAmount("50");
+		obj.setTotalAmount("50000");
 		// 交易描述
 		obj.setTradeDesc("test Description");
 		// 交易結果回傳網址，只接受 https 開頭的網站，可以使用 ngrok
-		obj.setReturnURL("https://4caf-59-125-142-166.ngrok.io/fithub/ecpay/callback");
+		obj.setReturnURL("http://localhost:5173/");
 		// 是否需要額外的付款資訊 Y|N
 		obj.setNeedExtraPaidInfo("N");
 		// 消費者點選此按鈕後，會將頁面導回到此設定的網址
