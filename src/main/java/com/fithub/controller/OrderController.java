@@ -60,7 +60,7 @@ public class OrderController {
 
 
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/update")
     public ResponseEntity<String> updateOrder(@RequestBody Order order) {
         try {
             // Assuming you have a way to identify the order, possibly using order.getOrderId()
