@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fithub.model.ecpay.EcpayDetailDTO;
 import com.fithub.model.ecpay.EcpayDetails;
+import com.fithub.model.ecpay.EcpayOrderDTO;
 import com.fithub.model.ecpay.EcpayService;
 import com.fithub.model.rentorder.IRentOrderService;
 import com.fithub.model.rentorder.RentOrder;
@@ -37,6 +38,15 @@ public class EcpayController {
 
 		return aioCheckOutALLForm;
 	}
+	
+	@PostMapping("/ecpayCheckoutOrder")
+	public String ecpayCheckout(@RequestBody EcpayOrderDTO ecpayOrderDTO) {
+		String aioCheckOutALLForm = ecpayService.ecpayCheckout(ecpayOrderDTO);
+
+		return aioCheckOutALLForm;
+	}
+	
+	
 
 	// 取得綠界回傳資訊並回傳驗證,更新訂單狀態
 	@PostMapping("/callback")
