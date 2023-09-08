@@ -1,5 +1,6 @@
 package com.fithub.model.rentorder;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fithub.model.classroom.Classroom;
 import com.fithub.model.member.Member;
 
@@ -35,11 +36,9 @@ public class RentOrder {
 	private Integer rentamount;
 	private String rentstatus;
 
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "memberid", insertable = false, updatable = false)
 	private Member member;
-
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "classroomid",insertable = false, updatable = false)

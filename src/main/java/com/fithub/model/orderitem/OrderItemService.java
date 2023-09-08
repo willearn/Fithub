@@ -73,6 +73,16 @@ public class OrderItemService implements IOrderItemService {
 		orderItemRepo.deleteAllById(selectIds);
 		
 	}
+	@Override
+    public OrderItem getOrderItemByOrderId(Integer orderId) {
+        return orderItemRepo.findByOrderId(orderId);
+    }
+	
+	@Override
+	public List<OrderItem> getAllOrderItemByOrderId(Integer orderId){
+		List<OrderItem> resultBeans = orderItemRepo.getAllOrderItemByOrderId(orderId);
+		return resultBeans;
+	}
 	
 
 }

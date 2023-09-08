@@ -3,6 +3,7 @@ package com.fithub.model.couponcategories;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fithub.model.coupon.Coupon;
 
 import jakarta.persistence.CascadeType;
@@ -26,7 +27,7 @@ public class CouponCategories {
 
     private String couponcategoriesname;
     
-    
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "CouponCategories")
     private List<Coupon> coupons = new ArrayList<>(); 
 
