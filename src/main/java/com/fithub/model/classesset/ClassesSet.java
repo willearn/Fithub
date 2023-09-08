@@ -34,8 +34,8 @@ public class ClassesSet {
 	@Column(name="classessetname")
 	private String classesSetName;
 	
-	@Column(name="classesdescription")
-	private String classesDescription;
+	@Column(name="classessetdescription")
+	private String classessetDescription;
 	
 //	@ManyToOne(fetch = FetchType.LAZY)
 //	@JoinColumn(name="COUPONID",insertable = false,updatable = false)

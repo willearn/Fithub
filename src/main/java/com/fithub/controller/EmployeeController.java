@@ -1,5 +1,6 @@
 package com.fithub.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fithub.model.employee.Employee;
 import com.fithub.model.employee.IEmployeeService;
 
@@ -127,17 +129,17 @@ public class EmployeeController {
 
 			long count;
 			Page<Employee> page;
-			
-			//有的話 依照name去搜尋有幾筆資料，沒有則搜尋全部
+
+			// 有的話 依照name去搜尋有幾筆資料，沒有則搜尋全部
 			if (name != null) {
 				count = eService.count(obj.getString("name"));
 				page = eService.findPageByName(obj.getInt("start"), obj.getInt("rows"),
 						obj.getString("name"));
-			}else {
+			} else {
 				count = eService.count();
 				page = eService.findByPage(obj.getInt("start"), obj.getInt("rows"));
 			}
-			
+
 			responseJson.put("count", count);
 
 			for (Employee emp : page) {
@@ -246,11 +248,11 @@ public class EmployeeController {
 		}
 		return null;
 	}
-	
+
 	@PostMapping("/employees/findCoachPageByName")
 	public ResponseEntity<?> findCoachPageByName(@RequestBody String json) {
 		Integer jobTitleId = jController.findJobTitleIdByName("教練");
-		
+
 		System.out.println(json.toString());
 		try {
 			JSONObject obj = new JSONObject(json);
@@ -262,14 +264,14 @@ public class EmployeeController {
 
 			long count;
 			Page<Employee> page;
-			
-			//有的話 依照name去搜尋有幾筆資料，沒有則搜尋全部
+
+			// 有的話 依照name去搜尋有幾筆資料，沒有則搜尋全部
 			if (name != null) {
 				System.out.println("NAME != NULL");
-				count = eService.countByJobTitleIdAndName(jobTitleId.toString() , name);
+				count = eService.countByJobTitleIdAndName(jobTitleId.toString(), name);
 				page = eService.findCoachPageByName(obj.getInt("start"), obj.getInt("rows"),
 						jobTitleId, obj.getString("name"));
-			}else {
+			} else {
 				count = eService.countByJobTitleId(jobTitleId.toString());
 				page = eService.findCoachByPage(obj.getInt("start"), obj.getInt("rows"), jobTitleId);
 			}
@@ -292,6 +294,5 @@ public class EmployeeController {
 
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
-	
-	
+
 }

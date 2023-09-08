@@ -1,20 +1,27 @@
 package com.fithub.model.order;
 
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fithub.model.member.Member;
 import com.fithub.model.orderitem.OrderItem;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 
 @Data
@@ -45,12 +52,14 @@ public class Order {
 	@Column(name="orderState")
 	private int orderstate;
 	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name="MEMBERID",insertable = false,updatable = false)
-//	private Member member;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
-	@JsonIgnore
-	private Set<OrderItem> orderItem = new HashSet<OrderItem>();
+	@JsonIgnoreProperties({ "rentOrders" })
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="MEMBERID",insertable = false,updatable = false)
+	private Member member;
+		
+//	@JsonIgnore
+	@JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
+	private List<OrderItem> orderItem = new ArrayList<>();
 	
 }

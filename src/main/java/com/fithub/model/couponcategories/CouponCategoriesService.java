@@ -30,15 +30,15 @@ public class CouponCategoriesService implements ICouponCategoriesService {
         return couponCategoriesRepository.save(couponCategories);
     }
 
-    @Override
-    public CouponCategories updateCouponCategories(Integer id, CouponCategories couponCategories) {
-        CouponCategories existingCouponCategories = couponCategoriesRepository.findById(id).orElse(null);
-        if (existingCouponCategories != null) {
-            couponCategories.setCouponcategoriesid(id);
-            return couponCategoriesRepository.save(couponCategories);
-        }
-        return null; // Or throw an exception indicating not found
-    }
+//    @Override
+//    public CouponCategories updateCouponCategories(Integer id, CouponCategories couponCategories) {
+//        CouponCategories existingCouponCategories = couponCategoriesRepository.findById(id).orElse(null);
+//        if (existingCouponCategories != null) {
+//            couponCategories.setCouponcategoriesid(id);
+//            return couponCategoriesRepository.save(couponCategories);
+//        }
+//        return null; // Or throw an exception indicating not found
+//    }
 
     @Override
     public void deleteCouponCategories(Integer id) {
@@ -50,5 +50,13 @@ public class CouponCategoriesService implements ICouponCategoriesService {
 		couponCategoriesRepository.deleteAllById(selectIds);
 		
 	}
+
+    public boolean updateCouponCategories(CouponCategories updatedCouponCategories) {
+        if (updatedCouponCategories.getCouponcategoriesid() != null && couponCategoriesRepository.existsById(updatedCouponCategories.getCouponcategoriesid())) {
+            couponCategoriesRepository.save(updatedCouponCategories);
+            return true;
+        }
+        return false;
+    }
     
 }

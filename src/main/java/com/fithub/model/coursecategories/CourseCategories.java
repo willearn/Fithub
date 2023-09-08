@@ -3,6 +3,7 @@ package com.fithub.model.coursecategories;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fithub.model.course.Course;
 
 import jakarta.persistence.Column;
@@ -28,6 +29,7 @@ public class CourseCategories {
 	@Column(name="categoryName")
 	private String categoryName;
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "courseCategories")
 	private Set<Course> courses = new LinkedHashSet<Course>();
 
