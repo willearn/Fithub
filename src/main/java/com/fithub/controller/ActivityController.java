@@ -2,6 +2,7 @@ package com.fithub.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,6 +46,25 @@ public class ActivityController {
 			return new ResponseEntity<>(activities, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	// 列出篩選顯示為是活動並依照排序(數字越大優先)
+	@GetMapping("/filteredAndSortedActivities")
+	public ResponseEntity<?> filteredAndSortedActivities() {
+		try {
+			List<Map<String, Object>> result= iActivityService.filteredAndSortedActivities();
+			for (Map<String, Object> map : result) {
+				System.out.println(map.get("activityid"));
+				System.out.println(map.get("activityname"));
+				System.out.println(map.get("activityon"));
+				System.out.println(map.get("activityoff"));
+			}
+			return null;
+//			return new ResponseEntity<>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 

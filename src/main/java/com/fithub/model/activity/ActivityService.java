@@ -1,6 +1,7 @@
 package com.fithub.model.activity;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,15 @@ public class ActivityService implements IActivityService {
 	@Override
 	public List<Activity> findAll() {
 		List<Activity> result = activityRepo.findAll();
+		return result;
+	}
+	
+	// 篩選活動是否顯示並依照排序(越大越優先)
+	@Override
+	public List<Map<String, Object>> filteredAndSortedActivities() {
+
+		List<Map<String, Object>> result = activityRepo.filteredAndSortedActivities();
+	
 		return result;
 	}
 
