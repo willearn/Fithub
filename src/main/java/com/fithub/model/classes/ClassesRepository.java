@@ -17,7 +17,7 @@ public interface ClassesRepository extends JpaRepository<Classes, Integer> {
 	Classes checkClass(@Param("classroomId") int classroomId, @Param("classDate") String classDate,
 			@Param("classTime") String classTime);
 
-	// Chrislafolia，返回指定課程的資訊 //未完成勿使用
+	// Chrislafolia，返回指定課程的資訊 // 未完成勿使用
 	@Query("SELECT c.classId, c.courseId, c.classDate, c.classTime, c.coachSubstitute, c.employeeId, c.applicantsCeil, c.applicantsFloor, c.price, c.classroomId FROM Classes c WHERE c.courseId = :courseId AND c.classDate >= :startDate AND c.classDate <= :endDate")
 	List<Object[]> findAllByCourseIdAndDateRange(@Param("courseId") Integer classroomId,
 			@Param("startDate") String startDate, @Param("endDate") String endDate);
