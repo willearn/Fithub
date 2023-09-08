@@ -35,10 +35,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	long countByJobTitleIdAndName(@Param("jobtitleid") String jobtitleid, @Param("name") String name);
 
 	// XiaoQing
-	@Query("select e from Employee e where e.employeename like CONCAT('%', :name, '%')")
-	Page<Employee> searchByName(Pageable pageable, @Param("name") String name);
-
-	// XiaoQing
 	@Query("from Employee where jobtitleid = :jobtitleid AND (:name is null or employeename like %:name%)")
 	Page<Employee> findManagersByJobTitleIdAndName(Pageable pageable, @Param("jobtitleid") String jobtitleid,
 			@Param("name") String name);
