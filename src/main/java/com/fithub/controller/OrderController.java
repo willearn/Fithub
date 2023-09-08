@@ -51,8 +51,8 @@ public class OrderController {
   	@PostMapping
     public ResponseEntity<?> createOrder(@RequestBody Order order) {
         try {
-            orderService.createOrder(order);
-            return new ResponseEntity<>(HttpStatus.OK);
+            Order createOrder =  orderService.createOrder(order);
+            return new ResponseEntity<>(createOrder,HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

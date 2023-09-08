@@ -12,6 +12,8 @@ import com.fithub.model.ecpay.EcpayDetailDTO;
 import com.fithub.model.ecpay.EcpayDetails;
 import com.fithub.model.ecpay.EcpayOrderDTO;
 import com.fithub.model.ecpay.EcpayService;
+import com.fithub.model.order.IOrderService;
+import com.fithub.model.order.Order;
 import com.fithub.model.rentorder.IRentOrderService;
 import com.fithub.model.rentorder.RentOrder;
 import com.fithub.model.rentorder.RentOrderRepository;
@@ -31,6 +33,10 @@ public class EcpayController {
 	
 	@Autowired
 	RentOrderRepository rentOrderRepository;
+	
+	@Autowired
+	IOrderService iOrderService;
+	
 
 	@PostMapping("/ecpayCheckout")
 	public String ecpayCheckout(@RequestBody EcpayDetailDTO ecpayDetailDTO) {
@@ -72,4 +78,25 @@ public class EcpayController {
 		}
 		return null;
 	}
+	@PostMapping("/OrderCallback")
+	public String OrderhandleCallback(@ModelAttribute EcpayDetails ecpayDetails) {
+		
+		String OrderId = ecpayDetails.getMerchantTradeNo().substring(10); // 只保留索引10後的字串,去掉UUID
+		System.out.println(ecpayDetails);
+		if(ecpayDetails.getRtnCode().equals("1")) {
+			Order order = new Order();
+			order.setOrderId(Integer.parseInt(OrderId));
+			order.setOrderCondition("已付款");
+			System.out.println(order.getOrderId());
+			
+			
+			Boolean updateOrder = iOrderService.updateConditionById(order.getOrderId(),order.getOrderCondition());
+			System.out.println(updateOrder);
+		}
+		
+		
+		return null;
+		
+	}
+	
 }

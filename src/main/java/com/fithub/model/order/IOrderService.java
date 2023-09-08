@@ -14,6 +14,8 @@ public interface IOrderService {
 
 	// 修改單筆
 	public Boolean update(Order order);
+	
+	Boolean updateConditionById(Integer orderId, String orderCondition);
 
 	// 刪除單筆
 	public Boolean deleteById(Integer id);

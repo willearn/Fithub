@@ -43,6 +43,11 @@ public class OrderService implements IOrderService {
 		}
 		return false;
 	}
+	
+    @Override
+    public Boolean updateConditionById(Integer id, String condition) {
+		return null;    	
+    }
 
 	@Override
 	public Boolean deleteById(Integer id) {
