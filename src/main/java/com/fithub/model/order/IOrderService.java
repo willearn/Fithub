@@ -2,6 +2,8 @@ package com.fithub.model.order;
 
 import java.util.List;
 
+import com.fithub.model.orderitem.OrderItem;
+
 public interface IOrderService {
 
 	// 查詢全部
@@ -12,6 +14,8 @@ public interface IOrderService {
 
 	// 修改單筆
 	public Boolean update(Order order);
+	
+	Boolean updateConditionById(Integer orderId, String orderCondition);
 
 	// 刪除單筆
 	public Boolean deleteById(Integer id);
@@ -23,4 +27,8 @@ public interface IOrderService {
 	public Order findById(Integer id);
 	
 	void deleteAllById(Iterable<Integer> selectIds);
+
+//	Order createOrder(Order order, OrderItem[] orderItems);
+
+	Order createOrder(Order order);
 }

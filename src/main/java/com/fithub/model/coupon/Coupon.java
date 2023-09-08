@@ -38,7 +38,7 @@ public class Coupon {
     private String couponthreshold;
     
     
-    @JsonIgnore
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "couponcategoriesid", insertable = false, updatable = false)
     private CouponCategories CouponCategories;

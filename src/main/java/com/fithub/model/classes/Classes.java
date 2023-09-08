@@ -67,16 +67,17 @@ public class Classes {
 	@Column(name = "CLASSROOMID")
 	private int classroomId;
 
-	@JsonIgnoreProperties({ "classes","courseDescription" })
+	@JsonIgnoreProperties({ "classes", "courseDescription", "courseCategories" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "COURSEID", insertable = false, updatable = false)
 	private Course course;
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "EMPLOYEEID", insertable = false, updatable = false)
 	private Employee employee;
 
-	@JsonIgnoreProperties({ "classes","classroomPic" })
+	@JsonIgnoreProperties(value = { "classes", "classroomPic", "rentOrder" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CLASSROOMID", insertable = false, updatable = false)
 	private Classroom classroom;
