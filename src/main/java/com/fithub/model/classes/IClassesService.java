@@ -15,18 +15,20 @@ public interface IClassesService {
 
 	// 刪除單筆
 	public Boolean deleteById(Integer id);
-	
+
 	// 刪除多筆
 	public void deleteAllById(Iterable<Integer> selectIds);
 
 	// 確認id存在
 	public Boolean exitsById(Integer id);
-	
+
 	// 查詢單筆
 	public Classes findById(Integer id);
 
 	public List<Object[]> findAllclassDateAndclassTimeByClassroomId(Integer classroomId);
 
 	public Classes checkClass(Integer classroomId, String classDate, String classTime);
-	
+
+	public List<ClassesDto> findAllByCourseIdAndDateRange(Integer classroomId, String startDate, String endDate);
+
 }
