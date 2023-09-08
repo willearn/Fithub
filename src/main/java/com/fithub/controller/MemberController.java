@@ -1,6 +1,7 @@
 package com.fithub.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
@@ -16,13 +17,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fithub.model.backstageaccount.BackStageAccount;
-import com.fithub.util.EmailService;
 import com.fithub.model.member.Member;
 import com.fithub.model.member.MemberService;
 
-import jakarta.mail.MessagingException;
 
 //@RequestMapping("/members")
 //@RestController
@@ -169,6 +168,36 @@ public class MemberController {
 		}
 
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
+	@PutMapping("/members/changepassword/{id}")
+	public ResponseEntity<?> changePassword(@PathVariable Integer id,@RequestBody Map<String, String> checkPassword){
+		try {
+			boolean result = mService.changePassword(id, checkPassword);
+
+			if(result) {
+				return new ResponseEntity<>(HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+	}
+	
+	@PostMapping("/members/forgotpassword/{email}")
+	public ResponseEntity<?> forgotPassword(@PathVariable String email){
+		try {
+			boolean result = mService.forgotPassword(email);
+			
+			if(result) {
+				return new ResponseEntity<>(HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 
 }
