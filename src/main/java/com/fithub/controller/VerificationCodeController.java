@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fithub.util.EmailService;
 import com.fithub.model.member.Member;
+import com.fithub.model.member.MemberService;
 import com.fithub.model.verificationcode.VerificationCode;
 import com.fithub.model.verificationcode.VerificationCodeService;
 
@@ -30,14 +31,21 @@ public class VerificationCodeController {
 	@Autowired
 	private EmailService eService;
 	
+	@Autowired
+	private MemberService mService;
+	
 	// 新增驗證碼
 	@PostMapping("/verificationcode")
 	public ResponseEntity<Object> insertVerificationCode(@RequestBody VerificationCode vBean) {
 		try {
-			VerificationCode resultBean = vService.insert(vBean);
-			if(resultBean != null) {
-				eService.sendVerificationCode(resultBean.getEmail() , resultBean.getVerificationcode());
-				return new ResponseEntity<>(HttpStatus.OK);
+			Member resultMember = mService.findByEmail(vBean.getEmail());
+			
+			if(resultMember==null) {
+				VerificationCode resultBean = vService.insert(vBean);
+				if(resultBean != null) {
+					eService.sendVerificationCode(resultBean.getEmail() , resultBean.getVerificationcode());
+					return new ResponseEntity<>(HttpStatus.OK);
+				}
 			}
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {

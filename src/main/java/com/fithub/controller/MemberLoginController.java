@@ -100,7 +100,7 @@ public class MemberLoginController {
 		return response.toJSONString();
 	}
 	
-	String SECRET_KEY = "secretKey";
+	String SECRET_KEY = ".*L(MKxk{'OaN{!4^\"L@5!1p1^!8:S";
 	Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
 	
 	String generateToken(String memberemail) throws Exception {

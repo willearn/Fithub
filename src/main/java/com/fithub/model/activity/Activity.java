@@ -38,7 +38,6 @@ public class Activity {
 	private String activityname;
 	private String activitydescription;
 	private String activitydate;
-	private String activityurl;
 	private String activitydisplay;
 	private String activityon;
 	private String activityoff;

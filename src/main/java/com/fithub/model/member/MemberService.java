@@ -64,8 +64,12 @@ public class MemberService implements IMemberService {
 	@Override
 	public boolean update(Member mBean) {
 		try {
+			System.out.println("test1");
+			System.out.println(mBean.getMemberid());
 			Optional<Member> optinoal = mRepo.findById(mBean.getMemberid());
+			System.out.println("test2");
 			if (optinoal.isPresent()) {
+				System.out.println("test3");
 				mRepo.save(mBean);
 				return true;
 			}

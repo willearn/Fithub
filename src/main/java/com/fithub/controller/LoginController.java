@@ -96,7 +96,7 @@ public class LoginController {
 		return response.toJSONString();
 	}
 
-	String SECRET_KEY = "secretKey";
+	String SECRET_KEY = "nO,4o*Czn|9Tj8P[.j,JT%tFY=|=A{";
 	Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
 
 	String generateToken(String username) throws Exception {
