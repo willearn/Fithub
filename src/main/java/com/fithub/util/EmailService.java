@@ -1,11 +1,14 @@
 package com.fithub.util;
 
+import java.io.UnsupportedEncodingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import jakarta.mail.MessagingException;
+import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
 @Service
@@ -25,3 +28,6 @@ public class EmailService {
 		javaMailSender.send(mimeMessage);
 	}
 }
+
+
+

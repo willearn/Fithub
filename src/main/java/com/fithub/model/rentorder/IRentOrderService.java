@@ -11,7 +11,7 @@ public interface IRentOrderService {
 	RentOrder insert(RentOrder rentOrder);
 
 	// 刪除單筆
-	void deleteById(Integer id);
+	Boolean deleteById(Integer id);
 	
 	// 刪除多筆
 	void deleteAllById(Iterable<Integer> selectIds);

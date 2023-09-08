@@ -42,16 +42,10 @@ public class Activity {
 	private String activityon;
 	private String activityoff;
 	private Integer activitysort;
-	
-	@Transient
-	private String[] pic;
+	private String activitypic;
+
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "employeeid", insertable = false, updatable = false)
-	private Employee employee;
-
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "activity")
-	private List<ActivityPic> activitypic = new ArrayList<>();
-	
+	private Employee employee;	
 }

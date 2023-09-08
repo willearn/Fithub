@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fithub.model.activity.Activity;
+import com.fithub.model.activity.ActivityRepository;
 import com.fithub.model.activity.IActivityService;
 import com.fithub.model.activitypic.ActivityPic;
 import com.fithub.model.activitypic.IActivityPicService;
@@ -34,7 +35,7 @@ public class ActivityController {
 	private IEmployeeService iEmployeeService;
 
 	@Autowired
-	private IActivityPicService iActivityPicService;
+	private ActivityRepository activityRepository;
 
 	// 列出所有活動
 	@GetMapping("/list")
@@ -58,27 +59,24 @@ public class ActivityController {
 		}
 	}
 
+	// 取得活動內容
+	@GetMapping("/findActivitydescriptionById/{activityid}")
+	public ResponseEntity<?> findActivitydescriptionById(@PathVariable("activityid") String activityid) {
+		try {
+			String activitydescription = activityRepository.findActivitydescriptionById(activityid);
+			System.out.println(activitydescription);
+			return new ResponseEntity<>(activitydescription, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	// 新增單筆活動
 	@PostMapping("/insert")
 	public ResponseEntity<?> insertActivity(@RequestBody Activity activity) {
-		
-			//取得多筆圖片base64字串
-			String[] result = activity.getPic();
 		try {
-			if (result != null && result.length > 0 && !result[0].isEmpty()) {
-				List<ActivityPic> activityPicList = new ArrayList<>();
-				for (int i = 0; i < result.length; i++) {
-					ActivityPic apic = new ActivityPic();
-					apic.setApicfile(result[i]);
-					activityPicList.add(apic);
-				}
-				activity.setActivitypic(activityPicList);
-				iActivityService.insert(activity);
-				return new ResponseEntity<>(HttpStatus.OK);
-			} else {
-				iActivityService.insert(activity);
-				return new ResponseEntity<>(HttpStatus.OK);
-			}
+			iActivityService.insert(activity);
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -87,6 +85,7 @@ public class ActivityController {
 	// 更新單筆活動
 	@PutMapping("/update")
 	public ResponseEntity<?> updateActivity(@RequestBody Activity activity) {
+
 		try {
 			iActivityService.updateById(activity);
 			return new ResponseEntity<>(HttpStatus.OK);

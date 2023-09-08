@@ -67,7 +67,7 @@ public class RentOrderController {
 		}
 	}
 
-	// 儲存租借訂單
+	// 新增租借訂單
 	@PostMapping("/insert")
 	public ResponseEntity<?> insertRentOrder(@RequestBody RentOrder rentOrder) {
 		try {
@@ -92,6 +92,7 @@ public class RentOrderController {
 	// 刪除單筆訂單
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteRentOrder(@PathVariable("id") int id) {
+
 		try {
 			iRentOrderService.deleteById(id);
 			return new ResponseEntity<>(HttpStatus.OK);
