@@ -1,5 +1,7 @@
 package com.fithub.model.activity;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -20,11 +22,26 @@ public class ActivityService implements IActivityService {
 	
 	// 篩選活動是否顯示並依照排序(越大越優先)
 	@Override
-	public List<Map<String, Object>> filteredAndSortedActivities() {
-
-		List<Map<String, Object>> result = activityRepo.filteredAndSortedActivities();
+	public List<Map<String, Object>> filteredAndSortedActivities(Date currentDate) {
+		try {
+			List<Map<String, Object>> result = activityRepo.filteredAndSortedActivities(currentDate);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
-		return result;
+	
+	@Override
+	public Map<String, Object> findDescriptionDateNameById(String activityid) {
+		try {
+			Map<String, Object> result = activityRepo.findDescriptionDateNameById(activityid);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override

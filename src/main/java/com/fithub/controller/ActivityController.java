@@ -1,5 +1,7 @@
 package com.fithub.controller;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -35,8 +37,7 @@ public class ActivityController {
 	@Autowired
 	private IEmployeeService iEmployeeService;
 
-	@Autowired
-	private ActivityRepository activityRepository;
+
 
 	// 列出所有活動
 	@GetMapping("/list")
@@ -52,19 +53,22 @@ public class ActivityController {
 	// 列出篩選顯示為是活動並依照排序(數字越大優先)
 	@GetMapping("/filteredAndSortedActivities")
 	public ResponseEntity<?> filteredAndSortedActivities() {
+		
+		LocalDate today = LocalDate.now();
+		Date sqlDate = Date.valueOf(today);
+		
 		try {
-			List<Map<String, Object>> result= iActivityService.filteredAndSortedActivities();
-			for (Map<String, Object> map : result) {
-				System.out.println(map.get("activityid"));
-				System.out.println(map.get("activityname"));
-				System.out.println(map.get("activityon"));
-				System.out.println(map.get("activityoff"));
-			}
-			return null;
-//			return new ResponseEntity<>(result, HttpStatus.OK);
+			List<Map<String, Object>> result = iActivityService.filteredAndSortedActivities(sqlDate);
+//			for (Map<String, Object> map : result) {
+//			    for (Map.Entry<String, Object> entry : map.entrySet()) {
+//			        String key = entry.getKey();
+//			        Object value = entry.getValue();
+//			        System.out.println("Key: " + key + ", Value: " + value);
+//			    }
+//			}
+			return new ResponseEntity<>(result, HttpStatus.OK);
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -80,12 +84,12 @@ public class ActivityController {
 	}
 
 	// 取得活動內容
-	@GetMapping("/findActivitydescriptionById/{activityid}")
-	public ResponseEntity<?> findActivitydescriptionById(@PathVariable("activityid") String activityid) {
+	@GetMapping("/findDescriptionDateNameById/{activityid}")
+	public ResponseEntity<?> findDescriptionDateNameById(@PathVariable("activityid") String activityid) {
 		try {
-			String activitydescription = activityRepository.findActivitydescriptionById(activityid);
-			System.out.println(activitydescription);
-			return new ResponseEntity<>(activitydescription, HttpStatus.OK);
+			Map<String, Object> result = iActivityService.findDescriptionDateNameById(activityid);
+
+			return new ResponseEntity<>(result, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

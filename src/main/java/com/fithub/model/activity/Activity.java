@@ -1,5 +1,6 @@
 package com.fithub.model.activity;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,12 +40,12 @@ public class Activity {
 	private String activitydescription;
 	private String activitydate;
 	private String activitydisplay;
-	private String activityon;
+	private Date activityon;
 	private String activityoff;
 	private Integer activitysort;
 	private String activitypic;
 
-
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "employeeid", insertable = false, updatable = false)
 	private Employee employee;	
