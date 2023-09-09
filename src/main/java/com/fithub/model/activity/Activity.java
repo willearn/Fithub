@@ -41,7 +41,7 @@ public class Activity {
 	private String activitydate;
 	private String activitydisplay;
 	private Date activityon;
-	private String activityoff;
+	private Date activityoff;
 	private Integer activitysort;
 	private String activitypic;
 
