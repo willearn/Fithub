@@ -19,14 +19,20 @@ public class ClassroomService implements IClassroomService {
 	}
 
 	@Override
-	public List<Object[]> findAllClassroomNameAndId() {
-		List<Object[]> result = classroomRepo.findAllClassroomNameAndId();
+	public List<Object[]> findAllClassroomNamesAndIds() {
+		List<Object[]> result = classroomRepo.findAllClassroomNamesAndIds();
 		return result;
 	}
 	
 	@Override
 	public List<ClassroomDTO> getClassroomInfo() {
 		List<ClassroomDTO> result = classroomRepo.getClassroomInfo();
+		return result;
+	}
+	
+	@Override
+	public List<Object[]> findAllClassroomsWithoutDescriptionsAndPics() {
+		List<Object[]> result = classroomRepo.findAllClassroomsWithoutDescriptionsAndPics();
 		return result;
 	}
 

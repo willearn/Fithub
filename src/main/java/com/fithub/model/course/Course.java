@@ -3,6 +3,7 @@ package com.fithub.model.course;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fithub.model.classes.Classes;
 import com.fithub.model.coursecategories.CourseCategories;
 
@@ -20,32 +21,32 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="course")
+@Table(name = "course")
 public class Course {
 
-	@Id 
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="courseid")
+	@Column(name = "courseid")
 	private int courseId;
 
-	@Column(name="coursename")
+	@Column(name = "coursename")
 	private String courseName;
 
-	@Column(name="categoryid")
+	@Column(name = "categoryid")
 	private int categoryId;
 
-	@Column(name="courseimgpath")
+	@Column(name = "courseimgpath")
 	private String courseImgPath;
 
-	@Column(name="coursedescription")
+	@Column(name = "coursedescription")
 	private String courseDescription;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="CATEGORYID",insertable = false,updatable = false)
+	@JoinColumn(name = "CATEGORYID", insertable = false, updatable = false)
 	private CourseCategories courseCategories;
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
-	private Set<Classes> classes=new LinkedHashSet<Classes>();	
-
+	private Set<Classes> classes = new LinkedHashSet<Classes>();
 
 }

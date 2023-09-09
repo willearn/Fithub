@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fithub.model.cart.Cart;
 import com.fithub.model.classesset.ClassesSet;
 import com.fithub.model.classroom.Classroom;
@@ -66,21 +67,26 @@ public class Classes {
 	@Column(name = "CLASSROOMID")
 	private int classroomId;
 
+	@JsonIgnoreProperties({ "classes", "courseDescription", "courseCategories" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "COURSEID", insertable = false, updatable = false)
 	private Course course;
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "EMPLOYEEID", insertable = false, updatable = false)
-	private Employee epmloyee;
+	private Employee employee;
 
+	@JsonIgnoreProperties(value = { "classes", "classroomPic", "rentOrder" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CLASSROOMID", insertable = false, updatable = false)
 	private Classroom classroom;
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "classes")
 	private Set<Wishlist> wishlist = new HashSet<Wishlist>();
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "classes")
 	private Set<Cart> cart = new HashSet<Cart>();
 

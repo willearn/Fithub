@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.fithub.model.coupon.Coupon;
 import com.fithub.model.coupon.ICouponService;
 
@@ -61,21 +62,18 @@ public class CouponController {
        }
     }    
     
+	// 修改優惠券
+	@PutMapping("/update")
+	public ResponseEntity<?> updateCoupon(@RequestBody Coupon coupon) {
+		try {
+			couponService.updateCoupon(coupon);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateCoupon(@PathVariable Integer id, @RequestBody Coupon coupon) {
-        try {
-            if (!couponService.existsById(id)) {
-                return new ResponseEntity<>("Coupon with ID " + id + " not found.", HttpStatus.NOT_FOUND);
-            }            
-            coupon.setCouponid(id);
-            couponService.updateCoupon(coupon);
-            
-            return new ResponseEntity<>("Coupon updated successfully.", HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+
 
 
     @DeleteMapping("/{id}")

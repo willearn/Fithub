@@ -2,6 +2,9 @@ package com.fithub.model.course;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
+
 public interface ICourseService {
 
 	// 查詢全部
@@ -24,5 +27,11 @@ public interface ICourseService {
 	
 	// 查詢單筆
 	public Course findById(Integer id);
+	
+	// 全部課程分頁功能
+	public Page<Course> findByPage(Integer pageNumber,Integer dataSize);
+	
+	// 各分類課程分頁功能
+	public Page<Course> findCourseByCategoryId(Integer categoryId,Integer pageNumber, Integer dataSize);
 	
 }

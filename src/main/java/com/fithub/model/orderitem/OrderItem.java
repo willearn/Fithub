@@ -1,6 +1,7 @@
 package com.fithub.model.orderitem;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fithub.model.classes.Classes;
 import com.fithub.model.coupon.Coupon;
 import com.fithub.model.order.Order;
@@ -14,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 
 @Data
@@ -26,28 +28,30 @@ public class OrderItem {
 	@Column(name="itemid")
 	private int itemId;
 
-	@Column(name="ORDERID")
+
+	@Column(name="orderid")
 	private int orderId;
-	
-	@Column(name="CLASSID")
+
+	@Column(name="classid")
 	private int classId;
 		
 	@Column(name="couponid")
 	private int couponId; 
 	
-	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="ORDERID",insertable = false,updatable = false)
+	@JoinColumn(name="orderid",insertable = false,updatable = false)
 	private Order order;
 	
-	@JsonIgnore
+	@JsonIgnoreProperties({ "epmloyee","cart","classesSet","order","wishlist" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="CLASSID",insertable = false,updatable = false)
 	private Classes classes;
 	
-	@JsonIgnore
+//	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="couponid",insertable = false,updatable = false)
 	private Coupon coupon;
+
 	
 }

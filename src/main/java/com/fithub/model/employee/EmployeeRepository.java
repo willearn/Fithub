@@ -24,6 +24,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	long count(@Param("name") String name);
 
 	// XiaoQing
+	@Query("select e from Employee e where e.employeename like CONCAT('%', :name, '%')")
+	Page<Employee> searchByName(Pageable pageable, @Param("name") String name);
+
+	// XiaoQing
 	@Query("select count(*) from Employee where jobtitleid = :jobtitleid")
 	long countByJobTitleId(@Param("jobtitleid") Integer jobtitleid);
 
