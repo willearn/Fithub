@@ -32,6 +32,8 @@ public class ClassesDto {
 	private String employeename ;
 	
 	private String classroomName;
+	
+	private int classroomCapacity;
 
 	public ClassesDto() {
 	}

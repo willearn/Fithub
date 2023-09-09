@@ -32,7 +32,7 @@ public interface ClassesRepository extends JpaRepository<Classes, Integer> {
 	// Chrislafolia，返回在指定時間内的所有classes資訊
 	@Query("SELECT cl.classId, cl.courseId, cl.classDate, cl.classTime, cl.coachSubstitute, "
 			+ "cl.employeeId, cl.applicantsCeil,cl.applicantsFloor, cl.price, cl.classroomId, "
-			+ "co.courseName, coc.categoryName, e.employeename, r.classroomName "
+			+ "co.courseName, coc.categoryName, e.employeename, r.classroomName, r.classroomCapacity "
 			+ "FROM Classes cl JOIN cl.course co JOIN co.courseCategories coc "
 			+ "JOIN cl.employee e JOIN cl.classroom r "
 			+ "WHERE cl.classDate >= :startDate AND cl.classDate <= :endDate "
