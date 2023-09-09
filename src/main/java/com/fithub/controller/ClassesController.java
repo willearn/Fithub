@@ -105,7 +105,7 @@ public class ClassesController {
 		}
 	}
 
-	@GetMapping("/findAllCoursesInMonthRange/{cid}")
+	@GetMapping("/findAllClassesInMonthRange/{cid}")
 	public ResponseEntity<?> findAllByCourseIdAndDateRange(@PathVariable(value = "cid") Integer cid,
 			@RequestParam(value = "monthBefore") Integer monthBefore,
 			@RequestParam(value = "monthAfter") Integer monthAfter) {
