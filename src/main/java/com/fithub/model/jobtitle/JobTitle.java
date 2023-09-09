@@ -24,8 +24,5 @@ public class JobTitle {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer jobtitleid;
 	private String jobtitlename;
-	
-	@OneToMany(mappedBy = "jobtitle")
-	@JsonBackReference
-	private Set<Employee> employee = new HashSet<Employee>();
+
 }

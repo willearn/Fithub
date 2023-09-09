@@ -1,6 +1,7 @@
 package com.fithub.model.employee;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,29 +109,41 @@ public class EmployeeService implements IEmployeeService {
 	@Override
 	public Page<Employee> findCoachPageByName(Integer pageNumber, Integer rows,Integer jobtitleid ,   String name ) {
 		Pageable pgb = PageRequest.of(pageNumber, rows, Sort.DEFAULT_DIRECTION, "employeeid");
-		Page<Employee> page = eRepo.findManagersByJobTitleIdAndName(pgb, jobtitleid.toString(), name);
+		Page<Employee> page = eRepo.findManagersByJobTitleIdAndName(pgb, jobtitleid, name);
 		return page;
 	}
 
 	@Override
 	public Page<Employee> findCoachByPage(Integer pageNumber, Integer rows , Integer jobtitleid) {
 		Pageable pgb = PageRequest.of(pageNumber, rows, Sort.DEFAULT_DIRECTION, "employeeid");
-		Page<Employee> page = eRepo.findManagersByJobTitleId(pgb, jobtitleid.toString());
+		Page<Employee> page = eRepo.findManagersByJobTitleId(pgb, jobtitleid);
 		
 		return page;
 	}
 
 	@Override
-	public long countByJobTitleId(String jobtitleid) {
+	public long countByJobTitleId(Integer jobtitleid) {
 		long count = eRepo.countByJobTitleId(jobtitleid);
 		return count;	
 		}
 	
 	@Override
-	public long countByJobTitleIdAndName(String jobtitleid, String name) {
+	public long countByJobTitleIdAndName(Integer jobtitleid, String name) {
 		long count = eRepo.countByJobTitleIdAndName(jobtitleid , name);
 		return count;	
 		}
+	
+	@Override
+	public List<Map<String,Object>> findCoachDataPicSpecialty(){
+		try {
+			List<Map<String, Object>> result = eRepo.findCoachDataPicSpecialty();
+			return result;
+		} catch (Exception e) {
+		}
+		return null;
+
+		
+	}
 
 //	public List<Employee> find(JSONObject obj) throws JSONException{
 //		int start = obj.isNull("start") ? 0 : obj.getInt("start");

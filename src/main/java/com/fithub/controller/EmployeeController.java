@@ -1,6 +1,7 @@
 package com.fithub.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
@@ -266,11 +267,11 @@ public class EmployeeController {
 			//有的話 依照name去搜尋有幾筆資料，沒有則搜尋全部
 			if (name != null) {
 				System.out.println("NAME != NULL");
-				count = eService.countByJobTitleIdAndName(jobTitleId.toString() , name);
+				count = eService.countByJobTitleIdAndName(jobTitleId , name);
 				page = eService.findCoachPageByName(obj.getInt("start"), obj.getInt("rows"),
 						jobTitleId, obj.getString("name"));
 			}else {
-				count = eService.countByJobTitleId(jobTitleId.toString());
+				count = eService.countByJobTitleId(jobTitleId);
 				page = eService.findCoachByPage(obj.getInt("start"), obj.getInt("rows"), jobTitleId);
 			}
 			System.out.println("count----" + count);
@@ -291,6 +292,17 @@ public class EmployeeController {
 		}
 
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
+	@GetMapping("/employees/findCoachDataPicSpecialty")
+	public ResponseEntity<?> findCoachDataPicSpecialty(){
+		try {
+			List<Map<String, Object>> result = eService.findCoachDataPicSpecialty();
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
 	}
 	
 	

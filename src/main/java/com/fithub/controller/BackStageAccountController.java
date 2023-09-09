@@ -126,7 +126,7 @@ public class BackStageAccountController {
 
 				for (BackStageAccount ba : page) {
 					JSONObject item = new JSONObject().put("employeeid", ba.getEmployeeid())
-							.put("emoloyeeaccount", ba.getEmployeeaccount())
+							.put("employeeaccount", ba.getEmployeeaccount())
 							.put("employeename", ba.getEmployee().getEmployeename())
 							.put("loa", ba.getLoa());
 					array = array.put(item);

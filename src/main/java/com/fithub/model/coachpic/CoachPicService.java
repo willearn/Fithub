@@ -59,10 +59,10 @@ public class CoachPicService implements ICoachPicService {
 	}
 
 	@Override
-	public List<Map<String , String>> findByEmpId(Integer id) {
+	public List<Map<String , Object>> findByEmpId(Integer id) {
 		try {
 			System.out.println(id);
-			List<Map<String , String>> resultBeans = cRepo.findByEmpId(id);
+			List<Map<String , Object>> resultBeans = cRepo.findByEmpId(id);
 			if (resultBeans != null) {
 				return resultBeans;
 			}

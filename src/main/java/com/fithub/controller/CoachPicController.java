@@ -56,9 +56,7 @@ public class CoachPicController {
 	@GetMapping("/coachpics/byemp/{eid}")
 	public ResponseEntity<?> findByEmpId(@PathVariable("eid") int eid) throws JsonProcessingException {
 		try {
-			List<Map<String , String>> spec = cService.findByEmpId(eid);
-			
-			System.out.println(spec);
+			List<Map<String , Object>> spec = cService.findByEmpId(eid);
 			if (spec != null) {
 				return new ResponseEntity<>(spec, HttpStatus.OK);
 			}

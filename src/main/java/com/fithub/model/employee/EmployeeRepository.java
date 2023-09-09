@@ -1,6 +1,7 @@
 package com.fithub.model.employee;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,11 +25,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
 	// XiaoQing
 	@Query("select count(*) from Employee where jobtitleid = :jobtitleid")
-	long countByJobTitleId(@Param("jobtitleid") String jobtitleid);
+	long countByJobTitleId(@Param("jobtitleid") Integer jobtitleid);
 
 	// XiaoQing
 	@Query("select count(*) from Employee where jobtitleid = :jobtitleid AND (:name is null or employeename like %:name%)")
-	long countByJobTitleIdAndName(@Param("jobtitleid") String jobtitleid, @Param("name") String name);
+	long countByJobTitleIdAndName(@Param("jobtitleid") Integer jobtitleid, @Param("name") String name);
 	
 	// XiaoQing
 	@Query("select e from Employee e where e.employeename like CONCAT('%', :name, '%')")
@@ -36,10 +37,18 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
 	// XiaoQing
 	@Query("from Employee where jobtitleid = :jobtitleid AND (:name is null or employeename like %:name%)")
-	Page<Employee> findManagersByJobTitleIdAndName(Pageable pageable, @Param("jobtitleid") String jobtitleid,
+	Page<Employee> findManagersByJobTitleIdAndName(Pageable pageable, @Param("jobtitleid") Integer jobtitleid,
 			@Param("name") String name);
 
 	// XiaoQing
 	@Query("from Employee where jobtitleid = :jobtitleid")
-	Page<Employee> findManagersByJobTitleId(Pageable pageable, @Param("jobtitleid") String jobtitleid);
+	Page<Employee> findManagersByJobTitleId(Pageable pageable, @Param("jobtitleid") Integer jobtitleid);
+	
+	@Query("SELECT e.employeename as employeenamne, e.employeeemail as employeeemail, e.employeephone as emploueephone,  s.specialtyname as specialtyname , cp.cpicfile as cpicfile\r\n"
+			+ "FROM Employee AS e\r\n"
+			+ "LEFT JOIN CoachPic AS cp ON e.employeeid = cp.employeeid\r\n"
+			+ "LEFT JOIN CoachSpecialty AS cs ON e.employeeid = cs.employeeid\r\n"
+			+ "LEFT JOIN Specialty AS s ON cs.specialtyid = s.specialtyid\r\n"
+			+ "WHERE e.jobtitleid = (SELECT jobtitleid FROM JobTitle WHERE jobtitlename = '教練')")
+	List<Map<String,Object>> findCoachDataPicSpecialty();
 }
