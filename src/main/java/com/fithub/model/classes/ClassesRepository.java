@@ -17,9 +17,26 @@ public interface ClassesRepository extends JpaRepository<Classes, Integer> {
 	Classes checkClass(@Param("classroomId") int classroomId, @Param("classDate") String classDate,
 			@Param("classTime") String classTime);
 
-	// Chrislafolia，返回指定課程的資訊 // 未完成勿使用
-	@Query("SELECT c.classId, c.courseId, c.classDate, c.classTime, c.coachSubstitute, c.employeeId, c.applicantsCeil, c.applicantsFloor, c.price, c.classroomId FROM Classes c WHERE c.courseId = :courseId AND c.classDate >= :startDate AND c.classDate <= :endDate")
-	List<Object[]> findAllByCourseIdAndDateRange(@Param("courseId") Integer classroomId,
+	// Chrislafolia，返回指定course在指定時間内的所有classes資訊
+	@Query("SELECT cl.classId, cl.courseId, cl.classDate, cl.classTime, cl.coachSubstitute, "
+			+ "cl.employeeId, cl.applicantsCeil,cl.applicantsFloor, cl.price, cl.classroomId, "
+			+ "co.courseName, coc.categoryName, e.employeename, r.classroomName "
+			+ "FROM Classes cl JOIN cl.course co JOIN co.courseCategories coc "
+			+ "JOIN cl.employee e JOIN cl.classroom r "
+			+ "WHERE cl.courseId = :courseId AND "
+			+ "(cl.classDate >= :startDate AND cl.classDate <= :endDate) "
+			+ "ORDER BY cl.classDate")
+	List<Object[]> findAllByCourseIdAndDateRange(@Param("courseId") Integer courseId,
 			@Param("startDate") String startDate, @Param("endDate") String endDate);
+	
+	// Chrislafolia，返回在指定時間内的所有classes資訊
+	@Query("SELECT cl.classId, cl.courseId, cl.classDate, cl.classTime, cl.coachSubstitute, "
+			+ "cl.employeeId, cl.applicantsCeil,cl.applicantsFloor, cl.price, cl.classroomId, "
+			+ "co.courseName, coc.categoryName, e.employeename, r.classroomName "
+			+ "FROM Classes cl JOIN cl.course co JOIN co.courseCategories coc "
+			+ "JOIN cl.employee e JOIN cl.classroom r "
+			+ "WHERE cl.classDate >= :startDate AND cl.classDate <= :endDate "
+			+ "ORDER BY cl.classDate")
+	List<Object[]> findAllByDateRange(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
 }

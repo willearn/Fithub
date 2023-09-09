@@ -29,6 +29,11 @@ public interface IClassesService {
 
 	public Classes checkClass(Integer classroomId, String classDate, String classTime);
 
+	// Chrislafolia，返回指定course在指定時間内的所有classes資訊
 	public List<ClassesDto> findAllByCourseIdAndDateRange(Integer classroomId, String startDate, String endDate);
+	
+	// Chrislafolia，返回在指定時間内的所有classes資訊
+	public List<ClassesDto> findAllByDateRange(String startDate, String endDate);
+
 
 }

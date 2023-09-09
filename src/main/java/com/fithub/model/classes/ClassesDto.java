@@ -24,22 +24,30 @@ public class ClassesDto {
 	private int price;
 
 	private int classroomId;
+	
+	private String courseName;
+	
+	private String categoryName;
+	
+	private String employeename ;
+	
+	private String classroomName;
 
 	public ClassesDto() {
 	}
 
-	public ClassesDto(int classId, int courseId, String classDate, String classTime, int coachSubstitute,
-			int employeeId, int applicantsCeil, int applicantsFloor, int price, int classroomId) {
-		this.classId = classId;
-		this.courseId = courseId;
-		this.classDate = classDate;
-		this.classTime = classTime;
-		this.coachSubstitute = coachSubstitute;
-		this.employeeId = employeeId;
-		this.applicantsCeil = applicantsCeil;
-		this.applicantsFloor = applicantsFloor;
-		this.price = price;
-		this.classroomId = classroomId;
-	}
+//	public ClassesDto(int classId, int courseId, String classDate, String classTime, int coachSubstitute,
+//			int employeeId, int applicantsCeil, int applicantsFloor, int price, int classroomId) {
+//		this.classId = classId;
+//		this.courseId = courseId;
+//		this.classDate = classDate;
+//		this.classTime = classTime;
+//		this.coachSubstitute = coachSubstitute;
+//		this.employeeId = employeeId;
+//		this.applicantsCeil = applicantsCeil;
+//		this.applicantsFloor = applicantsFloor;
+//		this.price = price;
+//		this.classroomId = classroomId;
+//	}
 
 }
