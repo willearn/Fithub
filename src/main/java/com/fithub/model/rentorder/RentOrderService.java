@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,14 @@ public class RentOrderService implements IRentOrderService {
 	public List<RentOrder> findAll() {
 		List<RentOrder> result = rentOrderRepo.findAll();
 		return result;
+	}
+
+	// 查詢全部並分頁
+	@Override
+	public Page<RentOrder> findAllPage(int number, int size) {
+		// 回傳第幾頁 每頁10筆
+		Pageable pageable = PageRequest.of(number, size);
+		return rentOrderRepo.findAllPage(pageable);
 	}
 
 	// 新增單筆
@@ -53,7 +64,7 @@ public class RentOrderService implements IRentOrderService {
 		if (result) {
 			rentOrderRepo.deleteById(id);
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
