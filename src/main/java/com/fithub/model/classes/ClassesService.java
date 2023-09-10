@@ -146,7 +146,6 @@ public class ClassesService implements IClassesService {
 			String employeename = (String) result[12];
 			String classroomName = (String) result[13];
 			int classroomCapacity =(int) result[14];
-			System.out.println(classroomCapacity);
 
 			ClassesDto classes = new ClassesDto();
 			classes.setClassId(classId);
