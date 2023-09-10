@@ -1,6 +1,7 @@
 package com.fithub.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -96,6 +97,18 @@ public class CouponController {
  			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
  		}
  	}
+ 	
+ 	@PostMapping("/api/coupon")
+    public ResponseEntity<String> getCouponDiscount(@RequestBody Map<String, String> request) {
+        String couponcode = request.get("couponcode");
+        if (couponcode != null && !couponcode.isEmpty()) {
+            String coupondiscount = couponService.getCouponDiscount(couponcode);
+            return ResponseEntity.ok(coupondiscount);
+        } else {
+            // 優惠碼無效或未提供
+            return ResponseEntity.badRequest().body("請提供有效的優惠碼");
+        }
+    }
 
 }
 
