@@ -1,6 +1,7 @@
 package com.fithub.model.member;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 
@@ -29,5 +30,8 @@ public interface IMemberService {
 	public long count(String name);
 	Page<Member> findByPage(Integer pageNumber, Integer rows);
 	Page<Member> findPageByName(Integer pageNumber, Integer rows, String name);
+	
+	public boolean changePassword(Integer id, Map<String, String> checkPassword);
+	public boolean forgotPassword(String email);
 
 }

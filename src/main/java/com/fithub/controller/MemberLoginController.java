@@ -18,7 +18,6 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fithub.model.member.Member;
 import com.fithub.model.member.MemberService;
-import com.fithub.model.user.ResponseModel;
 import com.fithub.model.user.ResponseModelMember;
 
 @RestController
@@ -88,7 +87,7 @@ public class MemberLoginController {
 			response.setMemberemail(memberemail);
 			response.setToken(newToken);
 			response.setMembername(resultBean.getMembername());
-			response.setMemberid(response.getMemberid());
+			response.setMemberid(resultBean.getMemberid());
 
 		} catch (JWTVerificationException exception) {
 			System.out.println("jwt verify fail");
