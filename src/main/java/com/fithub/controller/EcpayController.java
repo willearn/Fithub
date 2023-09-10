@@ -12,8 +12,9 @@ import com.fithub.model.ecpay.EcpayDetailDTO;
 import com.fithub.model.ecpay.EcpayDetails;
 import com.fithub.model.ecpay.EcpayOrderDTO;
 import com.fithub.model.ecpay.EcpayService;
-import com.fithub.model.order.IOrderService;
 import com.fithub.model.order.Order;
+import com.fithub.model.order.OrderRepository;
+import com.fithub.model.order.OrderService;
 import com.fithub.model.rentorder.IRentOrderService;
 import com.fithub.model.rentorder.RentOrder;
 import com.fithub.model.rentorder.RentOrderRepository;
@@ -35,7 +36,9 @@ public class EcpayController {
 	RentOrderRepository rentOrderRepository;
 	
 	@Autowired
-	IOrderService iOrderService;
+	OrderService orderService;
+	@Autowired
+	OrderRepository orderRepository;
 	
 
 	@PostMapping("/ecpayCheckout")
@@ -88,9 +91,10 @@ public class EcpayController {
 			order.setOrderId(Integer.parseInt(OrderId));
 			order.setOrderCondition("已付款");
 			System.out.println(order.getOrderId());
+			System.out.println(order.getOrderCondition());
 			
 			
-			Boolean updateOrder = iOrderService.updateConditionById(order.getOrderId(),order.getOrderCondition());
+			Boolean updateOrder = orderService.updateConditionById(order.getOrderId(),order.getOrderCondition());
 			System.out.println(updateOrder);
 		}
 		
