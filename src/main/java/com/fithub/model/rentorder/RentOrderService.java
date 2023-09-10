@@ -32,10 +32,10 @@ public class RentOrderService implements IRentOrderService {
 
 	// 查詢全部並分頁
 	@Override
-	public Page<RentOrder> findAllPage(int number, int size) {
+	public Page<RentOrder> findAllPage(String date, int number, int size) {
 		// 回傳第幾頁 每頁10筆
 		Pageable pageable = PageRequest.of(number, size);
-		return rentOrderRepo.findAllPage(pageable);
+		return rentOrderRepo.findAllPage(date,pageable);
 	}
 
 	// 新增單筆

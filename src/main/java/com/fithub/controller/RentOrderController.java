@@ -60,13 +60,18 @@ public class RentOrderController {
 				int number =  (int) page.get("number");
 				// 幾筆資料
 				int row = (int) page.get("row");
+				String date = (String) page.get("date");
+				if(date == "") {
+					date = null;
+				}
+				System.out.println(date);
 				//	Map由多個entrySet()組成
 //				for (Map.Entry<String, Object> entry : page.entrySet()) {
 //					String key = entry.getKey();
 //					Object value = entry.getValue();
 //					System.out.println("Key: " + key + ", Value: " + value);
 //				}
-			return new ResponseEntity<>(iRentOrderService.findAllPage(number,row), HttpStatus.OK);
+			return new ResponseEntity<>(iRentOrderService.findAllPage(date,number,row), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
