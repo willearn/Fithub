@@ -43,12 +43,23 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	// XiaoQing
 	@Query("from Employee where jobtitleid = :jobtitleid")
 	Page<Employee> findManagersByJobTitleId(Pageable pageable, @Param("jobtitleid") Integer jobtitleid);
-	
+
+	// XiaoQing
+//	@Query("SELECT e.employeename as employeenamne, e.employeeemail as employeeemail, e.employeephone as emploueephone from Employee as e where e.jobtitleid = :jobtitleid")
+//	List<Map<String,Object>> findEmpNameEmailPhoneByJobTitleId(@Param("jobtitleid") Integer jobtitleid);
+
+	// XiaoQing
 	@Query("SELECT e.employeename as employeenamne, e.employeeemail as employeeemail, e.employeephone as emploueephone,  s.specialtyname as specialtyname , cp.cpicfile as cpicfile\r\n"
-			+ "FROM Employee AS e\r\n"
-			+ "LEFT JOIN CoachPic AS cp ON e.employeeid = cp.employeeid\r\n"
+			+ "FROM Employee AS e\r\n" + "LEFT JOIN CoachPic AS cp ON e.employeeid = cp.employeeid\r\n"
 			+ "LEFT JOIN CoachSpecialty AS cs ON e.employeeid = cs.employeeid\r\n"
 			+ "LEFT JOIN Specialty AS s ON cs.specialtyid = s.specialtyid\r\n"
 			+ "WHERE e.jobtitleid = (SELECT jobtitleid FROM JobTitle WHERE jobtitlename = '教練')")
-	List<Map<String,Object>> findCoachDataPicSpecialty();
+	List<Map<String, Object>> findCoachDataPicSpecialty();
+
+	// XiaoQing
+	@Query("SELECT e.employeeid as employeeid ,  e.employeename as employeenamne, e.employeeemail as employeeemail, e.employeephone as emploueephone,  s.specialtyname as specialtyname \r\n"
+			+ "FROM Employee AS e\r\n" + "LEFT JOIN CoachSpecialty AS cs ON e.employeeid = cs.employeeid\r\n"
+			+ "LEFT JOIN Specialty AS s ON cs.specialtyid = s.specialtyid\r\n"
+			+ "WHERE e.jobtitleid = (SELECT jobtitleid FROM JobTitle WHERE jobtitlename = '教練')")
+	List<Map<String, Object>> findCoachDataAndSpecialty();
 }

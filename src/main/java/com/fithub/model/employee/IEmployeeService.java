@@ -29,5 +29,5 @@ public interface IEmployeeService {
 	public Page<Employee> findPageByName(Integer pageNumber, Integer rows, String name);
 	public Page<Employee> findCoachByPage(Integer pageNumber,Integer rows , Integer jobtitleid);
 	public Page<Employee> findCoachPageByName(Integer pageNumber, Integer rows,Integer jobtitleid ,String name);
-	public List<Map<String,Object>> findCoachDataPicSpecialty();
+	public List<Map<String,Object>> findCoachDataAndSpecialty();
 }
