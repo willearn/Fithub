@@ -1,6 +1,6 @@
 package com.fithub.controller;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fithub.model.coachpic.CoachPicService;
 import com.fithub.model.employee.Employee;
 import com.fithub.model.employee.IEmployeeService;
 
@@ -34,6 +34,9 @@ public class EmployeeController {
 
 	@Autowired
 	private JobTitleController jController;
+
+	@Autowired
+	private CoachPicService cService;
 
 	@GetMapping("/employees/{eid}")
 	public ResponseEntity<Employee> findById(@PathVariable("eid") int eid) throws JsonProcessingException {
@@ -134,8 +137,7 @@ public class EmployeeController {
 			// 有的話 依照name去搜尋有幾筆資料，沒有則搜尋全部
 			if (name != null) {
 				count = eService.count(obj.getString("name"));
-				page = eService.findPageByName(obj.getInt("start"), obj.getInt("rows"),
-						obj.getString("name"));
+				page = eService.findPageByName(obj.getInt("start"), obj.getInt("rows"), obj.getString("name"));
 			} else {
 				count = eService.count();
 				page = eService.findByPage(obj.getInt("start"), obj.getInt("rows"));
@@ -269,10 +271,10 @@ public class EmployeeController {
 			// 有的話 依照name去搜尋有幾筆資料，沒有則搜尋全部
 			if (name != null) {
 				System.out.println("NAME != NULL");
-				count = eService.countByJobTitleIdAndName(jobTitleId , name);
-				page = eService.findCoachPageByName(obj.getInt("start"), obj.getInt("rows"),
-						jobTitleId, obj.getString("name"));
-			}else {
+				count = eService.countByJobTitleIdAndName(jobTitleId, name);
+				page = eService.findCoachPageByName(obj.getInt("start"), obj.getInt("rows"), jobTitleId,
+						obj.getString("name"));
+			} else {
 				count = eService.countByJobTitleId(jobTitleId);
 				page = eService.findCoachByPage(obj.getInt("start"), obj.getInt("rows"), jobTitleId);
 			}
@@ -282,8 +284,8 @@ public class EmployeeController {
 			for (Employee emp : page) {
 				System.out.println("emp");
 				System.out.println(emp.getJobtitleid());
-				JSONObject item = new JSONObject().put("employeeid", emp.getEmployeeid())
-						.put("employeename", emp.getEmployeename());
+				JSONObject item = new JSONObject().put("employeeid", emp.getEmployeeid()).put("employeename",
+						emp.getEmployeename());
 				array = array.put(item);
 			}
 
@@ -295,17 +297,33 @@ public class EmployeeController {
 
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
-	
+
 	@GetMapping("/employees/findCoachDataPicSpecialty")
-	public ResponseEntity<?> findCoachDataPicSpecialty(){
+	public ResponseEntity<?> findCoachDataPicSpecialty() {
 		try {
-			List<Map<String, Object>> result = eService.findCoachDataPicSpecialty();
+
+			List<Map<String, Object>> result = eService.findCoachDataAndSpecialty();
+
+			System.out.println(result.get(0).get("employeeid"));
+			System.out.println(result.size());
+			for (int i = 0; i < result.size(); i++) {
+				List<Map<String, Object>> coachpic = cService.findByEmpId(Integer.parseInt(result.get(i).get("employeeid").toString()));
+				
+				// 創建一個包含 result 和 coachpic 的新 Map
+	            Map<String, Object> combinedData = new HashMap<>();
+	            combinedData.putAll(result.get(i)); // 將 result 中的數據複製到 combinedData 中
+	            combinedData.put("coachpic", coachpic); // 添加 coachpic 數據到 combinedData 中
+	            
+	         // 將 combinedData 添加回 result 列表中
+	            result.set(i, combinedData);
+
+			}
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
 	}
-	
-	
+
 }

@@ -134,15 +134,13 @@ public class EmployeeService implements IEmployeeService {
 		}
 	
 	@Override
-	public List<Map<String,Object>> findCoachDataPicSpecialty(){
+	public List<Map<String,Object>> findCoachDataAndSpecialty(){
 		try {
-			List<Map<String, Object>> result = eRepo.findCoachDataPicSpecialty();
+			List<Map<String, Object>> result = eRepo.findCoachDataAndSpecialty();
 			return result;
 		} catch (Exception e) {
 		}
 		return null;
-
-		
 	}
 
 //	public List<Employee> find(JSONObject obj) throws JSONException{
