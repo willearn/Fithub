@@ -145,12 +145,11 @@ public class ClassesController {
 		}
 	}
 
-	@GetMapping("/findClassesByIds")
+	@PostMapping("/findClassesByIds")
 	public ResponseEntity<?> findAllClassesByClassesId(@RequestBody List<Integer> classesIds) {
+		System.out.println(classesIds);
 		try {
-			System.out.println("222");
 			List<ClassesDto> resultList = cService.findClassesByClassesId(classesIds);
-			System.out.println("111" + resultList);
 			return new ResponseEntity<>(resultList, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
