@@ -24,4 +24,6 @@ public interface IRentOrderService {
 	//修改單筆狀態
 	Boolean updateRentstatusById(Integer rentorderid, String rentamount);
 
+	List<RentOrder> findByMemberId(Integer id);
+
 }

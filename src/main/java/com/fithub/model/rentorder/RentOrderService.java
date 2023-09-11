@@ -123,4 +123,10 @@ public class RentOrderService implements IRentOrderService {
 
 		return usedClassroom;
 	}
+
+	@Override
+	public List<RentOrder> findByMemberId(Integer id) {
+		List<RentOrder> resultBeans = rentOrderRepo.findByMemberId(id);
+		return resultBeans;
+	}
 }

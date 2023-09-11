@@ -1,25 +1,18 @@
 package com.fithub.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fithub.util.EmailService;
+import com.fithub.model.member.IMemberService;
 import com.fithub.model.member.Member;
-import com.fithub.model.member.MemberService;
 import com.fithub.model.verificationcode.VerificationCode;
 import com.fithub.model.verificationcode.VerificationCodeService;
+import com.fithub.util.EmailService;
 
 @RestController
 @CrossOrigin()
@@ -32,7 +25,7 @@ public class VerificationCodeController {
 	private EmailService eService;
 	
 	@Autowired
-	private MemberService mService;
+	private IMemberService mService;
 	
 	// 新增驗證碼
 	@PostMapping("/verificationcode")
@@ -49,7 +42,7 @@ public class VerificationCodeController {
 			}
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 	

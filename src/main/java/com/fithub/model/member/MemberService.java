@@ -69,7 +69,10 @@ public class MemberService implements IMemberService {
 		try {
 			Optional<Member> optinoal = mRepo.findById(mBean.getMemberid());
 			if (optinoal.isPresent()) {
-				mBean.setMemberpassword(pwdEncoder.encode(mBean.getMemberpassword()));
+				System.out.println(mBean.getMemberpassword());
+				if(mBean.getMemberpassword()!=null) {
+					mBean.setMemberpassword(pwdEncoder.encode(mBean.getMemberpassword()));
+				}
 				mRepo.save(mBean);
 				return true;
 			}
@@ -100,6 +103,7 @@ public class MemberService implements IMemberService {
 		return null;
 	}
 
+	@Override
 	public Member findByEmail(String email) {
 		try {
 			Member resultBean = mRepo.findMemberByEmail(email);
@@ -113,6 +117,7 @@ public class MemberService implements IMemberService {
 		return null;
 	}
 
+	@Override
 	public Member checkLogin(Member mBean) {
 		try {
 			Member resultBean = mRepo.findMemberByEmail(mBean.getMemberemail());
@@ -127,6 +132,7 @@ public class MemberService implements IMemberService {
 		return null;
 	}
 
+	@Override
 	public Member checkGoogleLogin(Member mBean) {
 		try {
 			Member resultBean = mRepo.findMemberByEmail(mBean.getMemberemail());

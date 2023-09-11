@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fithub.model.coachpic.CoachPicService;
+import com.fithub.model.coachpic.ICoachPicService;
 import com.fithub.model.employee.Employee;
 import com.fithub.model.employee.IEmployeeService;
 
@@ -36,7 +36,7 @@ public class EmployeeController {
 	private JobTitleController jController;
 
 	@Autowired
-	private CoachPicService cService;
+	private ICoachPicService cService;
 
 	@GetMapping("/employees/{eid}")
 	public ResponseEntity<Employee> findById(@PathVariable("eid") int eid) throws JsonProcessingException {

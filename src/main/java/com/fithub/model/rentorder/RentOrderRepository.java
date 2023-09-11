@@ -28,4 +28,8 @@ public interface RentOrderRepository extends JpaRepository<RentOrder, Integer> {
     @Transactional
     @Query("UPDATE RentOrder r SET  r.rentstatus = :rentstatus WHERE r.rentorderid = :rentorderid")
     void updateRentstatusById(@Param("rentorderid") Integer rentorderid,@Param("rentstatus") String rentstatus);
+    
+    // XiaoQing
+    @Query("from RentOrder where memberid = :memberid")
+    List<RentOrder> findByMemberId(Integer memberid);
 }

@@ -26,6 +26,10 @@ public interface IMemberService {
 	
 	public Member findById(Integer id);
 	
+	public Member findByEmail(String email);
+	public Member checkLogin(Member mBean);
+	public Member checkGoogleLogin(Member mBean);
+	
 	long count();
 	public long count(String name);
 	Page<Member> findByPage(Integer pageNumber, Integer rows);
