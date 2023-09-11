@@ -27,7 +27,7 @@ public class MemberService implements IMemberService {
 
 	@Autowired
 	private EmailService eService;
-	
+
 	// 查詢全部
 	@Override
 	public List<Member> findAll() {
@@ -179,12 +179,12 @@ public class MemberService implements IMemberService {
 						return true;
 					}
 				}
-				
-				if( password != null && !oldpassword.isEmpty()) {
+
+				if (password != null && !oldpassword.isEmpty()) {
 					if (pwdEncoder.matches(oldpassword, member.getMemberpassword())) {
 						member.setMemberpassword(pwdEncoder.encode(newpassword));
 						Member saveBean = mRepo.save(member);
-						
+
 						if (saveBean != null) {
 							return true;
 						}
@@ -224,14 +224,32 @@ public class MemberService implements IMemberService {
 		System.out.println(page);
 		return page;
 	}
-	
+
 	@Override
 	public boolean forgotPassword(String email) {
 		try {
 			Member resultBean = mRepo.findMemberByEmail(email);
-			
-			if(resultBean!=null) {
+
+			if (resultBean != null) {
 				eService.sendForgotPasswordEmail(email);
+				return true;
+			}
+			return false;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean resetPassword(Map<String, Object> checkPassword) {
+		try {
+			String email = eService.verifyToken(checkPassword.get("token").toString());
+
+			Member resultBean = mRepo.findMemberByEmail(email);
+
+			if (resultBean != null) {
+				resultBean.setMemberpassword(pwdEncoder.encode(checkPassword.get("newpassword").toString()));
+				mRepo.save(resultBean);
 				return true;
 			}
 			return false;

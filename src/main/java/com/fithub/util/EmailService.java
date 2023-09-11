@@ -37,13 +37,13 @@ public class EmailService {
 		javaMailSender.send(mimeMessage);
 	}
 	
-	public void sendForgotPasswordEmail(String email) throws MessagingException {
+	public void sendForgotPasswordEmail(String email) throws Exception {
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		MimeMessageHelper mHelper = new MimeMessageHelper(mimeMessage,true);
 		mHelper.setFrom("Fithub <iSpanFithub@gmail.com>");
 		mHelper.setTo(email);
 		mHelper.setSubject("Fithub密碼重設");
-		mHelper.setText("請點選連結重設密碼:" + "",true);
+		mHelper.setText("請點選連結重設密碼: " + "http://localhost:5173/resetpassword/reset?token=" + generateToken(email),true);
 		
 		javaMailSender.send(mimeMessage);
 	}
@@ -61,14 +61,14 @@ public class EmailService {
 		return token;
 	}
 
-	String verifyToken(String token) throws JWTVerificationException {
+	public String verifyToken(String token) throws JWTVerificationException {
 		JWTVerifier verifier = JWT.require(algorithm).build();
-		String username = "";
+		String memberemail = "";
 
 		DecodedJWT decodedJWT = verifier.verify(token);
-		username = decodedJWT.getClaim("memberemail").asString();
+		memberemail = decodedJWT.getClaim("memberemail").asString();
 
-		return username;
+		return memberemail;
 	}
 }
 

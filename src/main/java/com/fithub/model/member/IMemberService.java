@@ -33,5 +33,6 @@ public interface IMemberService {
 	
 	public boolean changePassword(Integer id, Map<String, String> checkPassword);
 	public boolean forgotPassword(String email);
+	public boolean resetPassword(Map<String, Object> checkPassword);
 
 }

@@ -199,5 +199,22 @@ public class MemberController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@PutMapping("/members/resetPassword")
+	public ResponseEntity<?> resetPassword(@RequestBody Map<String, Object> checkPassword){
+		try {
+			System.out.println(checkPassword);
+			boolean resetPassword = mService.resetPassword(checkPassword);
+			if(resetPassword) {
+				return new ResponseEntity<>(HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
 
 }
