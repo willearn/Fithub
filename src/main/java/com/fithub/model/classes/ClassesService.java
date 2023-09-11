@@ -78,47 +78,7 @@ public class ClassesService implements IClassesService {
 	public List<ClassesDto> findAllByCourseIdAndDateRange(Integer courseId, String startDate, String endDate) {
 
 		List<Object[]> resultList = classesRepo.findAllByCourseIdAndDateRange(courseId, startDate, endDate);
-		List<ClassesDto> classesList = new ArrayList<>();
-
-		for (Object[] result : resultList) {
-			// Assuming the first element of the result array is the employee title and the
-			// second is the employee ID
-			int classId = (int) result[0];
-			int courseIdResult = (int) result[1];
-			String classDate = (String) result[2];
-			String classTime = (String) result[3];
-			int coachSubstitute = (int) result[4];
-			int employeeId = (int) result[5];
-			int applicantsCeil = (int) result[6];
-			int applicantsFloor = (int) result[7];
-			int price = (int) result[8];
-			int classroomId = (int) result[9];
-			String courseName =(String) result[10];
-			String categoryName = (String) result[11];
-			String employeename = (String) result[12];
-			String classroomName = (String) result[13];
-			int classroomCapacity =(int) result[14];
-
-			ClassesDto classes = new ClassesDto();
-			classes.setClassId(classId);
-			classes.setCourseId(courseIdResult);
-			classes.setClassDate(classDate);
-			classes.setClassTime(classTime);
-			classes.setCoachSubstitute(coachSubstitute);
-			classes.setClassroomId(classroomId);
-			classes.setEmployeeId(employeeId);
-			classes.setApplicantsCeil(applicantsCeil);
-			classes.setApplicantsFloor(applicantsFloor);
-			classes.setPrice(price);
-			classes.setClassroomId(classroomId);
-			classes.setCourseName(courseName);
-			classes.setCategoryName(categoryName);
-			classes.setEmployeename(employeename);
-			classes.setClassroomName(classroomName);
-			classes.setClassroomCapacity(classroomCapacity);
-
-			classesList.add(classes);
-		}
+		List<ClassesDto> classesList = putObjectIntoDto(resultList);
 
 		return classesList;
 	}
@@ -126,9 +86,22 @@ public class ClassesService implements IClassesService {
 	@Override
 	public List<ClassesDto> findAllByDateRange(String startDate, String endDate) {
 		List<Object[]> resultList = classesRepo.findAllByDateRange(startDate, endDate);
+		List<ClassesDto> classesList = putObjectIntoDto(resultList);
+
+		return classesList;
+	}
+
+	@Override
+	public List<ClassesDto> findClassesByClassesId(List<Integer> classesIds) {
+		List<Object[]> resultList = classesRepo.findClassesByClassesId(classesIds);
+		List<ClassesDto> classesList = putObjectIntoDto(resultList);
+		return classesList;
+	}
+
+	private List<ClassesDto> putObjectIntoDto(List<Object[]> inputList) {
 		List<ClassesDto> classesList = new ArrayList<>();
-		
-		for (Object[] result : resultList) {
+
+		for (Object[] result : inputList) {
 			// Assuming the first element of the result array is the employee title and the
 			// second is the employee ID
 			int classId = (int) result[0];
@@ -141,11 +114,11 @@ public class ClassesService implements IClassesService {
 			int applicantsFloor = (int) result[7];
 			int price = (int) result[8];
 			int classroomId = (int) result[9];
-			String courseName =(String) result[10];
+			String courseName = (String) result[10];
 			String categoryName = (String) result[11];
 			String employeename = (String) result[12];
 			String classroomName = (String) result[13];
-			int classroomCapacity =(int) result[14];
+			int classroomCapacity = (int) result[14];
 
 			ClassesDto classes = new ClassesDto();
 			classes.setClassId(classId);
@@ -164,12 +137,11 @@ public class ClassesService implements IClassesService {
 			classes.setEmployeename(employeename);
 			classes.setClassroomName(classroomName);
 			classes.setClassroomCapacity(classroomCapacity);
-			
+
 			classesList.add(classes);
 		}
-		
+
 		return classesList;
 	}
-	
 
 }

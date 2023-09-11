@@ -1,6 +1,7 @@
 package com.fithub.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,18 +125,17 @@ public class ClassesController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	@GetMapping("/findAllInMonthRange")
-	public ResponseEntity<?> findAllByDateRange(
-			@RequestParam(value = "monthBefore") Integer monthBefore,
+	public ResponseEntity<?> findAllByDateRange(@RequestParam(value = "monthBefore") Integer monthBefore,
 			@RequestParam(value = "monthAfter") Integer monthAfter) {
-		
+
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		// 取前monthBefore個月的第一天，及後monthAfter個月最後一天
 		DateRange dateRange = dService.getRangeDate(monthBefore, monthAfter);
 		String startDate = dateFormat.format(dateRange.getStartDate());
 		String endDate = dateFormat.format(dateRange.getEndDate());
-		
+
 		try {
 			List<ClassesDto> resultList = cService.findAllByDateRange(startDate, endDate);
 			System.out.println(resultList);
@@ -144,7 +144,17 @@ public class ClassesController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	
+
+	@GetMapping("/findClassesByIds")
+	public ResponseEntity<?> findAllClassesByClassesId(@RequestBody List<Integer> classesIds) {
+		try {
+			System.out.println("222");
+			List<ClassesDto> resultList = cService.findClassesByClassesId(classesIds);
+			System.out.println("111" + resultList);
+			return new ResponseEntity<>(resultList, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
 }

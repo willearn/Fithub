@@ -22,21 +22,26 @@ public interface ClassesRepository extends JpaRepository<Classes, Integer> {
 			+ "cl.employeeId, cl.applicantsCeil,cl.applicantsFloor, cl.price, cl.classroomId, "
 			+ "co.courseName, coc.categoryName, e.employeename, r.classroomName, r.classroomCapacity  "
 			+ "FROM Classes cl JOIN cl.course co JOIN co.courseCategories coc "
-			+ "JOIN cl.employee e JOIN cl.classroom r "
-			+ "WHERE cl.courseId = :courseId AND "
-			+ "(cl.classDate >= :startDate AND cl.classDate <= :endDate) "
-			+ "ORDER BY cl.classDate")
+			+ "JOIN cl.employee e JOIN cl.classroom r " + "WHERE cl.courseId = :courseId AND "
+			+ "(cl.classDate >= :startDate AND cl.classDate <= :endDate) " + "ORDER BY cl.classDate")
 	List<Object[]> findAllByCourseIdAndDateRange(@Param("courseId") Integer courseId,
 			@Param("startDate") String startDate, @Param("endDate") String endDate);
-	
+
 	// Chrislafolia，返回在指定時間内的所有classes資訊
 	@Query("SELECT cl.classId, cl.courseId, cl.classDate, cl.classTime, cl.coachSubstitute, "
 			+ "cl.employeeId, cl.applicantsCeil,cl.applicantsFloor, cl.price, cl.classroomId, "
 			+ "co.courseName, coc.categoryName, e.employeename, r.classroomName, r.classroomCapacity "
 			+ "FROM Classes cl JOIN cl.course co JOIN co.courseCategories coc "
 			+ "JOIN cl.employee e JOIN cl.classroom r "
-			+ "WHERE cl.classDate >= :startDate AND cl.classDate <= :endDate "
-			+ "ORDER BY cl.classDate")
+			+ "WHERE cl.classDate >= :startDate AND cl.classDate <= :endDate " + "ORDER BY cl.classDate")
 	List<Object[]> findAllByDateRange(@Param("startDate") String startDate, @Param("endDate") String endDate);
+
+	// Chrislafolia，返回在指定ClassId的classes資訊
+	@Query("SELECT cl.classId, cl.courseId, cl.classDate, cl.classTime, cl.coachSubstitute, "
+			+ "cl.employeeId, cl.applicantsCeil,cl.applicantsFloor, cl.price, cl.classroomId, "
+			+ "co.courseName, coc.categoryName, e.employeename, r.classroomName, r.classroomCapacity "
+			+ "FROM Classes cl JOIN cl.course co JOIN co.courseCategories coc "
+			+ "JOIN cl.employee e JOIN cl.classroom r WHERE cl.classId IN (:classesIds) ORDER BY cl.classDate")
+	List<Object[]> findClassesByClassesId(@Param("classesIds") List<Integer> classesIds);
 
 }
