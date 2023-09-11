@@ -31,4 +31,6 @@ public interface IOrderService {
 //	Order createOrder(Order order, OrderItem[] orderItems);
 
 	Order createOrder(Order order);
+	
+	List<Order> getOrdersByMemberId(Integer memberid);
 }

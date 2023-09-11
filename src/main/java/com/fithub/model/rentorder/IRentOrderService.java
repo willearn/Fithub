@@ -27,5 +27,7 @@ public interface IRentOrderService {
 	Boolean updateRentstatusById(Integer rentorderid, String rentamount);
 
 	Page<RentOrder> findAllPage(String date, int number, int size);
+	
+	List<RentOrder> findByMemberId(Integer id);
 
 }

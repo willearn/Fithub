@@ -139,4 +139,22 @@ public class RentOrderController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	// 列出所有租借訂單
+		@GetMapping("/list/bymemberid/{id}")
+		public ResponseEntity<?> findByMemberId(@PathVariable Integer id) {
+			try {
+				List<RentOrder> rentOrders = iRentOrderService.findByMemberId(id);
+				
+				for(int i = 0 ; i < rentOrders.size() ; i++) {
+					RentOrder rentOrder = rentOrders.get(i);
+					rentOrder.setMember(null);
+					rentOrders.set(i, rentOrder);
+				}
+				
+				return new ResponseEntity<>(rentOrders, HttpStatus.OK);
+			} catch (Exception e) {
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
 }

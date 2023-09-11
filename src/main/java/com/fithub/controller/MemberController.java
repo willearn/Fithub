@@ -17,10 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fithub.model.member.IMemberService;
 import com.fithub.model.member.Member;
-import com.fithub.model.member.MemberService;
 
 
 //@RequestMapping("/members")
@@ -30,7 +29,7 @@ import com.fithub.model.member.MemberService;
 public class MemberController {
 
 	@Autowired
-	private MemberService mService;
+	private IMemberService mService;
 
 	@GetMapping("/members/showMembers")
 	public String getMembers() {
@@ -91,7 +90,6 @@ public class MemberController {
 	public ResponseEntity<?> updateMember(@PathVariable Integer id, @RequestBody Member mBean) {
 		try {
 			System.out.println(mBean);
-			System.out.println("test");
 			mService.update(mBean);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -199,5 +197,22 @@ public class MemberController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@PutMapping("/members/resetPassword")
+	public ResponseEntity<?> resetPassword(@RequestBody Map<String, Object> checkPassword){
+		try {
+			System.out.println(checkPassword);
+			boolean resetPassword = mService.resetPassword(checkPassword);
+			if(resetPassword) {
+				return new ResponseEntity<>(HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
 
 }
