@@ -101,7 +101,7 @@ public class LoginController {
 
 	String generateToken(String username) throws Exception {
 		String token = "";
-		LocalDateTime dateTime = LocalDateTime.now().plusMinutes(10);
+		LocalDateTime dateTime = LocalDateTime.now().plusMinutes(60);
 		Date expireTime = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
 
 		token = JWT.create().withClaim("username", username).withExpiresAt(expireTime).sign(algorithm);
