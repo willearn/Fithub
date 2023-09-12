@@ -1,8 +1,11 @@
 package com.fithub.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fithub.model.rentorder.IRentOrderService;
 import com.fithub.model.rentorder.RentOrder;
+import com.fithub.model.rentorder.RentOrderRepository;
 
 @CrossOrigin
 @RestController
@@ -49,17 +53,41 @@ public class RentOrderController {
 		}
 	}
 
+	@PostMapping("/findallpage")
+	public ResponseEntity<?> findAllPage(@RequestBody Map<String, Object> page) {
+		try {
+				// 第幾頁
+				int number =  (int) page.get("number");
+				// 幾筆資料
+				int row = (int) page.get("row");
+				String date = (String) page.get("date");
+				if(date == "") {
+					date = null;
+				}
+				System.out.println(date);
+				//	Map由多個entrySet()組成
+//				for (Map.Entry<String, Object> entry : page.entrySet()) {
+//					String key = entry.getKey();
+//					Object value = entry.getValue();
+//					System.out.println("Key: " + key + ", Value: " + value);
+//				}
+			return new ResponseEntity<>(iRentOrderService.findAllPage(date,number,row), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	// 查詢場地是否被預訂或使用
 	@PostMapping("/checkClassroomAvailability")
 	public ResponseEntity<?> checkClassroomAvailability(@RequestBody RentOrder rentOrder) {
-		
+
 		Integer classroomid = rentOrder.getClassroomid();
 		String rentdate = rentOrder.getRentdate();
 		String renttime = rentOrder.getRenttime();
-		
-		//true為已被使用 false為未使用
+
+		// true為已被使用 false為未使用
 		Boolean classroomAvailability = iRentOrderService.checkClassroomAvailability(classroomid, rentdate, renttime);
-		
+
 		try {
 			return new ResponseEntity<>(classroomAvailability, HttpStatus.OK);
 		} catch (Exception e) {
@@ -71,8 +99,8 @@ public class RentOrderController {
 	@PostMapping("/insert")
 	public ResponseEntity<?> insertRentOrder(@RequestBody RentOrder rentOrder) {
 		try {
-			RentOrder rentOrder2 =   iRentOrderService.insert(rentOrder);
-			return new ResponseEntity<>(rentOrder2.getRentorderid(),HttpStatus.OK);
+			RentOrder rentOrder2 = iRentOrderService.insert(rentOrder);
+			return new ResponseEntity<>(rentOrder2.getRentorderid(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

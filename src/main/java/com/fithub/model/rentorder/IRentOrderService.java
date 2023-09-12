@@ -2,6 +2,8 @@ package com.fithub.model.rentorder;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 public interface IRentOrderService {
 
 	// 查詢全部
@@ -24,6 +26,8 @@ public interface IRentOrderService {
 	//修改單筆狀態
 	Boolean updateRentstatusById(Integer rentorderid, String rentamount);
 
+	Page<RentOrder> findAllPage(String date, int number, int size);
+	
 	List<RentOrder> findByMemberId(Integer id);
 
 }
