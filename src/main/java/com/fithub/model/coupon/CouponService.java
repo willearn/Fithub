@@ -52,5 +52,16 @@ public class CouponService implements ICouponService {
 	public void deleteAllById(Iterable<Integer> selectIds) {
 		couponRepository.deleteAllById(selectIds);		
 	}
+	
+	@Override
+    public String getCouponDiscount(String couponcode) {
+        Coupon coupon = couponRepository.findByCouponcode(couponcode);
+        if (coupon != null) {
+            return coupon.getCoupondiscount();
+        } else {
+            // 優惠券不存在或者未找到
+            return "優惠券無效";
+        }
+    }
     
 }

@@ -17,4 +17,6 @@ public interface ICouponService {
     boolean existsById(Integer couponid);
     
     void deleteAllById(Iterable<Integer> selectIds);
+    
+    String getCouponDiscount(String couponcode);
 }

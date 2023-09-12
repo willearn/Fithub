@@ -2,6 +2,9 @@ package com.fithub.model.order;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
+import com.fithub.model.course.Course;
 import com.fithub.model.orderitem.OrderItem;
 
 public interface IOrderService {
@@ -31,4 +34,7 @@ public interface IOrderService {
 //	Order createOrder(Order order, OrderItem[] orderItems);
 
 	Order createOrder(Order order);
+	
+	// 全部訂單分頁功能
+	public Page<Order> findByPage(Integer pageNumber,Integer dataSize);
 }
