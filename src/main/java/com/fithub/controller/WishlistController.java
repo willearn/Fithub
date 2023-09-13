@@ -1,5 +1,10 @@
 package com.fithub.controller;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fithub.model.wishlist.IWishlistService;
 import com.fithub.model.wishlist.Wishlist;
 
-
 @RestController
 @RequestMapping("/wishlist")
 @CrossOrigin()
@@ -26,58 +30,82 @@ public class WishlistController {
 
 	@Autowired
 	private IWishlistService wService;
-		
+
 	@GetMapping("/{cid}")
 	public ResponseEntity<?> findWishlist(@PathVariable("cid") int cid) {
-        try {
-            Wishlist resultBean = wService.findById(cid); 
-            return new ResponseEntity<>(resultBean, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+		try {
+			Wishlist resultBean = wService.findById(cid);
+			return new ResponseEntity<>(resultBean, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
-	
+
 	@GetMapping("/findAll")
 	public ResponseEntity<?> findAllWishlists() {
-        try {
-            List<Wishlist> resultList = wService.findAll();
-            return new ResponseEntity<>(resultList, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+		try {
+			List<Wishlist> resultList = wService.findAll();
+			return new ResponseEntity<>(resultList, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<?> insertWishlist(@RequestBody Wishlist wBean) {	
-        try {
-        	Wishlist resultBean=wService.insert(wBean);
-            return new ResponseEntity<>(resultBean,HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-	}	
-	
+	public ResponseEntity<?> insertWishlist(@RequestBody Wishlist wBean) {
+
+		LocalDateTime today = LocalDateTime.now();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+
+		// 将LocalDate轉換为Date
+		Date date = java.sql.Timestamp.valueOf(today);
+
+		// 使用SimpleDateFormat将Date做format
+		String formattedToday = dateFormat.format(date);
+		System.out.println(formattedToday);
+		wBean.setWishAddSince(formattedToday);
+		try {
+			Wishlist resultBean = wService.insert(wBean);
+			return new ResponseEntity<>(resultBean, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	@PutMapping("/{wid}")
-	public ResponseEntity<?> updateWishlist(@RequestBody Wishlist wBean) {	
-        try {
-        	Boolean resultBoolean=wService.update(wBean);
-            return new ResponseEntity<>(resultBoolean,HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-	}	
-	
+	public ResponseEntity<?> updateWishlist(@RequestBody Wishlist wBean) {
+
+		Wishlist currentBean = wService.findById(wBean.getClassId());
+		wBean.setWishAddSince(currentBean.getWishAddSince());
+
+		LocalDateTime today = LocalDateTime.now();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+
+		// 将LocalDate轉換为Date
+		Date date = java.sql.Timestamp.valueOf(today);
+
+		// 使用SimpleDateFormat将Date做format
+		String formattedToday = dateFormat.format(date);
+		wBean.setWishRemoveDate(formattedToday);
+		try {
+			Boolean resultBoolean = wService.update(wBean);
+			return new ResponseEntity<>(resultBoolean, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	@DeleteMapping("/{wid}")
 	public ResponseEntity<?> deleteWishlist(@PathVariable("wid") int wid) {
-        try {
-        	Boolean resultBoolean=wService.deleteById(wid);
-            return new ResponseEntity<>(resultBoolean,HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-						
+		try {
+			Boolean resultBoolean = wService.deleteById(wid);
+			return new ResponseEntity<>(resultBoolean, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
 	}
-	
+
 	@DeleteMapping("/deleteMultiple")
 	public ResponseEntity<?> deleteMultipleWishlists(@RequestBody List<Integer> cids) {
 		try {
@@ -87,5 +115,5 @@ public class WishlistController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 }

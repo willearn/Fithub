@@ -1,6 +1,7 @@
 package com.fithub.model.wishlist;
 
 import com.fithub.model.classes.Classes;
+import com.fithub.model.member.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,32 +16,32 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="wishlist")
+@Table(name = "wishlist")
 public class Wishlist {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="listid")
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "listid")
 	private int listId;
-	
-	@Column(name="MEMBERID")
+
+	@Column(name = "MEMBERID")
 	private int memberId;
-	
-	@Column(name="CLASSID")
+
+	@Column(name = "CLASSID")
 	private int classId;
-	
-	@Column(name="wishaddsince")
+
+	@Column(name = "wishaddsince")
 	private String wishAddSince;
-	
-	@Column(name="wishremovedate")
+
+	@Column(name = "wishremovedate")
 	private String wishRemoveDate;
-	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name="MEMBERID",insertable = false,updatable = false)
-//	private Member member;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="CLASSID",insertable = false,updatable = false)
+	@JoinColumn(name = "MEMBERID", insertable = false, updatable = false)
+	private Member member;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CLASSID", insertable = false, updatable = false)
 	private Classes classes;
-	
-	
+
 }
