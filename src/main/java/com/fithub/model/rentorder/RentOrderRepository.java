@@ -41,4 +41,20 @@ public interface RentOrderRepository extends JpaRepository<RentOrder, Integer> {
     @Query("from RentOrder where memberid = :memberid")
     List<RentOrder> findByMemberId(Integer memberid);
 
+    // XiaoQing
+    @Query("select count(*) from RentOrder where memberid = :memberId AND (:date is null or rentdate = :date)")
+	long count(@Param("memberId")Integer memberId,@Param("date")String date);
+
+    // XiaoQing
+    @Query("select count(*) from RentOrder where memberid = :memberId")
+	long count(@Param("memberId") Integer memberId);
+
+    //XiaoQing
+    @Query("from RentOrder where memberid = :memberId")
+	Page<RentOrder> findAllByMemberId(Pageable pgb, Integer memberId);
+
+    //XiaoQing
+    @Query("from RentOrder where memberid = :memberId AND rentdate = :date")
+	Page<RentOrder> searchByMemberIdAndRentDate(Pageable pgb,@Param("memberId") Integer memberId,@Param("date") String date);
+
 }

@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
@@ -70,6 +74,21 @@ public class JobTitleService implements IJobTitleService {
 			return result;
 		}
 		return result;
+	}
+
+	@Override
+	public long count() {
+		long count = jRepo.count();
+		return count;
+	}
+
+	@Override
+	public Page<JobTitle> findByPage(Integer pageNumber, Integer rows) {
+		Pageable pgb = PageRequest.of(pageNumber, rows, Sort.DEFAULT_DIRECTION, "jobtitleid");
+		
+		Page<JobTitle> page = jRepo.findAll(pgb);
+		
+		return page;
 	}
 	
 	

@@ -104,7 +104,7 @@ public class MemberLoginController {
 	
 	String generateToken(String memberemail) throws Exception {
 		String token = "";
-		LocalDateTime dateTime = LocalDateTime.now().plusMinutes(10);
+		LocalDateTime dateTime = LocalDateTime.now().plusMinutes(60);
 		Date expireTime = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
 
 		token = JWT.create().withClaim("memberemail", memberemail).withExpiresAt(expireTime).sign(algorithm);

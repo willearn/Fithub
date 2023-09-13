@@ -24,6 +24,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fithub.model.coachpic.ICoachPicService;
 import com.fithub.model.employee.Employee;
 import com.fithub.model.employee.IEmployeeService;
+import com.fithub.model.jobtitle.IJobTitleService;
 
 @RestController
 @CrossOrigin()
@@ -33,7 +34,7 @@ public class EmployeeController {
 	private IEmployeeService eService;
 
 	@Autowired
-	private JobTitleController jController;
+	private IJobTitleService jService;
 
 	@Autowired
 	private ICoachPicService cService;
@@ -232,7 +233,7 @@ public class EmployeeController {
 
 	@GetMapping("/employees/managers")
 	public ResponseEntity<List<Employee>> findManagers() {
-		Integer jobTitleId = jController.findJobTitleIdByName("主管");
+		Integer jobTitleId = jService.findJobTitleByName("主管");
 		List<Employee> resultBeans = eService.findManagerByJobTitleId(jobTitleId);
 		System.out.println("resultBeans--------------------" + resultBeans);
 		if (resultBeans != null) {
@@ -243,7 +244,7 @@ public class EmployeeController {
 
 	@GetMapping("/employees/coachs")
 	public ResponseEntity<List<Employee>> findCoachs() {
-		Integer jobTitleId = jController.findJobTitleIdByName("教練");
+		Integer jobTitleId = jService.findJobTitleByName("教練");
 		List<Employee> resultBeans = eService.findManagerByJobTitleId(jobTitleId);
 		System.out.println("resultBeans--------------------" + resultBeans);
 		if (resultBeans != null) {
@@ -254,7 +255,7 @@ public class EmployeeController {
 
 	@PostMapping("/employees/findCoachPageByName")
 	public ResponseEntity<?> findCoachPageByName(@RequestBody String json) {
-		Integer jobTitleId = jController.findJobTitleIdByName("教練");
+		Integer jobTitleId = jService.findJobTitleByName("教練");
 
 		System.out.println(json.toString());
 		try {

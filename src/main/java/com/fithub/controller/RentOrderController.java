@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -140,7 +143,7 @@ public class RentOrderController {
 		}
 	}
 	
-	// 列出所有租借訂單
+	// 列出該會員所有租借訂單
 		@GetMapping("/list/bymemberid/{id}")
 		public ResponseEntity<?> findByMemberId(@PathVariable Integer id) {
 			try {
@@ -156,5 +159,72 @@ public class RentOrderController {
 			} catch (Exception e) {
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
+		}
+		
+		@PostMapping("/list/findPageByDate")
+		public ResponseEntity<?> findPageByDate(@RequestBody String json) {
+			System.out.println("JSON");
+			System.out.println(json.toString());
+			try {
+				JSONObject obj = new JSONObject(json);
+
+				JSONObject responseJson = new JSONObject();
+				JSONArray array = new JSONArray();
+
+				String rentDate = obj.isNull("rentDate") ? null : obj.getString("rentDate");
+
+				long count;
+				
+				
+				
+				//有的話 依照name去搜尋有幾筆資料，沒有則搜尋全部
+				if (rentDate != null && !rentDate.isEmpty()) {
+					Page<RentOrder> page;
+					count = iRentOrderService.count(obj.getInt("memberId") , obj.getString("rentDate"));
+					page = iRentOrderService.findPageByDate(obj.getInt("start"), obj.getInt("rows"),
+							Integer.parseInt(obj.getString("memberId")) ,obj.getString("rentDate"));
+					
+					responseJson.put("count", count);
+					
+					System.out.println("!=null");
+					System.out.println(count);
+
+					for (RentOrder rentOrder : page) {
+						JSONObject item = new JSONObject()
+								.put("rentorderid", rentOrder.getRentorderid())
+								.put("rentdate", rentOrder.getRentdate())
+								.put("renttime", rentOrder.getRenttime())
+								.put("classroomName", rentOrder.getClassroom().getClassroomName())
+								.put("rentstatus", rentOrder.getRentstatus())
+								.put("rentamount", rentOrder.getRentamount());
+						array = array.put(item);
+					}
+					
+				}else {
+					Page<RentOrder> page;
+					count = iRentOrderService.count(obj.getInt("memberId"));
+					page = iRentOrderService.findByPage(obj.getInt("start"), obj.getInt("rows"), obj.getInt("memberId"));
+
+					responseJson.put("count", count);
+					
+					for (RentOrder rentOrder : page) {
+						JSONObject item = new JSONObject()
+								.put("rentorderid", rentOrder.getRentorderid())
+								.put("rentdate", rentOrder.getRentdate())
+								.put("renttime", rentOrder.getRenttime())
+								.put("classroomName", rentOrder.getClassroom().getClassroomName())
+								.put("rentstatus", rentOrder.getRentstatus())
+								.put("rentamount", rentOrder.getRentamount());
+						array = array.put(item);
+					}
+				}
+				
+				responseJson.put("list", array);
+				return new ResponseEntity<>(responseJson.toString(), HttpStatus.OK);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 }

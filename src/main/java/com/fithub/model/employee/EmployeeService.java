@@ -22,6 +22,9 @@ public class EmployeeService implements IEmployeeService {
 	@Override
 	public boolean insert(Employee eBean) {
 		try {
+			if(eBean.getResigndate().isEmpty()) {
+				eBean.setResigndate(null);
+			}
 			Employee resultBean = eRepo.save(eBean);
 			return true;
 		} catch (Exception e) {
