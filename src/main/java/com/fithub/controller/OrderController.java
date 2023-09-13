@@ -128,6 +128,16 @@ public class OrderController {
   			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
   		}
   	} 	
+  	
+  	@GetMapping("/bymemberid/{memberid}")
+  	public ResponseEntity<?> getOdersByMemberId(@PathVariable Integer memberid){
+  		try {
+  			List<Order> resultBeans = orderService.getOrdersByMemberId(memberid);
+  			return new ResponseEntity<>(resultBeans , HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+  	}
 
   	
 }

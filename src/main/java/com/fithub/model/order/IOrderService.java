@@ -37,4 +37,6 @@ public interface IOrderService {
 	
 	// 全部訂單分頁功能
 	public Page<Order> findByPage(Integer pageNumber,Integer dataSize);
+	
+	List<Order> getOrdersByMemberId(Integer memberid);
 }

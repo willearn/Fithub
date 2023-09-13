@@ -25,5 +25,5 @@ public interface CoachPicRespository extends JpaRepository<CoachPic, Integer> {
 
 	// XiaoQing
 	@Query("SELECT c.cpicid as cpicid , c.employeeid as employeeid , c.cpicfile as cpicfile FROM CoachPic c WHERE c.employeeid = :empid")
-	List<Map<String , String>> findByEmpId(@Param("empid") Integer empid);
+	List<Map<String , Object>> findByEmpId(@Param("empid") Integer empid);
 }

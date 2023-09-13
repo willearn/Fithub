@@ -1,6 +1,7 @@
 package com.fithub.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
@@ -17,12 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.fithub.model.backstageaccount.BackStageAccount;
-import com.fithub.util.EmailService;
+import com.fithub.model.member.IMemberService;
 import com.fithub.model.member.Member;
-import com.fithub.model.member.MemberService;
 
-import jakarta.mail.MessagingException;
 
 //@RequestMapping("/members")
 //@RestController
@@ -31,7 +29,7 @@ import jakarta.mail.MessagingException;
 public class MemberController {
 
 	@Autowired
-	private MemberService mService;
+	private IMemberService mService;
 
 	@GetMapping("/members/showMembers")
 	public String getMembers() {
@@ -92,7 +90,6 @@ public class MemberController {
 	public ResponseEntity<?> updateMember(@PathVariable Integer id, @RequestBody Member mBean) {
 		try {
 			System.out.println(mBean);
-			System.out.println("test");
 			mService.update(mBean);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
@@ -170,5 +167,52 @@ public class MemberController {
 
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
+	
+	@PutMapping("/members/changepassword/{id}")
+	public ResponseEntity<?> changePassword(@PathVariable Integer id,@RequestBody Map<String, String> checkPassword){
+		try {
+			boolean result = mService.changePassword(id, checkPassword);
+
+			if(result) {
+				return new ResponseEntity<>(HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+	}
+	
+	@PostMapping("/members/forgotpassword/{email}")
+	public ResponseEntity<?> forgotPassword(@PathVariable String email){
+		try {
+			boolean result = mService.forgotPassword(email);
+			
+			if(result) {
+				return new ResponseEntity<>(HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@PutMapping("/members/resetPassword")
+	public ResponseEntity<?> resetPassword(@RequestBody Map<String, Object> checkPassword){
+		try {
+			System.out.println(checkPassword);
+			boolean resetPassword = mService.resetPassword(checkPassword);
+			if(resetPassword) {
+				return new ResponseEntity<>(HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
 
 }

@@ -163,6 +163,16 @@ public class OrderService implements IOrderService {
 		return page;
 	}
 
+	@Override
+	public List<Order> getOrdersByMemberId(Integer memberid) {
+		try {
+			List<Order> resultBeans = orderRepo.getOrdersByMemberId(memberid);
+			return resultBeans;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
 		
 
 }

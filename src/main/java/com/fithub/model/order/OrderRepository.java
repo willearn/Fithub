@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.fithub.model.employee.Employee;
+
 import jakarta.transaction.Transactional;
 
 public interface OrderRepository extends JpaRepository<Order, Integer> {
@@ -25,6 +27,8 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Query("UPDATE Order r SET  r.orderCondition = :orderCondition WHERE r.orderId = :orderId")
 	void updateConditionById(@Param("orderId") Integer orderId,@Param("orderCondition") String orderCondition);
 
-	
+	// XiaoQing
+	@Query("from Order where memberId = :memberid")
+	List<Order> getOrdersByMemberId(@Param("memberid") Integer memberid);
 
 }

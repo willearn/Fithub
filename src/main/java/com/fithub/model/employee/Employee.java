@@ -1,5 +1,10 @@
 package com.fithub.model.employee;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fithub.model.coachpic.CoachPic;
 import com.fithub.model.department.Department;
 import com.fithub.model.jobtitle.JobTitle;
 
@@ -10,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -36,7 +42,7 @@ public class Employee {
 	private int deptid;
 	
 	@Column(name="JOBTITLEID")
-	private String jobtitleid;
+	private Integer jobtitleid;
 	private Integer managerid;
 	private String hiredate;
 	private String resigndate;

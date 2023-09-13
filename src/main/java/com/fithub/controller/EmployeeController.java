@@ -1,7 +1,8 @@
 package com.fithub.controller;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
@@ -20,9 +21,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fithub.model.coachpic.ICoachPicService;
 import com.fithub.model.employee.Employee;
 import com.fithub.model.employee.IEmployeeService;
+import com.fithub.model.jobtitle.IJobTitleService;
 
 @RestController
 @CrossOrigin()
@@ -32,7 +34,10 @@ public class EmployeeController {
 	private IEmployeeService eService;
 
 	@Autowired
-	private JobTitleController jController;
+	private IJobTitleService jService;
+
+	@Autowired
+	private ICoachPicService cService;
 
 	@GetMapping("/employees/{eid}")
 	public ResponseEntity<Employee> findById(@PathVariable("eid") int eid) throws JsonProcessingException {
@@ -133,8 +138,7 @@ public class EmployeeController {
 			// 有的話 依照name去搜尋有幾筆資料，沒有則搜尋全部
 			if (name != null) {
 				count = eService.count(obj.getString("name"));
-				page = eService.findPageByName(obj.getInt("start"), obj.getInt("rows"),
-						obj.getString("name"));
+				page = eService.findPageByName(obj.getInt("start"), obj.getInt("rows"), obj.getString("name"));
 			} else {
 				count = eService.count();
 				page = eService.findByPage(obj.getInt("start"), obj.getInt("rows"));
@@ -229,7 +233,7 @@ public class EmployeeController {
 
 	@GetMapping("/employees/managers")
 	public ResponseEntity<List<Employee>> findManagers() {
-		Integer jobTitleId = jController.findJobTitleIdByName("主管");
+		Integer jobTitleId = jService.findJobTitleByName("主管");
 		List<Employee> resultBeans = eService.findManagerByJobTitleId(jobTitleId);
 		System.out.println("resultBeans--------------------" + resultBeans);
 		if (resultBeans != null) {
@@ -240,7 +244,7 @@ public class EmployeeController {
 
 	@GetMapping("/employees/coachs")
 	public ResponseEntity<List<Employee>> findCoachs() {
-		Integer jobTitleId = jController.findJobTitleIdByName("教練");
+		Integer jobTitleId = jService.findJobTitleByName("教練");
 		List<Employee> resultBeans = eService.findManagerByJobTitleId(jobTitleId);
 		System.out.println("resultBeans--------------------" + resultBeans);
 		if (resultBeans != null) {
@@ -251,7 +255,7 @@ public class EmployeeController {
 
 	@PostMapping("/employees/findCoachPageByName")
 	public ResponseEntity<?> findCoachPageByName(@RequestBody String json) {
-		Integer jobTitleId = jController.findJobTitleIdByName("教練");
+		Integer jobTitleId = jService.findJobTitleByName("教練");
 
 		System.out.println(json.toString());
 		try {
@@ -268,11 +272,11 @@ public class EmployeeController {
 			// 有的話 依照name去搜尋有幾筆資料，沒有則搜尋全部
 			if (name != null) {
 				System.out.println("NAME != NULL");
-				count = eService.countByJobTitleIdAndName(jobTitleId.toString(), name);
-				page = eService.findCoachPageByName(obj.getInt("start"), obj.getInt("rows"),
-						jobTitleId, obj.getString("name"));
+				count = eService.countByJobTitleIdAndName(jobTitleId, name);
+				page = eService.findCoachPageByName(obj.getInt("start"), obj.getInt("rows"), jobTitleId,
+						obj.getString("name"));
 			} else {
-				count = eService.countByJobTitleId(jobTitleId.toString());
+				count = eService.countByJobTitleId(jobTitleId);
 				page = eService.findCoachByPage(obj.getInt("start"), obj.getInt("rows"), jobTitleId);
 			}
 			System.out.println("count----" + count);
@@ -281,8 +285,8 @@ public class EmployeeController {
 			for (Employee emp : page) {
 				System.out.println("emp");
 				System.out.println(emp.getJobtitleid());
-				JSONObject item = new JSONObject().put("employeeid", emp.getEmployeeid())
-						.put("employeename", emp.getEmployeename());
+				JSONObject item = new JSONObject().put("employeeid", emp.getEmployeeid()).put("employeename",
+						emp.getEmployeename());
 				array = array.put(item);
 			}
 
@@ -293,6 +297,34 @@ public class EmployeeController {
 		}
 
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+
+	@GetMapping("/employees/findCoachDataPicSpecialty")
+	public ResponseEntity<?> findCoachDataPicSpecialty() {
+		try {
+
+			List<Map<String, Object>> result = eService.findCoachDataAndSpecialty();
+
+			System.out.println(result.get(0).get("employeeid"));
+			System.out.println(result.size());
+			for (int i = 0; i < result.size(); i++) {
+				List<Map<String, Object>> coachpic = cService.findByEmpId(Integer.parseInt(result.get(i).get("employeeid").toString()));
+				
+				// 創建一個包含 result 和 coachpic 的新 Map
+	            Map<String, Object> combinedData = new HashMap<>();
+	            combinedData.putAll(result.get(i)); // 將 result 中的數據複製到 combinedData 中
+	            combinedData.put("coachpic", coachpic); // 添加 coachpic 數據到 combinedData 中
+	            
+	         // 將 combinedData 添加回 result 列表中
+	            result.set(i, combinedData);
+
+			}
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
 	}
 
 }

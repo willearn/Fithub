@@ -3,6 +3,9 @@ package com.fithub.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fithub.model.jobtitle.JobTitle;
+import com.fithub.model.department.Department;
 import com.fithub.model.jobtitle.IJobTitleService;
 
 @RestController
@@ -81,5 +85,40 @@ public class JobTitleController {
 		Integer result = jService.findJobTitleByName(jobtitlename);
 		System.out.println("findJobTitleIdByName--------------" + result);
 		return result;
+	}
+	
+	@PostMapping("/jobtitles/findPage")
+	public ResponseEntity<?> findPage(@RequestBody String json) {
+		System.out.println("JSON");
+		System.out.println(json.toString());
+		try {
+			JSONObject obj = new JSONObject(json);
+
+			JSONObject responseJson = new JSONObject();
+			JSONArray array = new JSONArray();
+
+			long count;
+			
+			Page<JobTitle> page;
+			count = jService.count();
+			page = jService.findByPage(obj.getInt("start"), obj.getInt("rows"));
+			
+			responseJson.put("count", count);
+
+			for (JobTitle jobtitle : page) {
+				JSONObject item = new JSONObject()
+						.put("jobtitleid", jobtitle.getJobtitleid())
+						.put("jobtitlename",jobtitle.getJobtitlename());
+				array = array.put(item);
+			}
+		
+
+			responseJson.put("list", array);
+			return new ResponseEntity<>(responseJson.toString(), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 }

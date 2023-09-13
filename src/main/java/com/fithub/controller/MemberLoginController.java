@@ -16,9 +16,8 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fithub.model.member.IMemberService;
 import com.fithub.model.member.Member;
-import com.fithub.model.member.MemberService;
-import com.fithub.model.user.ResponseModel;
 import com.fithub.model.user.ResponseModelMember;
 
 @RestController
@@ -26,7 +25,7 @@ import com.fithub.model.user.ResponseModelMember;
 public class MemberLoginController {
 
 	@Autowired
-	private MemberService mService;
+	private IMemberService mService;
 	
 	@PostMapping("/memberlogin")
 	public String login(@RequestBody Member mBean) {
@@ -88,7 +87,7 @@ public class MemberLoginController {
 			response.setMemberemail(memberemail);
 			response.setToken(newToken);
 			response.setMembername(resultBean.getMembername());
-			response.setMemberid(response.getMemberid());
+			response.setMemberid(resultBean.getMemberid());
 
 		} catch (JWTVerificationException exception) {
 			System.out.println("jwt verify fail");
@@ -105,7 +104,7 @@ public class MemberLoginController {
 	
 	String generateToken(String memberemail) throws Exception {
 		String token = "";
-		LocalDateTime dateTime = LocalDateTime.now().plusMinutes(10);
+		LocalDateTime dateTime = LocalDateTime.now().plusMinutes(60);
 		Date expireTime = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
 
 		token = JWT.create().withClaim("memberemail", memberemail).withExpiresAt(expireTime).sign(algorithm);

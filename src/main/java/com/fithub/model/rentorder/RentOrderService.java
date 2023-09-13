@@ -4,12 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.fithub.model.classes.Classes;
 import com.fithub.model.classes.IClassesService;
+import com.fithub.model.department.Department;
 
 @Service
 public class RentOrderService implements IRentOrderService {
@@ -25,6 +30,14 @@ public class RentOrderService implements IRentOrderService {
 	public List<RentOrder> findAll() {
 		List<RentOrder> result = rentOrderRepo.findAll();
 		return result;
+	}
+
+	// 查詢全部並分頁
+	@Override
+	public Page<RentOrder> findAllPage(String date, int number, int size) {
+		// 回傳第幾頁 每頁10筆
+		Pageable pageable = PageRequest.of(number, size);
+		return rentOrderRepo.findAllPage(date,pageable);
 	}
 
 	// 新增單筆
@@ -53,7 +66,7 @@ public class RentOrderService implements IRentOrderService {
 		if (result) {
 			rentOrderRepo.deleteById(id);
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
@@ -122,5 +135,41 @@ public class RentOrderService implements IRentOrderService {
 		}
 
 		return usedClassroom;
+	}
+
+	@Override
+	public List<RentOrder> findByMemberId(Integer id) {
+		List<RentOrder> resultBeans = rentOrderRepo.findByMemberId(id);
+		return resultBeans;
+	}
+
+	@Override
+	public long count(Integer memberId , String date) {
+		long count = rentOrderRepo.count(memberId , date);
+		return count;
+	}
+
+	@Override
+	public long count(Integer memberId) {
+		long count = rentOrderRepo.count(memberId);
+		return count;
+	}
+
+	@Override
+	public Page<RentOrder> findPageByDate(Integer pageNumber, Integer rows , Integer memberId , String date) {
+		Pageable pgb = PageRequest.of(pageNumber, rows, Sort.DEFAULT_DIRECTION, "rentorderid");
+		
+		Page<RentOrder> page = rentOrderRepo.searchByMemberIdAndRentDate(pgb,memberId,date);
+		
+		return page;
+	}
+
+	@Override
+	public Page<RentOrder> findByPage(Integer pageNumber, Integer rows , Integer memberId) {
+		Pageable pgb = PageRequest.of(pageNumber, rows, Sort.DEFAULT_DIRECTION, "rentorderid");
+		
+		Page<RentOrder> page = rentOrderRepo.findAllByMemberId(pgb , memberId);
+		
+		return page;
 	}
 }
