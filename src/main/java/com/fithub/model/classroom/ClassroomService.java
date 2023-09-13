@@ -1,6 +1,7 @@
 package com.fithub.model.classroom;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,8 @@ public class ClassroomService implements IClassroomService {
 	}
 
 	@Override
-	public List<Object[]> findAllClassroomNamesAndIds() {
-		List<Object[]> result = classroomRepo.findAllClassroomNamesAndIds();
+	public List<Map<String, Object>> findAllClassroomNamesAndIds() {
+		List<Map<String, Object>> result = classroomRepo.findAllClassroomNamesAndIds();
 		return result;
 	}
 	

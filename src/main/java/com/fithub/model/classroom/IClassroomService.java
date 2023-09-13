@@ -1,6 +1,7 @@
 package com.fithub.model.classroom;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IClassroomService {
 
@@ -26,7 +27,7 @@ public interface IClassroomService {
 	void deleteAllById(Iterable<Integer> selectIds);
 
 	// 查詢全部教室名稱和ID
-	List<Object[]> findAllClassroomNamesAndIds();
+	List<Map<String, Object>> findAllClassroomNamesAndIds();
 
 	// 查詢全部教室 不含 description 和 pic
 	List<Object[]> findAllClassroomsWithoutDescriptionsAndPics();

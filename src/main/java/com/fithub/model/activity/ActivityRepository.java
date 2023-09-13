@@ -32,7 +32,7 @@ public interface ActivityRepository extends JpaRepository<Activity, Integer> {
     @Query("SELECT a.activityid  activityid, a.activityname  activityname, a.activityoff  activityoff, a.activitypic  activitypic " +
             "FROM Activity a " +
             "WHERE a.activitydisplay = '是' AND a.activityon <= :currentDate " +
-            "ORDER BY a.activityon DESC")
+            "ORDER BY a.activitysort DESC")
      List<Map<String, Object>> filteredAndSortedActivities(@Param("currentDate") Date currentDate);
  }
 

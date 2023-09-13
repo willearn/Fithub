@@ -2,6 +2,7 @@ package com.fithub.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,7 +45,11 @@ public class ClassroomController {
 	@GetMapping("/listName")
 	public ResponseEntity<?> findAllClassroomNamesAndIds() {
 		try {
-			List<Object[]> classroomNamesAndIds = iclassroomService.findAllClassroomNamesAndIds();
+			List<Map<String, Object>> classroomNamesAndIds = iclassroomService.findAllClassroomNamesAndIds();
+			for (Map<String, Object> map : classroomNamesAndIds) {
+				System.out.println(map.get("classroomName"));
+				System.out.println(map.get("classroomId"));
+			}
 			return new ResponseEntity<>(classroomNamesAndIds, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

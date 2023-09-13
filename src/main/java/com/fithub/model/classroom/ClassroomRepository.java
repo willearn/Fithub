@@ -1,6 +1,7 @@
 package com.fithub.model.classroom;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -8,8 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 public interface ClassroomRepository extends JpaRepository<Classroom, Integer> {
 
     // william 自定查詢，返回 classroomName,classroomId
-    @Query("SELECT c.classroomName, c.classroomId FROM Classroom c")
-    List<Object[]> findAllClassroomNamesAndIds();
+    @Query("SELECT c.classroomName classroomName, c.classroomId classroomId FROM Classroom c WHERE c.classroomStatus != '維修中'")
+    List<Map<String,Object>> findAllClassroomNamesAndIds();
 
     // Author: Chrislafolia
     // findAll 不 return description 和 pic
