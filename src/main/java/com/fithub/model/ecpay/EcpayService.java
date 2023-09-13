@@ -59,9 +59,9 @@ public class EcpayService {
 		// 特店交易時間 綠界後台查詢以這為基準
 		obj.setMerchantTradeDate(ecpayOrderDTO.getOrderdate());
 		// 如果商品名稱有多筆，需在金流選擇頁一行一行顯示商品名稱的話，商品名稱請以符號#分隔
-		obj.setItemName("null");
+		obj.setItemName("健身房課程");
 		// 總金額
-		obj.setTotalAmount("50000");
+		obj.setTotalAmount(ecpayOrderDTO.getOrderamount());
 		// 交易描述
 		obj.setTradeDesc("test Description");
 		// 交易結果回傳網址，只接受 https 開頭的網站，可以使用 ngrok
