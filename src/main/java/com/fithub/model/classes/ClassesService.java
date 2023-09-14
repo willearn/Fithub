@@ -2,6 +2,7 @@ package com.fithub.model.classes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +97,19 @@ public class ClassesService implements IClassesService {
 		List<Object[]> resultList = classesRepo.findClassesByClassesId(classesIds);
 		List<ClassesDto> classesList = putObjectIntoDto(resultList);
 		return classesList;
+	}
+
+	@Override
+	public List<Map<String, Object>> findWishlistClassesByMemberId(int memberId) {
+		System.out.println(memberId);
+		try {
+			List<Map<String, Object>> result = classesRepo.findWishlistClassesByMemberId(memberId);
+			System.out.println(result);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	private List<ClassesDto> putObjectIntoDto(List<Object[]> inputList) {

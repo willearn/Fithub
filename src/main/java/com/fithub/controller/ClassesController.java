@@ -3,6 +3,7 @@ package com.fithub.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -151,6 +152,21 @@ public class ClassesController {
 		try {
 			List<ClassesDto> resultList = cService.findClassesByClassesId(classesIds);
 			return new ResponseEntity<>(resultList, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@GetMapping("/findAllClassesInMemberWishlist")
+	public ResponseEntity<?> findWishlistClassesByMemberId(@RequestParam(value = "memberId") int memberId) {
+		System.out.println(memberId);
+		try {
+			List<Map<String, Object>> resultList = cService.findWishlistClassesByMemberId(memberId);
+			if (resultList != null) {
+				System.out.println(111);
+				return new ResponseEntity<>(resultList, HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

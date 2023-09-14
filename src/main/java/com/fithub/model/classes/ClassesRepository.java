@@ -1,6 +1,7 @@
 package com.fithub.model.classes;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -43,5 +44,13 @@ public interface ClassesRepository extends JpaRepository<Classes, Integer> {
 			+ "FROM Classes cl JOIN cl.course co JOIN co.courseCategories coc "
 			+ "JOIN cl.employee e JOIN cl.classroom r WHERE cl.classId IN (:classesIds) ORDER BY cl.classDate")
 	List<Object[]> findClassesByClassesId(@Param("classesIds") List<Integer> classesIds);
+
+	// Chrislafolia，返回在指定memberId的在wishlist上面的classes資訊
+	@Query("SELECT cl.classId classId, cl.classDate classDate, cl.classTime classTime, cl.coachSubstitute coachSubstitute, "
+			+ "cl.applicantsCeil applicantsCeil, cl.applicantsFloor applicantsFloor, cl.price price, w.listId listId , w.wishAddSince wishAddSince,  "
+			+ "co.courseName courseName, coc.categoryName categoryName, e.employeename employeename, r.classroomName classroomName, r.classroomCapacity classroomCapacity "
+			+ "FROM Classes cl JOIN cl.course co JOIN co.courseCategories coc JOIN cl.wishlist w "
+			+ "JOIN cl.employee e JOIN cl.classroom r where w.memberId= :memberId AND w.wishRemoveDate IS NULL ORDER BY cl.classDate")
+	List<Map<String, Object>> findWishlistClassesByMemberId(@Param("memberId") int memberid);
 
 }

@@ -1,6 +1,9 @@
 package com.fithub.model.classes;
 
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.data.repository.query.Param;
 
 public interface IClassesService {
 
@@ -35,7 +38,10 @@ public interface IClassesService {
 	// Chrislafolia，返回在指定時間内的所有classes資訊
 	public List<ClassesDto> findAllByDateRange(String startDate, String endDate);
 
-	// Chrislafolia，返回在指定時間内的所有classes資訊
+	// Chrislafolia，返回在指定memberId的在wishlist上面的classes資訊
 	public List<ClassesDto> findClassesByClassesId(List<Integer> classesIds);
+
+	// Chrislafolia，返回在指定memberId的在wishlist上面的classes資訊
+	public List<Map<String, Object>> findWishlistClassesByMemberId(int memberId);
 
 }
