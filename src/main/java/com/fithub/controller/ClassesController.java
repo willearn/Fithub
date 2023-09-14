@@ -159,11 +159,9 @@ public class ClassesController {
 
 	@GetMapping("/findAllClassesInMemberWishlist")
 	public ResponseEntity<?> findWishlistClassesByMemberId(@RequestParam(value = "memberId") int memberId) {
-		System.out.println(memberId);
 		try {
 			List<Map<String, Object>> resultList = cService.findWishlistClassesByMemberId(memberId);
 			if (resultList != null) {
-				System.out.println(111);
 				return new ResponseEntity<>(resultList, HttpStatus.OK);
 			}
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -104,7 +104,6 @@ public class ClassesService implements IClassesService {
 		System.out.println(memberId);
 		try {
 			List<Map<String, Object>> result = classesRepo.findWishlistClassesByMemberId(memberId);
-			System.out.println(result);
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
