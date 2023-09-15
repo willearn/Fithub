@@ -6,7 +6,12 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import com.fithub.model.course.Course;
 
 @Service
 public class ClassesService implements IClassesService {
@@ -109,6 +114,26 @@ public class ClassesService implements IClassesService {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	@Override
+	public Page<Classes> findByPage(Integer pageNumber, Integer dataSize) {
+		// 按照courseId降冪排序
+		PageRequest pgb = PageRequest.of(pageNumber - 1, dataSize, Sort.Direction.DESC, "classdate");
+
+		Page<Classes> page = classesRepo.findAll(pgb);
+		return page;
+	}
+
+	@Override
+	public Page<ClassesDto> findAllByDateRangeInPage(String startDate, String endDate, Integer pageNumber,
+			Integer dataSize) {
+		// 按照courseId降冪排序
+		PageRequest pgb = PageRequest.of(pageNumber - 1, dataSize, Sort.Direction.DESC, "classdate");
+		System.out.println(pgb);
+		Page<ClassesDto> page = classesRepo.findAllByDateRangeInPage(startDate, endDate, pgb);
+		System.out.println(page);
+		return page;
 	}
 
 	private List<ClassesDto> putObjectIntoDto(List<Object[]> inputList) {

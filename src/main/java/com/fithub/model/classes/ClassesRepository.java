@@ -3,6 +3,8 @@ package com.fithub.model.classes;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -36,6 +38,16 @@ public interface ClassesRepository extends JpaRepository<Classes, Integer> {
 			+ "JOIN cl.employee e JOIN cl.classroom r "
 			+ "WHERE cl.classDate >= :startDate AND cl.classDate <= :endDate " + "ORDER BY cl.classDate")
 	List<Object[]> findAllByDateRange(@Param("startDate") String startDate, @Param("endDate") String endDate);
+
+	// Chrislafolia，返回在指定時間内的所有classes資訊，分頁版
+	@Query("SELECT cl.classId, cl.courseId, cl.classDate, cl.classTime, cl.coachSubstitute, "
+			+ "cl.employeeId, cl.applicantsCeil,cl.applicantsFloor, cl.price, cl.classroomId, "
+			+ "co.courseName, coc.categoryName, e.employeename, r.classroomName, r.classroomCapacity "
+			+ "FROM Classes cl JOIN cl.course co JOIN co.courseCategories coc "
+			+ "JOIN cl.employee e JOIN cl.classroom r "
+			+ "WHERE cl.classDate >= :startDate AND cl.classDate <= :endDate " + "ORDER BY cl.classDate")
+	Page<ClassesDto> findAllByDateRangeInPage(@Param("startDate") String startDate, @Param("endDate") String endDate,
+			PageRequest pgb);
 
 	// Chrislafolia，返回在指定ClassId的classes資訊
 	@Query("SELECT cl.classId, cl.courseId, cl.classDate, cl.classTime, cl.coachSubstitute, "
