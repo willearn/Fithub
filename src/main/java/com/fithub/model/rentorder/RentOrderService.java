@@ -2,6 +2,8 @@ package com.fithub.model.rentorder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,6 +31,13 @@ public class RentOrderService implements IRentOrderService {
 	@Override
 	public List<RentOrder> findAll() {
 		List<RentOrder> result = rentOrderRepo.findAll();
+		return result;
+	}
+	
+	// 查詢單筆
+	@Override
+	public Optional<RentOrder> findById(int Id) {
+		Optional<RentOrder> result = rentOrderRepo.findById(Id);
 		return result;
 	}
 

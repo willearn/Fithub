@@ -37,6 +37,11 @@ public interface RentOrderRepository extends JpaRepository<RentOrder, Integer> {
 	@Query("UPDATE RentOrder r SET  r.rentstatus = :rentstatus WHERE r.rentorderid = :rentorderid")
 	void updateRentstatusById(@Param("rentorderid") Integer rentorderid, @Param("rentstatus") String rentstatus);
 
+	// william
+//    @Query("SELECT from RentOrder where rentorderid = :rentorderid")
+//    List<RentOrder> findByRentorderId(Integer memberid);
+	
+	
     // XiaoQing
     @Query("from RentOrder where memberid = :memberid")
     List<RentOrder> findByMemberId(Integer memberid);
@@ -56,5 +61,7 @@ public interface RentOrderRepository extends JpaRepository<RentOrder, Integer> {
     //XiaoQing
     @Query("from RentOrder where memberid = :memberId AND rentdate = :date")
 	Page<RentOrder> searchByMemberIdAndRentDate(Pageable pgb,@Param("memberId") Integer memberId,@Param("date") String date);
+
+   
 
 }

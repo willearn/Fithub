@@ -2,6 +2,7 @@ package com.fithub.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
@@ -40,6 +41,18 @@ public class RentOrderController {
 		try {
 			List<RentOrder> rentOrders = iRentOrderService.findAll();
 			return new ResponseEntity<>(rentOrders, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	
+	@GetMapping("/findById/{id}")
+	public ResponseEntity<?> findById(@PathVariable("id") int id) {
+		try {
+			Optional<RentOrder> rentOrder = iRentOrderService.findById(id);
+			
+			return new ResponseEntity<>(rentOrder, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}

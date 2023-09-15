@@ -1,6 +1,8 @@
 package com.fithub.model.rentorder;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 
@@ -39,6 +41,8 @@ public interface IRentOrderService {
 	Page<RentOrder> findPageByDate(Integer pageNumber, Integer rows , Integer memberId, String date);
 
 	Page<RentOrder> findByPage(Integer pageNumber, Integer rows , Integer memberId);
+
+	Optional<RentOrder> findById(int Id);
 
 
 }
