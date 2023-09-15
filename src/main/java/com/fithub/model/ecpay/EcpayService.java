@@ -32,7 +32,7 @@ public class EcpayService {
 		// 交易描述
 		obj.setTradeDesc("場地租借");
 		// 交易結果回傳網址，只接受 https 開頭的網站，可以使用 ngrok
-		obj.setReturnURL("https://6348-59-125-142-166.ngrok.io/fithub/ecpay/callback");
+		obj.setReturnURL("https://5248-59-125-142-166.ngrok.io/fithub/ecpay/callback");
 		// 是否需要額外的付款資訊 Y|N
 		obj.setNeedExtraPaidInfo("N");
 		// 消費者點選此按鈕後，會將頁面導回到此設定的網址

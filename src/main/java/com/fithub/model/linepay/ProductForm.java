@@ -1,7 +1,6 @@
 package com.fithub.model.linepay;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import lombok.Data;
 

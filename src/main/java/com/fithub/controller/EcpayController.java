@@ -33,9 +33,6 @@ public class EcpayController {
 	IRentOrderService iRentOrderService;
 	
 	@Autowired
-	RentOrderRepository rentOrderRepository;
-	
-	@Autowired
 	OrderService orderService;
 	@Autowired
 	OrderRepository orderRepository;
