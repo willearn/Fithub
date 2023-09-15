@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -26,6 +27,8 @@ public class MemberLoginController {
 
 	@Autowired
 	private IMemberService mService;
+	
+	private String secretKey = "6LdVjScoAAAAAHTvh88ITOoOSWLD3KMoKtKHHx0x";
 	
 	@PostMapping("/memberlogin")
 	public String login(@RequestBody Member mBean) {
@@ -45,6 +48,15 @@ public class MemberLoginController {
 				exception.printStackTrace();
 			}
 		}
+
+		return loginResponse.toJSONString();
+	}
+	
+	@PostMapping("/memberloginrecaptcha")
+	public String checkreCaptcha(@RequestBody Map<String, Object> json) {
+		ResponseModelMember loginResponse = new ResponseModelMember();
+		
+		verifyRecaptchaToken(json.get("response_token").toString());
 
 		return loginResponse.toJSONString();
 	}
@@ -121,4 +133,22 @@ public class MemberLoginController {
 
 		return memberemail;
 	}
+	
+	 private boolean verifyRecaptchaToken(String userToken) {
+	        try {
+	            // 构建 reCAPTCHA 验证请求 URL
+	            String verificationUrl = "https://www.google.com/recaptcha/api/siteverify";
+	            String parameters = "?secret=" + secretKey + "&response=" + userToken;
+
+	            // 发起 HTTP 请求来验证 reCAPTCHA token
+	            RestTemplate restTemplate = new RestTemplate();
+	            Map<?, ?> postForObject = restTemplate.postForObject(verificationUrl + parameters, null, Map.class);
+	            String success = postForObject.get("success").toString();
+	            return success.equals("success");
+//	            return response.isSuccess();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return false;
+	        }
+	    }
 }
