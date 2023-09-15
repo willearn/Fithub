@@ -63,5 +63,15 @@ public class CouponService implements ICouponService {
             return "優惠券無效";
         }
     }
+	
+	 @Override
+    public Coupon getCoupon(String couponcode) {
+        return couponRepository.findByCouponcode(couponcode);
+    }
+	
+	 @Override
+	 public void updateCouponUsedStatus(Integer couponid, String couponused) {
+	        couponRepository.updateConditionById(couponid, couponused);
+	}
     
 }

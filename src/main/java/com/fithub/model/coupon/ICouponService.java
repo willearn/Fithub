@@ -19,4 +19,8 @@ public interface ICouponService {
     void deleteAllById(Iterable<Integer> selectIds);
     
     String getCouponDiscount(String couponcode);
+
+    Coupon getCoupon(String couponcode);
+
+	void updateCouponUsedStatus(Integer couponid, String couponused);
 }

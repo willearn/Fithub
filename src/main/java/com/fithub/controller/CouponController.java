@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -73,6 +74,18 @@ public class CouponController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@PutMapping("/update/{couponid}")
+    public ResponseEntity<String> updateCouponUsedStatus(
+            @PathVariable("couponid") Integer couponid,
+            @RequestParam("couponused") String couponused) {
+        try {
+            couponService.updateCouponUsedStatus(couponid, couponused);
+            return ResponseEntity.ok("Coupon updated successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating coupon: " + e.getMessage());
+        }
+    }
 
 
 
@@ -108,6 +121,11 @@ public class CouponController {
             // 優惠碼無效或未提供
             return ResponseEntity.badRequest().body("請提供有效的優惠碼");
         }
+    }
+ 	
+ 	@GetMapping("/api/{couponcode}")
+    public Coupon getCoupon(@PathVariable String couponcode) {
+        return couponService.getCoupon(couponcode);
     }
 
 }
