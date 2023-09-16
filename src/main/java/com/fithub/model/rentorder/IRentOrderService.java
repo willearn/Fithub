@@ -44,4 +44,6 @@ public interface IRentOrderService {
 
 	Optional<RentOrder> findById(int Id);
 
+	int findRentAmount();
+
 }

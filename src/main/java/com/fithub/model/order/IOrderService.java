@@ -39,4 +39,6 @@ public interface IOrderService {
 	public Page<Order> findByPage(Integer pageNumber,Integer dataSize);
 	
 	List<Order> getOrdersByMemberId(Integer memberid);
+
+	int findOrdertotalAmount();
 }

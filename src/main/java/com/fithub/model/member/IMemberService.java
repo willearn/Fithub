@@ -39,4 +39,12 @@ public interface IMemberService {
 	public boolean forgotPassword(String email);
 	public boolean resetPassword(Map<String, Object> checkPassword);
 
+	Map<String, Object> findmembergender();
+
+	Map<String, Object> findMembermemberBirthday();
+
+	int[] findMemberAccountsince();
+
+
+
 }

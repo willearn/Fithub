@@ -1,5 +1,10 @@
 package com.fithub.controller;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,14 +22,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.fithub.model.member.IMemberService;
 import com.fithub.model.member.Member;
-
+import com.fithub.model.member.MemberRepository;
 
 //@RequestMapping("/members")
-//@RestController
-@Controller
+//@Controller
+@RestController
 @CrossOrigin
 public class MemberController {
 
@@ -34,6 +40,39 @@ public class MemberController {
 	@GetMapping("/members/showMembers")
 	public String getMembers() {
 		return "member/memberHome";
+	}
+
+	// 取得會員男女數量
+	@GetMapping("/members/membergender")
+	public ResponseEntity<?> findmembergender() {
+		try {
+			Map<String, Object> result = mService.findmembergender();
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	// 取得會員年齡
+	@GetMapping("/members/memberbirthday")
+	public ResponseEntity<?> findMembermemberBirthday() {
+		try {
+			Map<String, Object> result = mService.findMembermemberBirthday();
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	// 取得會員註冊時間(陣列為0-11,對應1-12月)
+	@GetMapping("/members/memberaccountsince")
+	public ResponseEntity<?> findMemberAccountsince() {
+		try {
+			int[] result = mService.findMemberAccountsince();
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	// 所有會員資料
@@ -69,7 +108,7 @@ public class MemberController {
 		}
 	}
 
-//	// 新增會員資料
+	// 新增會員資料
 	@PostMapping("/members")
 	public ResponseEntity<Object> insertMember(@RequestBody Member mBean) {
 		try {
@@ -85,7 +124,7 @@ public class MemberController {
 
 	}
 
-//修改會員資料
+	// 修改會員資料
 	@PutMapping("/members/{id}")
 	public ResponseEntity<?> updateMember(@PathVariable Integer id, @RequestBody Member mBean) {
 		try {
@@ -167,13 +206,13 @@ public class MemberController {
 
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
-	
+
 	@PutMapping("/members/changepassword/{id}")
-	public ResponseEntity<?> changePassword(@PathVariable Integer id,@RequestBody Map<String, String> checkPassword){
+	public ResponseEntity<?> changePassword(@PathVariable Integer id, @RequestBody Map<String, String> checkPassword) {
 		try {
 			boolean result = mService.changePassword(id, checkPassword);
 
-			if(result) {
+			if (result) {
 				return new ResponseEntity<>(HttpStatus.OK);
 			}
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -181,15 +220,15 @@ public class MemberController {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
+
 	}
-	
+
 	@PostMapping("/members/forgotpassword/{email}")
-	public ResponseEntity<?> forgotPassword(@PathVariable String email){
+	public ResponseEntity<?> forgotPassword(@PathVariable String email) {
 		try {
 			boolean result = mService.forgotPassword(email);
-			
-			if(result) {
+
+			if (result) {
 				return new ResponseEntity<>(HttpStatus.OK);
 			}
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -197,13 +236,13 @@ public class MemberController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	@PutMapping("/members/resetPassword")
-	public ResponseEntity<?> resetPassword(@RequestBody Map<String, Object> checkPassword){
+	public ResponseEntity<?> resetPassword(@RequestBody Map<String, Object> checkPassword) {
 		try {
 			System.out.println(checkPassword);
 			boolean resetPassword = mService.resetPassword(checkPassword);
-			if(resetPassword) {
+			if (resetPassword) {
 				return new ResponseEntity<>(HttpStatus.OK);
 			}
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -212,7 +251,5 @@ public class MemberController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	
 
 }

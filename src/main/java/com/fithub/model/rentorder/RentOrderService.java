@@ -85,6 +85,20 @@ public class RentOrderService implements IRentOrderService {
 	public void deleteAllById(Iterable<Integer> selectIds) {
 		rentOrderRepo.deleteAllById(selectIds);
 	}
+	
+	// 取得租借場地總金額
+	@Override
+	public int findRentAmount() {
+		int total = 0;
+		List<Map<String, Object>> result = rentOrderRepo.findRentAmount();
+		for (Map<String, Object> map : result) {
+			if (map != null) {
+				int rentamount = (int) map.get("rentamount");
+				total = total + rentamount;
+			}
+		}
+		return total;
+	}
 
 	// 查詢指定教室是否被預訂或使用
 	@Override

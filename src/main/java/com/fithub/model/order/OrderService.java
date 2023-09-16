@@ -2,6 +2,7 @@ package com.fithub.model.order;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -173,6 +174,17 @@ public class OrderService implements IOrderService {
 		}
 	}
 
-		
-
+	// 取得租借場地總金額
+	@Override
+	public int findOrdertotalAmount() {
+		int total = 0;
+		List<Map<String, Object>> result = orderRepo.findOrdertotalAmount();
+		for (Map<String, Object> map : result) {
+			if (map != null) {
+				int orderTotalAmount = (int) map.get("orderTotalAmount");
+				total = total + orderTotalAmount;
+			}
+		}
+		return total;
+	}
 }

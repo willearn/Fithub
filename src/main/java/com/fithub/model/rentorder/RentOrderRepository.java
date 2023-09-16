@@ -1,6 +1,7 @@
 package com.fithub.model.rentorder;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,8 +39,8 @@ public interface RentOrderRepository extends JpaRepository<RentOrder, Integer> {
 	void updateRentstatusById(@Param("rentorderid") Integer rentorderid, @Param("rentstatus") String rentstatus);
 
 	// william
-//    @Query("SELECT from RentOrder where rentorderid = :rentorderid")
-//    List<RentOrder> findByRentorderId(Integer memberid);
+	@Query("SELECT r.rentamount rentamount from RentOrder r WHERE r.rentstatus = '已付款'")
+	List<Map<String,Object>> findRentAmount();
 	
 	
     // XiaoQing

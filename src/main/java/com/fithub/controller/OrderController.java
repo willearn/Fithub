@@ -139,5 +139,14 @@ public class OrderController {
 		}
   	}
 
-  	
+	// 取得課程訂單總金額
+	@GetMapping("/findOrdertotalAmount")
+	public ResponseEntity<?> findOrdertotalAmount() {
+		try {
+			int total = orderService.findOrdertotalAmount();
+			return new ResponseEntity<>(total, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

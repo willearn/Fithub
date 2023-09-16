@@ -1,7 +1,9 @@
 package com.fithub.model.member;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -60,7 +62,6 @@ public class MemberService implements IMemberService {
 			// TODO: handle exception
 			return false;
 		}
-
 	}
 
 	// 修改單筆
@@ -70,7 +71,7 @@ public class MemberService implements IMemberService {
 			Optional<Member> optinoal = mRepo.findById(mBean.getMemberid());
 			if (optinoal.isPresent()) {
 				System.out.println(mBean.getMemberpassword());
-				if(mBean.getMemberpassword()!=null) {
+				if (mBean.getMemberpassword() != null) {
 					mBean.setMemberpassword(pwdEncoder.encode(mBean.getMemberpassword()));
 				}
 				mRepo.save(mBean);
@@ -262,5 +263,136 @@ public class MemberService implements IMemberService {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	// 取得會員男女數量
+	@Override
+	public Map<String, Object> findmembergender() {
+		int male = 0;
+		int female = 0;
+
+		List<Map<String, Object>> result = mRepo.findMemberGender();
+		for (Map<String, Object> map : result) {
+			if (map != null) {
+				String gender = (String) map.get("membergender");
+				if (gender.equals("男")) {
+					male++;
+				} else {
+					female++;
+				}
+			}
+		}
+
+		Map<String, Object> gender = new HashMap<>();
+		gender.put("male", male);
+		gender.put("female", female);
+
+		return gender;
+	}
+
+	// 取得會員年齡
+	@Override
+	public Map<String, Object> findMembermemberBirthday() {
+		int age1To24 = 0;
+		int age25To49 = 0;
+		int age50To65 = 0;
+		int age66To100 = 0;
+
+		List<Map<String, Object>> result = mRepo.findMembermemberBirthday();
+		for (Map<String, Object> map : result) {
+			if (map != null) {
+				String birthday = (String) map.get("memberbirthday");
+
+				// 會員生日
+				LocalDate birthDate = LocalDate.parse(birthday);
+				// 當前日期
+				LocalDate currentDate = LocalDate.now();
+				// 計算年齡
+				Period age = Period.between(birthDate, currentDate);
+
+				// 打印年龄(只取年份)
+				int years = age.getYears();
+
+				// 根据年龄范围分配到相应变量
+				if (years >= 1 && years <= 24) {
+					age1To24++;
+				} else if (years >= 25 && years <= 49) {
+					age25To49++;
+				} else if (years >= 50 && years <= 65) {
+					age50To65++;
+				} else if (years >= 66 && years <= 100) {
+					age66To100++;
+				}
+			}
+
+		}
+
+		Map<String, Object> membersAge = new HashMap<>();
+		membersAge.put("age1To24", age1To24);
+		membersAge.put("age25To49", age25To49);
+		membersAge.put("age50To65", age50To65);
+		membersAge.put("age66To100", age66To100);
+
+		return membersAge;
+	}
+	
+	// 取得會員註冊時間
+	@Override
+	public int[] findMemberAccountsince() {
+		int[] monthCounts = new int[12];
+		List<Map<String, Object>> result = mRepo.findMemberAccountsince();
+		for (Map<String, Object> map : result) {
+			if (map != null) {
+				String accountSince = (String) map.get("memberaccountsince");
+				LocalDate accountDate = LocalDate.parse(accountSince);
+				int year = accountDate.getYear();
+				int month = accountDate.getMonthValue(); // 獲取月份（1-12）
+				System.out.println(month);
+				if (year == 2023) {
+					// 使用 switch 增加對應月份
+					switch (month) {
+					case 1:
+						monthCounts[0]++;
+						break;
+					case 2:
+						monthCounts[1]++;
+						break;
+					case 3:
+						monthCounts[2]++;
+						break;
+					case 4:
+						monthCounts[3]++;
+						break;
+					case 5:
+						monthCounts[4]++;
+						break;
+					case 6:
+						monthCounts[5]++;
+						break;
+					case 7:
+						monthCounts[6]++;
+						break;
+					case 8:
+						monthCounts[7]++;
+						break;
+					case 9:
+						monthCounts[8]++;
+						break;
+					case 10:
+						monthCounts[9]++;
+						break;
+					case 11:
+						monthCounts[10]++;
+						break;
+					case 12:
+						monthCounts[11]++;
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		}
+		return monthCounts;
 	}
 }
