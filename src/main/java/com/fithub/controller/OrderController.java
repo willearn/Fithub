@@ -140,7 +140,7 @@ public class OrderController {
   	}
 
 	// 取得課程訂單總金額
-	@GetMapping("/findOrdertotalAmount")
+	@GetMapping("/OrdertotalAmount")
 	public ResponseEntity<?> findOrdertotalAmount() {
 		try {
 			int total = orderService.findOrdertotalAmount();

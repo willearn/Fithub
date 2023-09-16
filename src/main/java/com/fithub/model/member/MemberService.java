@@ -310,7 +310,7 @@ public class MemberService implements IMemberService {
 				// 計算年齡
 				Period age = Period.between(birthDate, currentDate);
 
-				// 打印年龄(只取年份)
+				// 只取年份
 				int years = age.getYears();
 
 				// 根据年龄范围分配到相应变量
@@ -347,7 +347,6 @@ public class MemberService implements IMemberService {
 				LocalDate accountDate = LocalDate.parse(accountSince);
 				int year = accountDate.getYear();
 				int month = accountDate.getMonthValue(); // 獲取月份（1-12）
-				System.out.println(month);
 				if (year == 2023) {
 					// 使用 switch 增加對應月份
 					switch (month) {
