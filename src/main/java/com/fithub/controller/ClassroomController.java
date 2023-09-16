@@ -47,8 +47,8 @@ public class ClassroomController {
 		try {
 			List<Map<String, Object>> classroomNamesAndIds = iclassroomService.findAllClassroomNamesAndIds();
 			for (Map<String, Object> map : classroomNamesAndIds) {
-				System.out.println(map.get("classroomName"));
-				System.out.println(map.get("classroomId"));
+//				System.out.println(map.get("classroomName"));
+//				System.out.println(map.get("classroomId"));
 			}
 			return new ResponseEntity<>(classroomNamesAndIds, HttpStatus.OK);
 		} catch (Exception e) {
