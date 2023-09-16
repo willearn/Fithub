@@ -170,7 +170,7 @@ public class ClassesController {
 	}
 
 	@GetMapping("/findAllInMonthRange/page")
-	public ResponseEntity<?> findAllByDateRangeInPage(@RequestParam(value = "monthBefore") Integer monthBefore,
+	public ResponseEntity<?> findByDateRangeInPage(@RequestParam(value = "monthBefore") Integer monthBefore,
 			@RequestParam(value = "monthAfter") Integer monthAfter,
 			@RequestParam(name = "p", defaultValue = "1") Integer pageNumber,
 			@RequestParam(name = "size", defaultValue = "10") Integer dataSize) {
@@ -193,6 +193,32 @@ public class ClassesController {
 		}
 	}
 
+	@GetMapping("/findAllInMonthRangeAndCategoryId/page")
+	public ResponseEntity<?> findByDateRangeAndCategoryIdInPage(
+			@RequestParam(value = "categoryId") Integer categoryId,
+			@RequestParam(value = "monthBefore") Integer monthBefore,
+			@RequestParam(value = "monthAfter") Integer monthAfter,
+			@RequestParam(name = "p", defaultValue = "1") Integer pageNumber,
+			@RequestParam(name = "size", defaultValue = "10") Integer dataSize) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		// 取前monthBefore個月的第一天，及後monthAfter個月最後一天
+		DateRange dateRange = dService.getRangeDate(monthBefore, monthAfter);
+		String startDate = dateFormat.format(dateRange.getStartDate());
+		String endDate = dateFormat.format(dateRange.getEndDate());
+
+		try {
+			Page<Map<String, Object>> page = cService.findByDateRangeAndCategoryIdInPage(categoryId,startDate, endDate, pageNumber, dataSize);
+			
+			// TotalPages, numberOfElements 放header
+			MultiValueMap<String, String> mvm = new LinkedMultiValueMap<>();
+			mvm.add("total-pages", Integer.toString(page.getTotalPages()));
+			mvm.add("number-of-elements", Integer.toString(page.getNumberOfElements()));
+			return new ResponseEntity<>(page.getContent(), mvm, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	@PostMapping("/findClassesByIds")
 	public ResponseEntity<?> findAllClassesByClassesId(@RequestBody List<Integer> classesIds) {
 		System.out.println(classesIds);

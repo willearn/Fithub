@@ -135,6 +135,16 @@ public class ClassesService implements IClassesService {
 		return page;
 	}
 	
+	@Override
+	public Page<Map<String, Object>> findByDateRangeAndCategoryIdInPage(int categoryId,  String startDate,  String endDate,
+			Integer pageNumber,	Integer dataSize) {
+		// 按照classDate升冪排序
+		PageRequest pgb = PageRequest.of(pageNumber - 1, dataSize, Sort.Direction.ASC, "classDate");
+		Page<Map<String, Object>> page = classesRepo.findByDateRangeAndCategoryIdInPage(categoryId,startDate, endDate, pgb);
+		
+		return page;
+	}
+
 	private List<ClassesDto> putObjectIntoDto(List<Object[]> inputList) {
 		List<ClassesDto> classesList = new ArrayList<>();
 
