@@ -51,7 +51,7 @@ public interface IClassesService {
 	public Page<Classes> findByPage(Integer pageNumber, Integer dataSize);
 
 	// Chrislafolia，返回在指定時間内的所有classes資訊，分頁版
-	public Page<ClassesDto> findAllByDateRangeInPage(String startDate, String endDate, Integer pageNumber,
+	public Page<Map<String, Object>> findAllByDateRangeInPage(String startDate, String endDate, Integer pageNumber,
 			Integer dataSize);
 
 }

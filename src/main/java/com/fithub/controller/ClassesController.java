@@ -1,7 +1,6 @@
 package com.fithub.controller;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fithub.model.classes.Classes;
 import com.fithub.model.classes.ClassesDto;
 import com.fithub.model.classes.IClassesService;
-import com.fithub.model.course.Course;
 import com.fithub.model.daterange.DateRange;
 import com.fithub.model.daterange.DateRangeService;
 
@@ -165,7 +163,6 @@ public class ClassesController {
 
 		try {
 			List<ClassesDto> resultList = cService.findAllByDateRange(startDate, endDate);
-			System.out.println(resultList);
 			return new ResponseEntity<>(resultList, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -177,7 +174,6 @@ public class ClassesController {
 			@RequestParam(value = "monthAfter") Integer monthAfter,
 			@RequestParam(name = "p", defaultValue = "1") Integer pageNumber,
 			@RequestParam(name = "size", defaultValue = "10") Integer dataSize) {
-		System.out.println(dataSize);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		// 取前monthBefore個月的第一天，及後monthAfter個月最後一天
 		DateRange dateRange = dService.getRangeDate(monthBefore, monthAfter);
@@ -185,14 +181,13 @@ public class ClassesController {
 		String endDate = dateFormat.format(dateRange.getEndDate());
 
 		try {
-			Page<ClassesDto> page = cService.findAllByDateRangeInPage(startDate, endDate, pageNumber, dataSize);
-			List<ClassesDto> courseResultList = page.getContent();
-			System.out.println(courseResultList + "111");
+			Page<Map<String, Object>> page = cService.findAllByDateRangeInPage(startDate, endDate, pageNumber, dataSize);
+			
 			// TotalPages, numberOfElements 放header
 			MultiValueMap<String, String> mvm = new LinkedMultiValueMap<>();
 			mvm.add("total-pages", Integer.toString(page.getTotalPages()));
 			mvm.add("number-of-elements", Integer.toString(page.getNumberOfElements()));
-			return new ResponseEntity<>(courseResultList, HttpStatus.OK);
+			return new ResponseEntity<>(page.getContent(), mvm, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

@@ -36,19 +36,22 @@ public interface ClassesRepository extends JpaRepository<Classes, Integer> {
 			+ "co.courseName, coc.categoryName, e.employeename, r.classroomName, r.classroomCapacity "
 			+ "FROM Classes cl JOIN cl.course co JOIN co.courseCategories coc "
 			+ "JOIN cl.employee e JOIN cl.classroom r "
-			+ "WHERE cl.classDate >= :startDate AND cl.classDate <= :endDate " + "ORDER BY cl.classDate")
+			+ "WHERE cl.classDate >= :startDate AND cl.classDate <= :endDate ")
 	List<Object[]> findAllByDateRange(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
 	// Chrislafolia，返回在指定時間内的所有classes資訊，分頁版
-	@Query("SELECT cl.classId, cl.courseId, cl.classDate, cl.classTime, cl.coachSubstitute, "
-			+ "cl.employeeId, cl.applicantsCeil,cl.applicantsFloor, cl.price, cl.classroomId, "
-			+ "co.courseName, coc.categoryName, e.employeename, r.classroomName, r.classroomCapacity "
+	@Query("SELECT cl.classId classId, cl.courseId courseId, cl.classDate classDate, "
+			+ "cl.classTime classTime, cl.coachSubstitute coachSubstitute, "
+			+ "cl.employeeId employeeId, cl.applicantsCeil applicantsCeil, "
+			+ "cl.applicantsFloor applicantsFloor, cl.price price, cl.classroomId classroomId, "
+			+ "co.courseName courseName, coc.categoryName categoryName, e.employeename employeename, "
+			+ "r.classroomName classroomName, r.classroomCapacity classroomCapacity "
 			+ "FROM Classes cl JOIN cl.course co JOIN co.courseCategories coc "
 			+ "JOIN cl.employee e JOIN cl.classroom r "
-			+ "WHERE cl.classDate >= :startDate AND cl.classDate <= :endDate " + "ORDER BY cl.classDate")
-	Page<ClassesDto> findAllByDateRangeInPage(@Param("startDate") String startDate, @Param("endDate") String endDate,
+			+ "WHERE cl.classDate >= :startDate AND cl.classDate <= :endDate " )
+	Page<Map<String, Object>> findAllByDateRangeInPage(@Param("startDate") String startDate, @Param("endDate") String endDate,
 			PageRequest pgb);
-
+	
 	// Chrislafolia，返回在指定ClassId的classes資訊
 	@Query("SELECT cl.classId, cl.courseId, cl.classDate, cl.classTime, cl.coachSubstitute, "
 			+ "cl.employeeId, cl.applicantsCeil,cl.applicantsFloor, cl.price, cl.classroomId, "

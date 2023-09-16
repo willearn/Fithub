@@ -126,16 +126,15 @@ public class ClassesService implements IClassesService {
 	}
 
 	@Override
-	public Page<ClassesDto> findAllByDateRangeInPage(String startDate, String endDate, Integer pageNumber,
+	public Page<Map<String, Object>> findAllByDateRangeInPage(String startDate, String endDate, Integer pageNumber,
 			Integer dataSize) {
-		// 按照courseId降冪排序
-		PageRequest pgb = PageRequest.of(pageNumber - 1, dataSize, Sort.Direction.DESC, "classdate");
-		System.out.println(pgb);
-		Page<ClassesDto> page = classesRepo.findAllByDateRangeInPage(startDate, endDate, pgb);
-		System.out.println(page);
+		// 按照classDate升冪排序
+		PageRequest pgb = PageRequest.of(pageNumber - 1, dataSize, Sort.Direction.ASC, "classDate");
+		Page<Map<String, Object>> page = classesRepo.findAllByDateRangeInPage(startDate, endDate, pgb);
+		
 		return page;
 	}
-
+	
 	private List<ClassesDto> putObjectIntoDto(List<Object[]> inputList) {
 		List<ClassesDto> classesList = new ArrayList<>();
 
