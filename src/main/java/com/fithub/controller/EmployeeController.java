@@ -235,7 +235,7 @@ public class EmployeeController {
 	public ResponseEntity<List<Employee>> findManagers() {
 		Integer jobTitleId = jService.findJobTitleByName("主管");
 		List<Employee> resultBeans = eService.findManagerByJobTitleId(jobTitleId);
-		System.out.println("resultBeans--------------------" + resultBeans);
+//		System.out.println("resultBeans--------------------" + resultBeans);
 		if (resultBeans != null) {
 			return new ResponseEntity<List<Employee>>(resultBeans, HttpStatus.OK);
 		}
@@ -246,7 +246,7 @@ public class EmployeeController {
 	public ResponseEntity<List<Employee>> findCoachs() {
 		Integer jobTitleId = jService.findJobTitleByName("教練");
 		List<Employee> resultBeans = eService.findManagerByJobTitleId(jobTitleId);
-		System.out.println("resultBeans--------------------" + resultBeans);
+//		System.out.println("resultBeans--------------------" + resultBeans);
 		if (resultBeans != null) {
 			return new ResponseEntity<List<Employee>>(resultBeans, HttpStatus.OK);
 		}
@@ -308,15 +308,16 @@ public class EmployeeController {
 			System.out.println(result.get(0).get("employeeid"));
 			System.out.println(result.size());
 			for (int i = 0; i < result.size(); i++) {
-				List<Map<String, Object>> coachpic = cService.findByEmpId(Integer.parseInt(result.get(i).get("employeeid").toString()));
-				
+				List<Map<String, Object>> coachpic = cService
+						.findByEmpId(Integer.parseInt(result.get(i).get("employeeid").toString()));
+
 				// 創建一個包含 result 和 coachpic 的新 Map
-	            Map<String, Object> combinedData = new HashMap<>();
-	            combinedData.putAll(result.get(i)); // 將 result 中的數據複製到 combinedData 中
-	            combinedData.put("coachpic", coachpic); // 添加 coachpic 數據到 combinedData 中
-	            
-	         // 將 combinedData 添加回 result 列表中
-	            result.set(i, combinedData);
+				Map<String, Object> combinedData = new HashMap<>();
+				combinedData.putAll(result.get(i)); // 將 result 中的數據複製到 combinedData 中
+				combinedData.put("coachpic", coachpic); // 添加 coachpic 數據到 combinedData 中
+
+				// 將 combinedData 添加回 result 列表中
+				result.set(i, combinedData);
 
 			}
 			return new ResponseEntity<>(result, HttpStatus.OK);

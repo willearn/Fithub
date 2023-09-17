@@ -1,6 +1,13 @@
 package com.fithub.model.classes;
 
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.repository.query.Param;
+
+import com.fithub.model.course.Course;
 
 public interface IClassesService {
 
@@ -35,7 +42,21 @@ public interface IClassesService {
 	// Chrislafolia，返回在指定時間内的所有classes資訊
 	public List<ClassesDto> findAllByDateRange(String startDate, String endDate);
 
-	// Chrislafolia，返回在指定時間内的所有classes資訊
+	// Chrislafolia，返回在指定memberId的在wishlist上面的classes資訊
 	public List<ClassesDto> findClassesByClassesId(List<Integer> classesIds);
+
+	// Chrislafolia，返回在指定memberId的在wishlist上面的classes資訊
+	public List<Map<String, Object>> findWishlistClassesByMemberId(int memberId);
+
+	// Chrislafolia:全部課堂分頁功能
+	public Page<Classes> findByPage(Integer pageNumber, Integer dataSize);
+
+	// Chrislafolia，返回在指定時間内的所有classes資訊，分頁版
+	public Page<Map<String, Object>> findAllByDateRangeInPage(String startDate, String endDate, Integer pageNumber,
+			Integer dataSize);
+	
+	// Chrislafolia，返回在指定時間内的指定categoryId的classes資訊，分頁版
+	public Page<Map<String, Object>> findByDateRangeAndCategoryIdInPage(int categoryId,  String startDate,  String endDate,
+			Integer pageNumber,	Integer dataSize);
 
 }

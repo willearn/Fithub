@@ -1,12 +1,15 @@
 package com.fithub.controller;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +29,7 @@ import com.fithub.model.daterange.DateRangeService;
 
 @RestController
 @RequestMapping("/classes")
-@CrossOrigin()
+@CrossOrigin(exposedHeaders = { "total-pages", "number-of-elements" })
 public class ClassesController {
 
 	@Autowired
@@ -53,6 +56,28 @@ public class ClassesController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	// Author : Chrislafolia 全部課堂分頁功能
+	@GetMapping("/findAll/page")
+	public ResponseEntity<?> showAllClassesInPage(@RequestParam(name = "p", defaultValue = "1") Integer pageNumber,
+			@RequestParam(name = "size", defaultValue = "6") Integer dataSize) {
+		try {
+			// course data 放body
+			Page<Classes> page = cService.findByPage(pageNumber, dataSize);
+			List<Classes> courseResultList = page.getContent();
+
+			// TotalPages, numberOfElements 放header
+			MultiValueMap<String, String> mvm = new LinkedMultiValueMap<>();
+			mvm.add("total-pages", Integer.toString(page.getTotalPages()));
+			mvm.add("number-of-elements", Integer.toString(page.getNumberOfElements()));
+
+			return new ResponseEntity<>(courseResultList, mvm, HttpStatus.OK);
+
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
 	}
 
 	@PostMapping
@@ -138,19 +163,81 @@ public class ClassesController {
 
 		try {
 			List<ClassesDto> resultList = cService.findAllByDateRange(startDate, endDate);
-			System.out.println(resultList);
 			return new ResponseEntity<>(resultList, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
+	@GetMapping("/findAllInMonthRange/page")
+	public ResponseEntity<?> findByDateRangeInPage(@RequestParam(value = "monthBefore") Integer monthBefore,
+			@RequestParam(value = "monthAfter") Integer monthAfter,
+			@RequestParam(name = "p", defaultValue = "1") Integer pageNumber,
+			@RequestParam(name = "size", defaultValue = "10") Integer dataSize) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		// 取前monthBefore個月的第一天，及後monthAfter個月最後一天
+		DateRange dateRange = dService.getRangeDate(monthBefore, monthAfter);
+		String startDate = dateFormat.format(dateRange.getStartDate());
+		String endDate = dateFormat.format(dateRange.getEndDate());
+
+		try {
+			Page<Map<String, Object>> page = cService.findAllByDateRangeInPage(startDate, endDate, pageNumber, dataSize);
+			
+			// TotalPages, numberOfElements 放header
+			MultiValueMap<String, String> mvm = new LinkedMultiValueMap<>();
+			mvm.add("total-pages", Integer.toString(page.getTotalPages()));
+			mvm.add("number-of-elements", Integer.toString(page.getNumberOfElements()));
+			return new ResponseEntity<>(page.getContent(), mvm, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@GetMapping("/findAllInMonthRangeAndCategoryId/page")
+	public ResponseEntity<?> findByDateRangeAndCategoryIdInPage(
+			@RequestParam(value = "categoryId") Integer categoryId,
+			@RequestParam(value = "monthBefore") Integer monthBefore,
+			@RequestParam(value = "monthAfter") Integer monthAfter,
+			@RequestParam(name = "p", defaultValue = "1") Integer pageNumber,
+			@RequestParam(name = "size", defaultValue = "10") Integer dataSize) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		// 取前monthBefore個月的第一天，及後monthAfter個月最後一天
+		DateRange dateRange = dService.getRangeDate(monthBefore, monthAfter);
+		String startDate = dateFormat.format(dateRange.getStartDate());
+		String endDate = dateFormat.format(dateRange.getEndDate());
+
+		try {
+			Page<Map<String, Object>> page = cService.findByDateRangeAndCategoryIdInPage(categoryId,startDate, endDate, pageNumber, dataSize);
+			
+			// TotalPages, numberOfElements 放header
+			MultiValueMap<String, String> mvm = new LinkedMultiValueMap<>();
+			mvm.add("total-pages", Integer.toString(page.getTotalPages()));
+			mvm.add("number-of-elements", Integer.toString(page.getNumberOfElements()));
+			return new ResponseEntity<>(page.getContent(), mvm, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	@PostMapping("/findClassesByIds")
 	public ResponseEntity<?> findAllClassesByClassesId(@RequestBody List<Integer> classesIds) {
 		System.out.println(classesIds);
 		try {
 			List<ClassesDto> resultList = cService.findClassesByClassesId(classesIds);
 			return new ResponseEntity<>(resultList, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@GetMapping("/findAllClassesInMemberWishlist")
+	public ResponseEntity<?> findWishlistClassesByMemberId(@RequestParam(value = "memberId") int memberId) {
+		try {
+			List<Map<String, Object>> resultList = cService.findWishlistClassesByMemberId(memberId);
+			if (resultList != null) {
+				return new ResponseEntity<>(resultList, HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

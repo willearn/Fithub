@@ -2,10 +2,16 @@ package com.fithub.model.classes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import com.fithub.model.course.Course;
 
 @Service
 public class ClassesService implements IClassesService {
@@ -96,6 +102,47 @@ public class ClassesService implements IClassesService {
 		List<Object[]> resultList = classesRepo.findClassesByClassesId(classesIds);
 		List<ClassesDto> classesList = putObjectIntoDto(resultList);
 		return classesList;
+	}
+
+	@Override
+	public List<Map<String, Object>> findWishlistClassesByMemberId(int memberId) {
+		System.out.println(memberId);
+		try {
+			List<Map<String, Object>> result = classesRepo.findWishlistClassesByMemberId(memberId);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public Page<Classes> findByPage(Integer pageNumber, Integer dataSize) {
+		// 按照courseId降冪排序
+		PageRequest pgb = PageRequest.of(pageNumber - 1, dataSize, Sort.Direction.DESC, "classdate");
+
+		Page<Classes> page = classesRepo.findAll(pgb);
+		return page;
+	}
+
+	@Override
+	public Page<Map<String, Object>> findAllByDateRangeInPage(String startDate, String endDate, Integer pageNumber,
+			Integer dataSize) {
+		// 按照classDate升冪排序
+		PageRequest pgb = PageRequest.of(pageNumber - 1, dataSize, Sort.Direction.ASC, "classDate");
+		Page<Map<String, Object>> page = classesRepo.findAllByDateRangeInPage(startDate, endDate, pgb);
+		
+		return page;
+	}
+	
+	@Override
+	public Page<Map<String, Object>> findByDateRangeAndCategoryIdInPage(int categoryId,  String startDate,  String endDate,
+			Integer pageNumber,	Integer dataSize) {
+		// 按照classDate升冪排序
+		PageRequest pgb = PageRequest.of(pageNumber - 1, dataSize, Sort.Direction.ASC, "classDate");
+		Page<Map<String, Object>> page = classesRepo.findByDateRangeAndCategoryIdInPage(categoryId,startDate, endDate, pgb);
+		
+		return page;
 	}
 
 	private List<ClassesDto> putObjectIntoDto(List<Object[]> inputList) {

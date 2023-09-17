@@ -12,6 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Data;
 
 @Data
@@ -31,9 +33,11 @@ public class Wishlist {
 	private int classId;
 
 	@Column(name = "wishaddsince")
+	@Temporal(TemporalType.TIMESTAMP) //指定DB->server的時間資料格式"yyyy-MM-dd HH:mm:ss.SSS"
 	private String wishAddSince;
 
 	@Column(name = "wishremovedate")
+	@Temporal(TemporalType.TIMESTAMP) //指定DB->server的時間資料格式"yyyy-MM-dd HH:mm:ss.SSS"
 	private String wishRemoveDate;
 
 	@ManyToOne(fetch = FetchType.LAZY)

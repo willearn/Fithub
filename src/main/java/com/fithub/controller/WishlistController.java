@@ -75,9 +75,6 @@ public class WishlistController {
 	@PutMapping("/{wid}")
 	public ResponseEntity<?> updateWishlist(@RequestBody Wishlist wBean) {
 
-		Wishlist currentBean = wService.findById(wBean.getClassId());
-		wBean.setWishAddSince(currentBean.getWishAddSince());
-
 		LocalDateTime today = LocalDateTime.now();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
 
