@@ -1,14 +1,18 @@
 package com.fithub.model.order;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.fithub.model.employee.Employee;
+import com.fithub.model.rentorder.RentOrder;
 
 import jakarta.transaction.Transactional;
 
@@ -32,8 +36,19 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 	@Query("from Order where memberId = :memberid")
 	List<Order> getOrdersByMemberId(@Param("memberid") Integer memberid);
 	
+
 	// william
 	@Query("SELECT o.orderTotalAmount orderTotalAmount from Order o WHERE o.orderCondition = '已付款'")
 	List<Map<String,Object>> findOrdertotalAmount();
+
+	// Archer 分頁查詢全部 查詢日期
+	@Query(value = "SELECT * FROM [Orders] r WHERE " +
+	        "(:dateParam IS NULL OR " +
+	        "(CONVERT(VARCHAR, r.orderDate, 120) LIKE '%' + :dateParam + '%'))",
+	        nativeQuery = true)
+	Page<Order> findAllPage(@Param("dateParam") String dateParam, Pageable pageable);
+
+	
+
 
 }

@@ -1,13 +1,11 @@
 package com.fithub.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,13 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fithub.model.course.Course;
+import com.fithub.model.order.IOrderService;
 import com.fithub.model.order.Order;
 import com.fithub.model.order.OrderService;
-import com.fithub.model.orderitem.OrderItem;
 
 @CrossOrigin
 @RestController
@@ -30,8 +26,10 @@ import com.fithub.model.orderitem.OrderItem;
 public class OrderController {
 
     @Autowired
-    private OrderService orderService;
-
+    private OrderService orderService;    
+    @Autowired
+    private IOrderService iOrderService;
+    
     @GetMapping
     public ResponseEntity<?> getAllOrders() {
         try {
@@ -42,26 +40,28 @@ public class OrderController {
         }
     }
     
-	// 全部訂單分頁功能
-	@GetMapping("/page")
-	public ResponseEntity<?> showAllCoursesInPage(@RequestParam(name="p",defaultValue = "1") Integer pageNumber,
-			@RequestParam(name="size",defaultValue = "6") Integer dataSize) {
+	@PostMapping("/findallpage")
+	public ResponseEntity<?> findAllPage(@RequestBody Map<String, Object> page) {
 		try {
-			// order data 放body
-			Page<Order> page = orderService.findByPage(pageNumber,dataSize);
-			List<Order> orderResultList=page.getContent();			
-			
-			// TotalPages, numberOfElements 放header 
-			MultiValueMap<String, String> mvm=new LinkedMultiValueMap<>();
-			mvm.add("total-pages", Integer.toString(page.getTotalPages()));
-			mvm.add("number-of-elements",Integer.toString(page.getNumberOfElements()));
-			
-			return new ResponseEntity<>(orderResultList, mvm, HttpStatus.OK);
-			
+				// 第幾頁
+				int number =  (int) page.get("number");
+				// 幾筆資料
+				int row = (int) page.get("row");
+				String date = (String) page.get("date");
+				if(date == "") {
+					date = null;
+				}
+				System.out.println(date);
+				//	Map由多個entrySet()組成
+//				for (Map.Entry<String, Object> entry : page.entrySet()) {
+//					String key = entry.getKey();
+//					Object value = entry.getValue();
+//					System.out.println("Key: " + key + ", Value: " + value);
+//				}
+			return new ResponseEntity<>(iOrderService.findAllPage(date,number,row), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
 	}
 
     @GetMapping("/{id}")
