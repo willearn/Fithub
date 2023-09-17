@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 
 import com.fithub.model.course.Course;
 import com.fithub.model.orderitem.OrderItem;
+import com.fithub.model.rentorder.RentOrder;
 
 public interface IOrderService {
 
@@ -33,10 +34,10 @@ public interface IOrderService {
 
 //	Order createOrder(Order order, OrderItem[] orderItems);
 
-	Order createOrder(Order order);
-	
-	// 全部訂單分頁功能
-	public Page<Order> findByPage(Integer pageNumber,Integer dataSize);
+	Order createOrder(Order order);	
 	
 	List<Order> getOrdersByMemberId(Integer memberid);
+	
+	// 全部訂單分頁功能
+	Page<Order> findAllPage(String date, int number, int size);
 }
