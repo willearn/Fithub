@@ -79,4 +79,18 @@ public class ClassroomService implements IClassroomService {
 		classroomRepo.deleteAllById(selectIds);
 	}
 
+	@Override
+	public List<Map<String, Object>> findClassesByDateAndTime(int classroomId, String classDate, String classTime) {
+		List<Map<String, Object>> classesList=classroomRepo.findClassesByDateAndTime(classroomId, classDate, classTime);
+		return classesList;
+	}
+
+	@Override
+	public List<Map<String, Object>> findRentOrdersByDateAndTimeAndStatus(int classroomId, String rentdate,
+			String renttime, String rentstatus) {
+		List<Map<String, Object>> rentOrderList= classroomRepo.findRentOrdersByDateAndTimeAndStatus(classroomId, rentdate, renttime, rentstatus);
+		return rentOrderList;
+	}
+
+	
 }

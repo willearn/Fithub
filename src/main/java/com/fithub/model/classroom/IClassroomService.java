@@ -34,4 +34,12 @@ public interface IClassroomService {
 
 	List<ClassroomDTO> getClassroomInfo();
 	
+	// chrislafolia 查詢特定時間 classes
+	List<Map<String, Object>> findClassesByDateAndTime(int classroomId,
+    		 String classDate, String classTime);
+	
+	// chrislafolia 查詢特定時間 rentOrder
+	List<Map<String, Object>> findRentOrdersByDateAndTimeAndStatus(int classroomId,
+    		 String rentdate, String renttime, String rentstatus);
+
 }

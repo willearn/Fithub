@@ -11,8 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.fithub.model.course.Course;
-
 @Service
 public class ClassesService implements IClassesService {
 
