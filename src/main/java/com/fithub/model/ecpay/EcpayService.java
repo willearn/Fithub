@@ -65,7 +65,7 @@ public class EcpayService {
 		// 交易描述
 		obj.setTradeDesc("test Description");
 		// 交易結果回傳網址，只接受 https 開頭的網站，可以使用 ngrok
-		obj.setReturnURL("https://3469-2001-b011-e610-763a-cdab-10e6-1e57-14fe.ngrok.io/fithub/ecpay/OrderCallback");
+		obj.setReturnURL("https://16e7-59-125-142-166.ngrok.io/fithub/ecpay/OrderCallback");
 		// 是否需要額外的付款資訊 Y|N
 		obj.setNeedExtraPaidInfo("N");
 		// 消費者點選此按鈕後，會將頁面導回到此設定的網址
