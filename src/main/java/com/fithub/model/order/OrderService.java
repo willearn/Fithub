@@ -164,6 +164,12 @@ public class OrderService implements IOrderService {
 		Pageable pageable = PageRequest.of(number, size);
 		return orderRepo.findAllPage(date,pageable);
 	}
+	
+	@Override
+	public Page<Order> findPageByMemberId(String date, Integer memberid,int number, int size){
+		Pageable pageable = PageRequest.of(number, size);
+		return orderRepo.findPageByMemberId(date,memberid,pageable);
+	}
 
 	@Override
 	public List<Order> getOrdersByMemberId(Integer memberid) {
