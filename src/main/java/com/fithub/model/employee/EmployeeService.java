@@ -22,7 +22,7 @@ public class EmployeeService implements IEmployeeService {
 	@Override
 	public boolean insert(Employee eBean) {
 		try {
-			if(eBean.getResigndate().isEmpty()) {
+			if (eBean.getResigndate().isEmpty()) {
 				eBean.setResigndate(null);
 			}
 			Employee resultBean = eRepo.save(eBean);
@@ -73,8 +73,8 @@ public class EmployeeService implements IEmployeeService {
 		}
 		return resultBeans;
 	}
-	
-	public List<Object[]> findAllemployeenameAndemployeeid(){
+
+	public List<Object[]> findAllemployeenameAndemployeeid() {
 		List<Object[]> list = eRepo.findAllemployeenameAndemployeeid();
 		return list;
 	}
@@ -110,36 +110,48 @@ public class EmployeeService implements IEmployeeService {
 	}
 
 	@Override
-	public Page<Employee> findCoachPageByName(Integer pageNumber, Integer rows,Integer jobtitleid ,   String name ) {
+	public Page<Employee> findCoachPageByName(Integer pageNumber, Integer rows, Integer jobtitleid, String name) {
 		Pageable pgb = PageRequest.of(pageNumber, rows, Sort.DEFAULT_DIRECTION, "employeeid");
 		Page<Employee> page = eRepo.findManagersByJobTitleIdAndName(pgb, jobtitleid, name);
 		return page;
 	}
 
 	@Override
-	public Page<Employee> findCoachByPage(Integer pageNumber, Integer rows , Integer jobtitleid) {
+	public Page<Employee> findCoachByPage(Integer pageNumber, Integer rows, Integer jobtitleid) {
 		Pageable pgb = PageRequest.of(pageNumber, rows, Sort.DEFAULT_DIRECTION, "employeeid");
 		Page<Employee> page = eRepo.findManagersByJobTitleId(pgb, jobtitleid);
-		
+
 		return page;
 	}
 
 	@Override
 	public long countByJobTitleId(Integer jobtitleid) {
 		long count = eRepo.countByJobTitleId(jobtitleid);
-		return count;	
-		}
-	
+		return count;
+	}
+
 	@Override
 	public long countByJobTitleIdAndName(Integer jobtitleid, String name) {
-		long count = eRepo.countByJobTitleIdAndName(jobtitleid , name);
-		return count;	
-		}
-	
+		long count = eRepo.countByJobTitleIdAndName(jobtitleid, name);
+		return count;
+	}
+
 	@Override
-	public List<Map<String,Object>> findCoachDataAndSpecialty(){
+	public List<Map<String, Object>> findCoachDataAndSpecialty() {
 		try {
 			List<Map<String, Object>> result = eRepo.findCoachDataAndSpecialty();
+			return result;
+		} catch (Exception e) {
+		}
+		return null;
+	}
+
+	@Override
+	public List<Map<String, Object>> findClassesInDateRangeAndEmployeeid(Integer employeeid, String classDate,
+			String classTime) {
+		try {
+			List<Map<String, Object>> result = eRepo.findClassesInDateRangeAndEmployeeid(employeeid, classDate,
+					classTime);
 			return result;
 		} catch (Exception e) {
 		}
@@ -156,6 +168,4 @@ public class EmployeeService implements IEmployeeService {
 //		
 //	}
 
-	
-	
 }

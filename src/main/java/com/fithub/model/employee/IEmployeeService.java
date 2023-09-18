@@ -23,11 +23,21 @@ public interface IEmployeeService {
 	public long count();
 
 	public long count(String name);
+
 	public long countByJobTitleId(Integer jobtitleid);
+
 	public long countByJobTitleIdAndName(Integer jobtitleid, String name);
-	public Page<Employee> findByPage(Integer pageNumber,Integer rows);
+
+	public Page<Employee> findByPage(Integer pageNumber, Integer rows);
+
 	public Page<Employee> findPageByName(Integer pageNumber, Integer rows, String name);
-	public Page<Employee> findCoachByPage(Integer pageNumber,Integer rows , Integer jobtitleid);
-	public Page<Employee> findCoachPageByName(Integer pageNumber, Integer rows,Integer jobtitleid ,String name);
-	public List<Map<String,Object>> findCoachDataAndSpecialty();
+
+	public Page<Employee> findCoachByPage(Integer pageNumber, Integer rows, Integer jobtitleid);
+
+	public Page<Employee> findCoachPageByName(Integer pageNumber, Integer rows, Integer jobtitleid, String name);
+
+	public List<Map<String, Object>> findCoachDataAndSpecialty();
+
+	public List<Map<String, Object>> findClassesInDateRangeAndEmployeeid(Integer employeeid, String classDate,
+			String classTime);
 }

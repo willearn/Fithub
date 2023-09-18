@@ -62,4 +62,12 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 			+ "LEFT JOIN Specialty AS s ON cs.specialtyid = s.specialtyid\r\n"
 			+ "WHERE e.jobtitleid = (SELECT jobtitleid FROM JobTitle WHERE jobtitlename = '教練')")
 	List<Map<String, Object>> findCoachDataAndSpecialty();
+
+	// Chrislafolia 驗證教練是否衝堂
+	@Query("SELECT e.employeeid employeeid ,  e.employeename employeenamne, cl.classId classId "
+			+ "FROM Employee e JOIN e.classes cl "
+			+ "WHERE e.employeeid = :employeeid AND cl.classDate = :classDate AND cl.classTime = :classTime  ")
+	List<Map<String, Object>> findClassesInDateRangeAndEmployeeid(@Param("employeeid") Integer employeeid,
+			@Param("classDate") String classDate, @Param("classTime") String classTime);
+
 }
