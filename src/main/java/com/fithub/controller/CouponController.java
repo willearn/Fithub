@@ -123,10 +123,20 @@ public class CouponController {
         }
     }
  	
+// 	@GetMapping("/api/{couponcode}")
+//    public Coupon getCoupon(@PathVariable String couponcode) {
+//        return couponService.getCoupon(couponcode);
+//    }
+
  	@GetMapping("/api/{couponcode}")
-    public Coupon getCoupon(@PathVariable String couponcode) {
-        return couponService.getCoupon(couponcode);
-    }
+ 	public ResponseEntity<Coupon> getCoupon(@PathVariable String couponcode) {
+ 	    Coupon coupon = couponService.getCoupon(couponcode);
+ 	    if (coupon != null) {
+ 	        return ResponseEntity.ok(coupon); // 返回优惠码
+ 	    } else {
+ 	        return ResponseEntity.notFound().build(); // 返回 404 状态码
+ 	    }
+ 	}
 
 }
 
