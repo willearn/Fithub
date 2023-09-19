@@ -74,7 +74,7 @@ public interface ClassesRepository extends JpaRepository<Classes, Integer> {
 	List<Object[]> findClassesByClassesId(@Param("classesIds") List<Integer> classesIds);
 
 	// Chrislafolia，返回在指定memberId的在wishlist上面的classes資訊
-	@Query("SELECT cl.classId classId, cl.classDate classDate, cl.classTime classTime, cl.coachSubstitute coachSubstitute, "
+	@Query("SELECT cl.classId classId, cl.classDate classDate, cl.classTime classTime, cl.coachSubstitute coachSubstitute, co.courseId courseId, "
 			+ "cl.applicantsCeil applicantsCeil, cl.applicantsFloor applicantsFloor, cl.price price, w.listId listId , w.wishAddSince wishAddSince,  "
 			+ "co.courseName courseName, coc.categoryName categoryName, e.employeename employeename, r.classroomName classroomName, r.classroomCapacity classroomCapacity "
 			+ "FROM Classes cl JOIN cl.course co JOIN co.courseCategories coc JOIN cl.wishlist w "
