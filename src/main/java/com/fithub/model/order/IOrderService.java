@@ -45,4 +45,6 @@ public interface IOrderService {
 	// 全部訂單分頁功能
 	Page<Order> findAllPage(String date, int number, int size);
 
+	Page<Order> findPageByMemberId(String date, Integer memberid, int number, int size);
+
 }

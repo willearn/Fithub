@@ -63,6 +63,34 @@ public class OrderController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@PostMapping("/findpagebymemberid")
+	public ResponseEntity<?> findPageByMemberId(@RequestBody Map<String, Object> page) {
+		try {
+			System.out.println(page);
+				// 第幾頁
+				int number =  (int) page.get("number");
+				// 幾筆資料
+				int row = (int) page.get("row");
+				String date = (String) page.get("date");
+				
+				int memberid = (int)page.get("memberid");
+				if(date == "") {
+					date = null;
+				}
+				System.out.println(date);
+				//	Map由多個entrySet()組成
+//				for (Map.Entry<String, Object> entry : page.entrySet()) {
+//					String key = entry.getKey();
+//					Object value = entry.getValue();
+//					System.out.println("Key: " + key + ", Value: " + value);
+//				}
+			return new ResponseEntity<>(iOrderService.findPageByMemberId(date,memberid,number,row), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getOrderById(@PathVariable Integer id) {

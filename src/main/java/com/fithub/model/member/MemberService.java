@@ -73,6 +73,8 @@ public class MemberService implements IMemberService {
 				System.out.println(mBean.getMemberpassword());
 				if (mBean.getMemberpassword() != null) {
 					mBean.setMemberpassword(pwdEncoder.encode(mBean.getMemberpassword()));
+				}else {
+					mBean.setMemberpassword(optinoal.get().getMemberpassword());
 				}
 				mRepo.save(mBean);
 				return true;
@@ -188,7 +190,11 @@ public class MemberService implements IMemberService {
 				}
 
 				if (password != null && !oldpassword.isEmpty()) {
+					System.out.println("password != null && !oldpassword.isEmpty()");
+					System.out.println(oldpassword);
+					System.out.println(member.getMemberpassword());
 					if (pwdEncoder.matches(oldpassword, member.getMemberpassword())) {
+						System.out.println("pwdEncoder.matches(oldpassword, member.getMemberpassword())");
 						member.setMemberpassword(pwdEncoder.encode(newpassword));
 						Member saveBean = mRepo.save(member);
 
