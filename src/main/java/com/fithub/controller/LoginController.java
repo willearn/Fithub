@@ -50,23 +50,37 @@ public class LoginController {
 	
 	@PostMapping("/login")
 	public String login(@RequestBody BackStageAccount bBean) {
-		ResponseModel loginResponse = new ResponseModel();
-		
-		BackStageAccount resultBean = bController.checkLogin(bBean); // 驗證帳號密碼
-		if (resultBean != null) {
-			String token = "";
-			try {
-				token = generateToken(resultBean.getEmployeeaccount()); // 生成token其中夾帶使用者帳號
-				loginResponse.setStatus(true);
-				loginResponse.setToken(token);
-				loginResponse.setUsername(resultBean.getEmployeeaccount());
-				loginResponse.setLoa(resultBean.getLoa());
-			} catch (Exception exception) {
-				exception.printStackTrace();
+		try {
+			ResponseModel loginResponse = new ResponseModel();
+			
+			BackStageAccount resultBean = bController.checkLogin(bBean); // 驗證帳號密碼
+			if (resultBean != null) {
+				String token = "";
+				try {
+					token = generateToken(resultBean.getEmployeeaccount()); // 生成token其中夾帶使用者帳號
+					loginResponse.setStatus(true);
+					loginResponse.setToken(token);
+					loginResponse.setUsername(resultBean.getEmployeeaccount());
+					loginResponse.setLoa(resultBean.getLoa());
+				} catch (Exception exception) {
+					exception.printStackTrace();
+				}
 			}
-		}
 
-		return loginResponse.toJSONString();
+			return loginResponse.toJSONString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			ResponseModel loginResponse = new ResponseModel();
+			loginResponse.setStatus(false);
+			loginResponse.setToken("");
+			loginResponse.setUsername("");
+			loginResponse.setLoa(0);
+			
+			return loginResponse.toJSONString();
+			
+		}
+		
+		
 	}
 
 	@PostMapping("/auth")

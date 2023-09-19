@@ -132,19 +132,14 @@ public class BackStageAccountService implements IBackStageAccountService {
 	@Override
 	public BackStageAccount checkLogin(BackStageAccount bBean) {
 		try {
-			System.out.println("NAME:" + bBean.getEmployeeaccount());
 			BackStageAccount resultBean = bRepo.findBackStageAccountByAccount(bBean.getEmployeeaccount());
-			System.out.println("checkLogin");
-			System.out.println(resultBean);
 			if (resultBean != null) {
-				System.out.println("!=null");
 				if (pwdEncoder.matches(bBean.getEmployeepassword(), resultBean.getEmployeepassword())) {
-					System.out.println("PASS");
 					return resultBean;
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("FALSE");
+			e.printStackTrace();
 			return null;
 		}
 
