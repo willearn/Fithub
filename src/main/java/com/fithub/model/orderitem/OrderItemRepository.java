@@ -20,7 +20,8 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Integer> {
 	List<OrderItem> getAllOrderItemByOrderId(@Param("orderid") Integer orderid);
 
 	// Chrislafolia，返回在指定classId的課程購買人數
-	@Query("SELECT oi.classId classId, count(oi.orderId) orderAmount "
-			+ "FROM OrderItem oi WHERE  oi.classId = :classId GROUP BY oi.classId")
+	@Query("SELECT oi.classId classId, co.courseName courseName, cl.applicantsCeil applicantsCeil , count(oi.orderId) orderAmount "
+			+ "FROM OrderItem oi JOIN oi.classes cl JOIN cl.course co "
+			+ "WHERE  oi.classId = :classId GROUP BY oi.classId, cl.applicantsCeil,co.courseName")
 	Map<String, Object> getOrderItemAmountByClassId(@Param("classId") int classId);
 }
