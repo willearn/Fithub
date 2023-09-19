@@ -112,51 +112,100 @@ public class OrderService implements IOrderService {
 //        return savedOrder;
 //    }
 	
+//	@Override
+//    @Transactional
+//    public Order createOrder(Order order) {
+//
+//        try {
+//        // 取得複製orderitem集合
+//        int i = 0;
+//        int[] classids = new int[order.getOrderItem().size()];
+//        int[] couponids = new int[order.getOrderItem().size()];
+//
+//
+//        for (OrderItem orderitem : order.getOrderItem()) {
+//            classids[i] = orderitem.getClassId();
+//            couponids[i] = orderitem.getCouponId();
+//            i++;
+//        }
+//
+//
+//        // 清空OrderItem
+//        order.setOrderItem(null);
+//
+//        // 新增訂單取得訂單編號
+//        Order savedOrder = orderRepo.save(order);
+//        List<OrderItem> orderItems = new ArrayList<>();
+//
+//        for (int x = 0;x<classids.length;x++) {
+//            //建立訂單項目 塞入新集合
+//            OrderItem orderItem = new  OrderItem();
+//            orderItem.setOrderId(savedOrder.getOrderId());
+//            orderItem.setClassId(classids[x]);
+//            orderItem.setCouponId(couponids[x]);
+//            orderItems.add(orderItem);
+//        }
+//
+//
+//        order.setOrderItem(orderItems);
+//        Order resultOrder = orderRepo.save(order);
+//
+//        return resultOrder;
+//        }catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 	@Override
-    @Transactional
-    public Order createOrder(Order order) {
+	@Transactional
+	public Order createOrder(Order order) {
 
-        try {
-        // 取得複製orderitem集合
-        int i = 0;
-        int[] classids = new int[order.getOrderItem().size()];
-        int[] couponids = new int[order.getOrderItem().size()];
+	    try {
+	        // 取得複製orderitem集合
+	        int i = 0;
+	        int[] classids = new int[order.getOrderItem().size()];
+	        int[] couponids = new int[order.getOrderItem().size()];
 
+	        for (OrderItem orderItem : order.getOrderItem()) {
+	            classids[i] = orderItem.getClassId();
+	            couponids[i] = orderItem.getCouponId();
+	            i++;
+	        }
 
-        for (OrderItem orderitem : order.getOrderItem()) {
-            classids[i] = orderitem.getClassId();
-            couponids[i] = orderitem.getCouponId();
-            i++;
-        }
+	        // 清空OrderItem
+	        order.setOrderItem(null);
 
+	        // 新增訂單取得訂單編號
+	        Order savedOrder = orderRepo.save(order);
+	        List<OrderItem> orderItems = new ArrayList<>();
 
-        // 清空OrderItem
-        order.setOrderItem(null);
+	        for (int x = 0; x < classids.length; x++) {
+	            // 建立訂單項目 塞入新集合
+	            OrderItem orderItem = new OrderItem();
+	            orderItem.setOrderId(savedOrder.getOrderId());
+	            orderItem.setClassId(classids[x]);
 
-        // 新增訂單取得訂單編號
-        Order savedOrder = orderRepo.save(order);
-        List<OrderItem> orderItems = new ArrayList<>();
+	            // 只在第一筆訂單項目上設定couponId
+	            if (x == 0) {
+	                orderItem.setCouponId(couponids[x]);
+	            } else {
+	                // 在其他訂單項目上設為0或null，視情況而定
+	                orderItem.setCouponId(22); // 或者 orderItem.setCouponId(null);
+	            }
 
-        for (int x = 0;x<classids.length;x++) {
-            //建立訂單項目 塞入新集合
-            OrderItem orderItem = new  OrderItem();
-            orderItem.setOrderId(savedOrder.getOrderId());
-            orderItem.setClassId(classids[x]);
-            orderItem.setCouponId(couponids[x]);
-            orderItems.add(orderItem);
-        }
+	            orderItems.add(orderItem);
+	        }
 
+	        order.setOrderItem(orderItems);
+	        Order resultOrder = orderRepo.save(order);
 
-        order.setOrderItem(orderItems);
-        Order resultOrder = orderRepo.save(order);
+	        return resultOrder;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
 
-        return resultOrder;
-        }catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-	
 	// 查詢全部並分頁
 	@Override
 	public Page<Order> findAllPage(String date, int number, int size) {
