@@ -309,16 +309,32 @@ public class EmployeeController {
 			System.out.println(result.get(0).get("employeeid"));
 			System.out.println(result.size());
 			for (int i = 0; i < result.size(); i++) {
-				List<Map<String, Object>> coachpic = cService
-						.findByEmpId(Integer.parseInt(result.get(i).get("employeeid").toString()));
+				if(i<1) {
+					List<Map<String, Object>> coachpic = cService
+							.findByEmpId(Integer.parseInt(result.get(i).get("employeeid").toString()));
 
-				// 創建一個包含 result 和 coachpic 的新 Map
-				Map<String, Object> combinedData = new HashMap<>();
-				combinedData.putAll(result.get(i)); // 將 result 中的數據複製到 combinedData 中
-				combinedData.put("coachpic", coachpic); // 添加 coachpic 數據到 combinedData 中
+					// 創建一個包含 result 和 coachpic 的新 Map
+					Map<String, Object> combinedData = new HashMap<>();
+					combinedData.putAll(result.get(i)); // 將 result 中的數據複製到 combinedData 中
+					combinedData.put("coachpic", coachpic); // 添加 coachpic 數據到 combinedData 中
 
-				// 將 combinedData 添加回 result 列表中
-				result.set(i, combinedData);
+					// 將 combinedData 添加回 result 列表中
+					result.set(i, combinedData);
+				}else if(result.get(i).get("employeeid").toString().equals(result.get(i-1).get("employeeid").toString())) {
+					result.remove(i);
+					i = i-1;
+				}else {
+					List<Map<String, Object>> coachpic = cService
+							.findByEmpId(Integer.parseInt(result.get(i).get("employeeid").toString()));
+
+					// 創建一個包含 result 和 coachpic 的新 Map
+					Map<String, Object> combinedData = new HashMap<>();
+					combinedData.putAll(result.get(i)); // 將 result 中的數據複製到 combinedData 中
+					combinedData.put("coachpic", coachpic); // 添加 coachpic 數據到 combinedData 中
+
+					// 將 combinedData 添加回 result 列表中
+					result.set(i, combinedData);
+				}
 
 			}
 			return new ResponseEntity<>(result, HttpStatus.OK);
