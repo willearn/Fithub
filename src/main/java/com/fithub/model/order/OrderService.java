@@ -9,14 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fithub.model.course.Course;
 import com.fithub.model.orderitem.OrderItem;
 import com.fithub.model.orderitem.OrderItemRepository;
-import com.fithub.model.rentorder.RentOrder;
 
 
 
@@ -243,4 +240,16 @@ public class OrderService implements IOrderService {
 		}
 		return total;
 	}
+
+	// ChrisLafolia 返回在指定classId及memberId的的課程購買數量
+	@Override
+	public Map<String, Object> getAlreadyBuyAmountByClassIdANDMemberid(int classId, int memberId) {
+		Map<String, Object> result = orderRepo.getAlreadyBuyAmountByClassIdANDMemberid(classId,memberId);
+		if (result!=null) {
+			return result;			
+		}
+		return null;
+	}
+	
+	
 }

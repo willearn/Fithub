@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fithub.model.order.IOrderService;
@@ -175,6 +176,25 @@ public class OrderController {
 			return new ResponseEntity<>(total, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	// ChrisLafolia 返回在指定classId及memberId的的課程購買數量
+	@GetMapping("/getAlreadyBuy")
+	public ResponseEntity<?> getAlreadyBuyAmountByClassIdANDMemberid(
+			@RequestParam(value = "classId") int classId,@RequestParam(value = "memberId") int memberId) {
+		System.out.println(classId);
+		System.out.println(memberId);
+		try {
+			Map<String, Object> alreadyBuyAmount = orderService.getAlreadyBuyAmountByClassIdANDMemberid(classId,memberId);
+			System.out.println(alreadyBuyAmount);
+			if (alreadyBuyAmount != null) {
+				System.out.println(11);
+				return new ResponseEntity<>(alreadyBuyAmount, HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

@@ -1,8 +1,10 @@
 package com.fithub.model.order;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 
 import com.fithub.model.course.Course;
 import com.fithub.model.orderitem.OrderItem;
@@ -46,5 +48,8 @@ public interface IOrderService {
 	Page<Order> findAllPage(String date, int number, int size);
 
 	Page<Order> findPageByMemberId(String date, Integer memberid, int number, int size);
+	
+	// ChrisLafolia 返回在指定classId及memberId的的課程購買數量
+	Map<String, Object> getAlreadyBuyAmountByClassIdANDMemberid(int classId, int memberId);
 
 }

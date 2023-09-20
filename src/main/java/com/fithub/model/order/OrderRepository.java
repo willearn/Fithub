@@ -1,6 +1,5 @@
 package com.fithub.model.order;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -10,9 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
-import com.fithub.model.employee.Employee;
-import com.fithub.model.rentorder.RentOrder;
 
 import jakarta.transaction.Transactional;
 
@@ -49,5 +45,12 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 	@Query(value = "SELECT * FROM [Orders] r WHERE memberid = :memberid AND " + "(:dateParam IS NULL OR "
 			+ "(CONVERT(VARCHAR, r.orderDate, 120) LIKE '%' + :dateParam + '%'))", nativeQuery = true)
 	Page<Order> findPageByMemberId(@Param("dateParam") String dateParam,@Param("memberid") Integer memberid, Pageable pageable);
+	
+	// ChrisLafolia 返回在指定classId及memberId的的課程購買數量
+	@Query("SELECT o.memberId memberId, oi.classId classId , COUNT(oi.classId) alreadyBuyAmount "
+			+ "FROM Order o JOIN o.orderItem oi "
+			+ "WHERE o.memberId= :memberId AND o.orderstate IN (1,3) AND oi.classId= :classId  "
+			+ "GROUP BY oi.classId ,o.memberId")
+	Map<String, Object> getAlreadyBuyAmountByClassIdANDMemberid(@Param("classId") int classId,@Param("memberId") int memberId);
 
 }
