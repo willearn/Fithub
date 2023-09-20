@@ -47,10 +47,10 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 	Page<Order> findPageByMemberId(@Param("dateParam") String dateParam,@Param("memberid") Integer memberid, Pageable pageable);
 	
 	// ChrisLafolia 返回在指定classId及memberId的的課程購買數量
-	@Query("SELECT o.memberId memberId, oi.classId classId , COUNT(oi.classId) alreadyBuyAmount "
-			+ "FROM Order o JOIN o.orderItem oi "
+	@Query("SELECT o.memberId memberId, co.courseName courseName , oi.classId classId , COUNT(oi.classId) alreadyBuyAmount "
+			+ "FROM Order o JOIN o.orderItem oi JOIN oi.classes cl JOIN cl.course co "
 			+ "WHERE o.memberId= :memberId AND o.orderstate IN (1,3) AND oi.classId= :classId  "
-			+ "GROUP BY oi.classId ,o.memberId")
+			+ "GROUP BY oi.classId ,o.memberId ,co.courseName")
 	Map<String, Object> getAlreadyBuyAmountByClassIdANDMemberid(@Param("classId") int classId,@Param("memberId") int memberId);
 
 }
