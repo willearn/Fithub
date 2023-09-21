@@ -52,7 +52,7 @@ public class JavaMail {
 			mimemessage.setSender(new InternetAddress(username));
 
 			// 收件者
-			mimemessage.setRecipient(RecipientType.TO, new InternetAddress("iSpanFithub@gmail.com"));
+			mimemessage.setRecipient(RecipientType.TO, new InternetAddress("tw3555488@gmail.com"));
 
 			// 標題
 			mimemessage.setSubject(subject);
