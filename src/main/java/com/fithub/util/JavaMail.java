@@ -19,9 +19,9 @@ import jakarta.mail.internet.MimeMessage.RecipientType;
 @Service
 public class JavaMail {
 
-	private String username = "cc2260112@gmail.com";
-	private String password = "wdzzghdrzqfcmdlo";
-//	private String customer = "iSpanFithub@gmail.com";
+	private String username = "test@gmail.com";
+	private String password = "test";
+//	private String customer = "test@gmail.com";
 //	private String subject = "客戶EAMIL";
 //	private String txt = "信件內容文字";
 
@@ -52,7 +52,7 @@ public class JavaMail {
 			mimemessage.setSender(new InternetAddress(username));
 
 			// 收件者
-			mimemessage.setRecipient(RecipientType.TO, new InternetAddress("tw3555488@gmail.com"));
+			mimemessage.setRecipient(RecipientType.TO, new InternetAddress("test@gmail.com"));
 
 			// 標題
 			mimemessage.setSubject(subject);
@@ -61,7 +61,7 @@ public class JavaMail {
 			mimemessage.setContent("姓名:" + name + "<br>信箱:" + email + "<br>聯絡電話:" + phone + "<br>內容:" + message,
 					"text/html;charset=UTF-8");
 
-			mimemessage.setFrom(new InternetAddress("iSpanFithub@gmail.com", subject, "UTF-8"));
+			mimemessage.setFrom(new InternetAddress("test@gmail.com", subject, "UTF-8"));
 
 			// 將message傳出
 			Transport transport = session.getTransport();
