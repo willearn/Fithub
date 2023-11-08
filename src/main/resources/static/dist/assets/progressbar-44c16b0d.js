@@ -1,0 +1,1 @@
+import{b as a,d as r,f as s,t,a1 as o}from"./index-e86ed1bf.js";const n={class:"progress"},p={__name:"progressbar",props:{percent:Number},setup(e){return(c,i)=>(a(),r("div",n,[s("div",{class:"progress-bar bg-warning",role:"progressbar",style:o(`width: ${e.percent}%`),"aria-valuenow":"25","aria-valuemin":"0","aria-valuemax":"100"},t(e.percent)+"% ",5)]))}};export{p as _};
